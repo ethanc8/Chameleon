@@ -29,10 +29,12 @@
 
 #import "UITapGestureRecognizer.h"
 #import "UIGestureRecognizerSubclass.h"
-#import "UITouch.h"
+#import "UITouch+UIPrivate.h"
+#import "UIEvent.h"
 
 @implementation UITapGestureRecognizer
-@synthesize numberOfTapsRequired=_numberOfTapsRequired, numberOfTouchesRequired=_numberOfTouchesRequired;
+@synthesize numberOfTapsRequired = _numberOfTapsRequired;
+@synthesize numberOfTouchesRequired = _numberOfTouchesRequired;
 
 - (id)initWithTarget:(id)target action:(SEL)action
 {

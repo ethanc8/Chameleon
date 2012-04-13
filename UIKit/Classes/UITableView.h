@@ -51,6 +51,11 @@ extern NSString *const UITableViewIndexSearch;
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath;
+
+@optional // AppKitIntegration
+- (void)tableView:(UITableView *)tableView didDoubleClickRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @protocol UITableViewDataSource <NSObject>
@@ -62,8 +67,8 @@ extern NSString *const UITableViewIndexSearch;
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 typedef enum {
@@ -88,10 +93,10 @@ typedef enum {
     UITableViewRowAnimationMiddle
 } UITableViewRowAnimation;
 
-@interface UITableView : UIScrollView {
+@interface UITableView : UIScrollView <NSCoding> {
 @private
     UITableViewStyle _style;
-    __unsafe_unretained id<UITableViewDataSource> _dataSource;
+    id<UITableViewDataSource> _dataSource;
     BOOL _needsReload;
     CGFloat _rowHeight;
     UIColor *_separatorColor;
@@ -101,13 +106,17 @@ typedef enum {
     BOOL _allowsSelection;
     BOOL _allowsSelectionDuringEditing;
     BOOL _editing;
+    
     NSIndexPath *_selectedRow;
     NSIndexPath *_highlightedRow;
+
+    BOOL _allowsMultipleSelection;
     NSMutableDictionary *_cachedCells;
     NSMutableSet *_reusableCells;
     NSMutableArray *_sections;
     CGFloat _sectionHeaderHeight;
     CGFloat _sectionFooterHeight;
+    NSMutableArray *_selectedRows;
     
     struct {
         unsigned heightForRowAtIndexPath : 1;
@@ -117,10 +126,12 @@ typedef enum {
         unsigned viewForFooterInSection : 1;
         unsigned willSelectRowAtIndexPath : 1;
         unsigned didSelectRowAtIndexPath : 1;
+        unsigned didDoubleClickRowAtIndexPath: 1;
         unsigned willDeselectRowAtIndexPath : 1;
         unsigned didDeselectRowAtIndexPath : 1;
         unsigned willBeginEditingRowAtIndexPath : 1;
         unsigned didEndEditingRowAtIndexPath : 1;
+        unsigned accessoryButtonTappedForRowWithIndexPath: 1;
         unsigned titleForDeleteConfirmationButtonForRowAtIndexPath: 1;
     } _delegateHas;
     
@@ -153,11 +164,13 @@ typedef enum {
 - (void)beginUpdates;
 - (void)endUpdates;
 
-- (void)insertSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation;
-- (void)deleteSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation;
+- (void)insertSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation;  // not implemented, just reload all.
+- (void)deleteSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation;  // not implemented, just reload all.    
+- (void)reloadSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation;  // not implemented, just reload all.
 
-- (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;	// not implemented
-- (void)deleteRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;	// not implemented
+- (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;	// not implemented, just reload all.
+- (void)deleteRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;	// not implemented, just reload all.
+- (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;   // not implemented, just reload all.
 
 - (NSIndexPath *)indexPathForSelectedRow;
 - (void)deselectRowAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
@@ -181,5 +194,8 @@ typedef enum {
 @property (nonatomic, getter=isEditing) BOOL editing;
 @property (nonatomic) CGFloat sectionHeaderHeight;
 @property (nonatomic) CGFloat sectionFooterHeight;
+
+//bitrzr
+@property (nonatomic, readonly) UIView *backgroundView;
 
 @end

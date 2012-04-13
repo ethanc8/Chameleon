@@ -41,7 +41,7 @@ typedef enum {
     NSUInteger _numberOfTouchesRequired;
 }
 
-@property (nonatomic) UISwipeGestureRecognizerDirection direction;
-@property (nonatomic) NSUInteger numberOfTouchesRequired;
+@property (nonatomic,assign) UISwipeGestureRecognizerDirection direction;
+@property (nonatomic,assign) NSUInteger numberOfTouchesRequired;
 
 @end

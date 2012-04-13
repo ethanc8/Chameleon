@@ -61,13 +61,19 @@ typedef enum {
     UIBarButtonItemStyleDone,
 } UIBarButtonItemStyle;
 
+//bitrzr
+typedef enum {
+    UIBarMetricsDefault, // iPhoneOS 5.0
+    UIBarMetricsLandscapePhone, // iPhoneOS 5.0
+} UIBarMetrics;
+
 @class UIView, UIImage;
 
 @interface UIBarButtonItem : UIBarItem {
 @package
     CGFloat _width;
     UIView *_customView;
-    __unsafe_unretained id _target;
+    id _target;
     SEL _action;
     BOOL _isSystemItem;
     UIBarButtonSystemItem _systemItem;

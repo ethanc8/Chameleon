@@ -35,6 +35,11 @@
 #import "UIStringDrawing.h"
 #import "UIBezierPath.h"
 #import <QuartzCore/QuartzCore.h>
+#include <tgmath.h>
+
+static NSString* const kUIActivityIndicatorViewStyleKey = @"UIActivityIndicatorViewStyle";
+static NSString* const kUIHidesWhenStoppedKey = @"UIHidesWhenStopped";
+static NSString* const kUIAnimatingKey = @"UIAnimating";
 
 static CGSize UIActivityIndicatorViewStyleSize(UIActivityIndicatorViewStyle style)
 {
@@ -72,7 +77,7 @@ static UIImage *UIActivityIndicatorViewFrameImage(UIActivityIndicatorViewStyle s
         
         // position and draw the tooth
         CGContextRotateCTM(c, 1 / numberOfTeeth * TWOPI);
-        [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(-toothWidth/2.f,-radius,toothWidth,ceilf(radius*.54f)) cornerRadius:toothWidth/2.f] fill];
+        [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(-toothWidth/2.f,-radius,toothWidth,ceil(radius*.54f)) cornerRadius:toothWidth/2.f] fill];
     }
     
     // hooray!
@@ -82,7 +87,13 @@ static UIImage *UIActivityIndicatorViewFrameImage(UIActivityIndicatorViewStyle s
     return frameImage;
 }
 
-@implementation UIActivityIndicatorView
+@implementation UIActivityIndicatorView 
+- (void) commonInitForUIActivityIndicatorView
+{
+    _animating = NO;
+    self.hidesWhenStopped = YES;
+    self.opaque = NO;
+}
 
 - (id)initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyle)style
 {
@@ -90,10 +101,8 @@ static UIImage *UIActivityIndicatorViewFrameImage(UIActivityIndicatorViewStyle s
     frame.size = UIActivityIndicatorViewStyleSize(style);
     
     if ((self=[super initWithFrame:frame])) {
-        _animating = NO;
+        [self commonInitForUIActivityIndicatorView];
         self.activityIndicatorViewStyle = style;
-        self.hidesWhenStopped = YES;
-        self.opaque = NO;
     }
 
     return self;
@@ -105,6 +114,23 @@ static UIImage *UIActivityIndicatorViewFrameImage(UIActivityIndicatorViewStyle s
         self.frame = frame;
     }
 
+    return self;
+}
+
+- (id) initWithCoder:(NSCoder*)coder
+{
+    if (nil != (self = [super initWithCoder:coder])) {
+        [self commonInitForUIActivityIndicatorView];
+        if ([coder containsValueForKey:kUIActivityIndicatorViewStyleKey]) {
+            self.activityIndicatorViewStyle = [coder decodeIntegerForKey:kUIActivityIndicatorViewStyleKey];
+        }
+        if ([coder containsValueForKey:kUIHidesWhenStoppedKey]) {
+            self.hidesWhenStopped = [coder decodeBoolForKey:kUIHidesWhenStoppedKey];
+        }
+        if ([coder containsValueForKey:kUIAnimatingKey]) {
+            _animating = [coder decodeBoolForKey:kUIAnimatingKey];
+        }
+    }
     return self;
 }
 

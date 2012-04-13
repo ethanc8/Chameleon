@@ -39,8 +39,10 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
     return sqrtf((a*a) + (b*b));
 }
 
-@implementation UILongPressGestureRecognizer
-@synthesize minimumPressDuration=_minimumPressDuration, allowableMovement=_allowableMovement, numberOfTapsRequired=_numberOfTapsRequired;
+@implementation UILongPressGestureRecognizer 
+@synthesize minimumPressDuration = _minimumPressDuration;
+@synthesize allowableMovement = _allowableMovement;
+@synthesize numberOfTapsRequired = _numberOfTapsRequired;
 @synthesize numberOfTouchesRequired=_numberOfTouchesRequired;
 
 - (id)initWithTarget:(id)target action:(SEL)action
@@ -48,7 +50,6 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
     if ((self=[super initWithTarget:target action:action])) {
         _allowableMovement = 10;
         _minimumPressDuration = 0.5;
-        _numberOfTapsRequired = 0;
         _numberOfTouchesRequired = 1;
     }
     return self;

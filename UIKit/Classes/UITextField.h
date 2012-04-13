@@ -66,8 +66,9 @@ typedef enum {
 @interface UITextField : UIControl <UITextInputTraits> {
 @private
     UITextLayer *_textLayer;
+	UITextLayer *_placeholderTextLayer;
 
-    __unsafe_unretained id _delegate;
+    id _delegate;
     UITextFieldViewMode _clearButtonMode;
     UIView *_leftView;
     UITextFieldViewMode _leftViewMode;
@@ -80,7 +81,8 @@ typedef enum {
     BOOL _adjustsFontSizeToFitWidth;
     NSString *_placeholder;
     UITextBorderStyle _borderStyle;
-
+    CGFloat _minimumFontSize;
+    
     UIView *_inputAccessoryView;
     UIView *_inputView;
 
@@ -92,6 +94,7 @@ typedef enum {
         unsigned shouldChangeCharacters : 1;
         unsigned shouldClear : 1;
         unsigned shouldReturn : 1;
+        unsigned doCommandBySelector : 1;
     } _delegateHas;	
 }
 
@@ -116,6 +119,7 @@ typedef enum {
 @property (nonatomic, readonly, getter=isEditing) BOOL editing;
 @property (nonatomic) BOOL clearsOnBeginEditing;
 @property (nonatomic) BOOL adjustsFontSizeToFitWidth;
+@property (nonatomic) CGFloat minimumFontSize;
 
 @property (nonatomic, retain) UIImage *background;
 @property (nonatomic, retain) UIImage *disabledBackground;

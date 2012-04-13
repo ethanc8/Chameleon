@@ -33,16 +33,21 @@
 #import "UIAction.h"
 #import "UIApplication.h"
 
-@implementation UIGestureRecognizer
-@synthesize delegate=_delegate, delaysTouchesBegan=_delaysTouchesBegan, delaysTouchesEnded=_delaysTouchesEnded, cancelsTouchesInView=_cancelsTouchesInView;
-@synthesize state=_state, enabled=_enabled, view=_view;
+
+@implementation UIGestureRecognizer 
+@synthesize delegate = _delegate;
+@synthesize delaysTouchesBegan = _delaysTouchesBegan;
+@synthesize delaysTouchesEnded = _delaysTouchesEnded;
+@synthesize cancelsTouchesInView = _cancelsTouchesInView;
+@synthesize state = _state;
+@synthesize enabled = _enabled;
+@synthesize view = _view;
 
 - (id)initWithTarget:(id)target action:(SEL)action
 {
     if ((self=[super init])) {
         _state = UIGestureRecognizerStatePossible;
         _cancelsTouchesInView = YES;
-        _delaysTouchesBegan = NO;
         _delaysTouchesEnded = YES;
         _enabled = YES;
 

@@ -43,34 +43,53 @@ NSString *const UITextViewTextDidEndEditingNotification = @"UITextViewTextDidEnd
 @interface UITextView () <UITextLayerTextDelegate>
 @end
 
+@interface NSObject (UITextViewDelegate)
+- (BOOL) textView:(UITextView*)textView doCommandBySelector:(SEL)selector;
+@end
+
 
 @implementation UITextView
-@synthesize dataDetectorTypes=_dataDetectorTypes, inputAccessoryView=_inputAccessoryView, inputView=_inputView;
+@synthesize dataDetectorTypes = _dataDetectorTypes;
+@synthesize inputAccessoryView = _inputAccessoryView;
+@synthesize inputView = _inputView;
 @dynamic delegate;
 
-- (id)initWithFrame:(CGRect)frame
-{
-    if ((self=[super initWithFrame:frame])) {
-        _textLayer = [[UITextLayer alloc] initWithContainer:self isField:NO];
-        [self.layer insertSublayer:_textLayer atIndex:0];
-
-        self.textColor = [UIColor blackColor];
-        self.font = [UIFont systemFontOfSize:17];
-        self.dataDetectorTypes = UIDataDetectorTypeAll;
-        self.editable = YES;
-        self.contentMode = UIViewContentModeScaleToFill;
-        self.clipsToBounds = YES;
-    }
-    return self;
-}
-
-- (void)dealloc
+- (void) dealloc
 {
     [_textLayer removeFromSuperlayer];
     [_textLayer release];
     [_inputAccessoryView release];
     [_inputView release];
     [super dealloc];
+}
+
+- (void) _commonInitForUITextView
+{
+    _textLayer = [[UITextLayer alloc] initWithContainer:self isField:NO];
+    [self.layer insertSublayer:_textLayer atIndex:0];
+    
+    self.textColor = [UIColor blackColor];
+    self.font = [UIFont systemFontOfSize:17];
+    self.dataDetectorTypes = UIDataDetectorTypeAll;
+    self.editable = YES;
+    self.contentMode = UIViewContentModeScaleToFill;
+    self.clipsToBounds = YES;
+}
+
+- (id) initWithFrame:(CGRect)frame
+{
+    if (nil != (self = [super initWithFrame:frame])) {
+        [self _commonInitForUITextView];
+    }
+    return self;
+}
+
+- (id) initWithCoder:(NSCoder*)coder
+{
+    if (nil != (self = [super initWithCoder:coder])) {
+        [self _commonInitForUITextView];
+    }
+    return self;
 }
 
 - (void)layoutSubviews
@@ -255,6 +274,7 @@ NSString *const UITextViewTextDidEndEditingNotification = @"UITextViewTextDidEnd
         _delegateHas.shouldChangeText = [theDelegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)];
         _delegateHas.didChange = [theDelegate respondsToSelector:@selector(textViewDidChange:)];
         _delegateHas.didChangeSelection = [theDelegate respondsToSelector:@selector(textViewDidChangeSelection:)];
+        _delegateHas.doCommandBySelector = [theDelegate respondsToSelector:@selector(textView:doCommandBySelector:)];
     }
 }
 
@@ -305,6 +325,15 @@ NSString *const UITextViewTextDidEndEditingNotification = @"UITextViewTextDidEnd
     }
 }
 
+- (BOOL)_textShouldDoCommandBySelector:(SEL)selector
+{
+    if (_delegateHas.doCommandBySelector) {
+        return [(id)self.delegate textView:self doCommandBySelector:selector];
+    } else {
+        return NO;
+    }
+}
+
 - (NSString *)description
 {
     NSString *textAlignment = @"";
@@ -320,6 +349,10 @@ NSString *const UITextViewTextDidEndEditingNotification = @"UITextViewTextDidEnd
             break;
     }
     return [NSString stringWithFormat:@"<%@: %p; textAlignment = %@; selectedRange = %@; editable = %@; textColor = %@; font = %@; delegate = %@>", [self className], self, textAlignment, NSStringFromRange(self.selectedRange), (self.editable ? @"YES" : @"NO"), self.textColor, self.font, self.delegate];
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder {
+    //TODO:later
 }
 
 @end

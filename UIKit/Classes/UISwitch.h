@@ -30,12 +30,13 @@
 #import "UIControl.h"
 
 @interface UISwitch : UIControl {
+@private
     BOOL _on;
 }
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 
-@property(nonatomic, getter=isOn) BOOL on;
+@property(nonatomic, assign, getter=isOn) BOOL on;
 
 @end

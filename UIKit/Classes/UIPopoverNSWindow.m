@@ -30,8 +30,7 @@
 #import "UIPopoverNSWindow.h"
 #import "UIPopoverController+UIPrivate.h"
 
-@implementation UIPopoverNSWindow
-
+@implementation UIPopoverNSWindow 
 - (void)setPopoverController:(UIPopoverController *)controller
 {
     _popoverController = controller;
@@ -44,6 +43,12 @@
 
 - (void)cancelOperation:(id)sender
 {
+    [_popoverController _closePopoverWindowIfPossible];
+}
+
+- (void)resignKeyWindow
+{
+    [super resignKeyWindow];
     [_popoverController _closePopoverWindowIfPossible];
 }
 

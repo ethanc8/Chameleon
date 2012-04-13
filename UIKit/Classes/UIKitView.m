@@ -34,17 +34,25 @@
 #import "UIImage.h"
 #import "UIImageView.h"
 #import "UIColor.h"
+#import "UIPopoverController.h"
+#import <QuartzCore/QuartzCore.h>
 
-@implementation UIKitView
+
+@implementation UIKitView 
 @synthesize UIScreen=_screen;
+
+- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+    return (id)[NSNull null];
+}
 
 - (void)configureLayers
 {
     [self setWantsLayer:YES];
-
     assert(_screen != nil);
     assert([self layer] != nil);
     
+    self.layer.delegate = self;
     [[self layer] insertSublayer:[_screen _layer] atIndex:0];
     [_screen _layer].frame = [self layer].bounds;
     [_screen _layer].autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
@@ -73,7 +81,6 @@
         _mainWindow = [(UIWindow *)[UIWindow alloc] initWithFrame:_screen.bounds];
         _mainWindow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _mainWindow.screen = _screen;
-        [_mainWindow makeKeyAndVisible];
     }
     
     return _mainWindow;
@@ -92,6 +99,15 @@
 - (void)viewDidMoveToSuperview
 {	
     [_screen _setUIKitView:self.superview? self : nil];
+}
+
+- (void)viewDidMoveToWindow 
+{
+    if(self.window != nil) {
+		[[self layer] insertSublayer:[_screen _layer] atIndex:0];
+		[_screen _layer].frame = [self layer].bounds;
+		[_screen _layer].autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    }
 }
 
 - (BOOL)acceptsFirstResponder

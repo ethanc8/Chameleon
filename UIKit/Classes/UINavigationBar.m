@@ -40,9 +40,9 @@
 #import "UIButton.h"
 
 static const UIEdgeInsets kButtonEdgeInsets = {0,0,0,0};
-static const CGFloat kMinButtonWidth = 30;
+static const CGFloat kMinButtonWidth = 33;
 static const CGFloat kMaxButtonWidth = 200;
-static const CGFloat kMaxButtonHeight = 24;
+static const CGFloat kMaxButtonHeight = 44;
 
 static const NSTimeInterval kAnimationDuration = 0.33;
 
@@ -54,6 +54,7 @@ typedef enum {
 
 @implementation UINavigationBar
 @synthesize tintColor=_tintColor, delegate=_delegate, items=_navStack;
+@synthesize barStyle;
 
 + (void)_setBarButtonSize:(UIView *)view
 {
@@ -82,14 +83,24 @@ typedef enum {
 + (UIView *)_viewWithBarButtonItem:(UIBarButtonItem *)item
 {
     if (!item) return nil;
-
+    
     if (item.customView) {
         [self _setBarButtonSize:item.customView];
         return item.customView;
     } else {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage _toolbarButtonImage] forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage _highlightedToolbarButtonImage] forState:UIControlStateHighlighted];
+        if(item.style==UIBarButtonItemStyleDone)
+		{
+			[button setBackgroundImage:[UIImage _buttonBarSystemItemDone] forState:UIControlStateNormal];
+			[button setBackgroundImage:[UIImage _highlightedButtonBarSystemItemDone] forState:UIControlStateHighlighted];
+		}
+		else 
+		{
+			[button setBackgroundImage:[UIImage _buttonBarSystemItemPlain] forState:UIControlStateNormal];
+			[button setBackgroundImage:[UIImage _highlightedButtonBarSystemItemPlain] forState:UIControlStateHighlighted];	
+		}
+        //[button setBackgroundImage:[UIImage _toolbarButtonImage] forState:UIControlStateNormal];
+        //[button setBackgroundImage:[UIImage _highlightedToolbarButtonImage] forState:UIControlStateHighlighted];
         [button setTitle:item.title forState:UIControlStateNormal];
         [button setImage:item.image forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:11];
@@ -150,15 +161,15 @@ typedef enum {
 {
     {
         NSMutableArray *previousViews = [[NSMutableArray alloc] init];
-
+        
         if (_leftView) [previousViews addObject:_leftView];
         if (_centerView) [previousViews addObject:_centerView];
         if (_rightView) [previousViews addObject:_rightView];
-
+        
         if (animated) {
             CGFloat moveCenterBy = self.bounds.size.width - ((_centerView)? _centerView.frame.origin.x : 0);
             CGFloat moveLeftBy = self.bounds.size.width * 0.33f;
-
+            
             if (transition == _UINavigationBarTransitionPush) {
                 moveCenterBy *= -1.f;
                 moveLeftBy *= -1.f;
@@ -196,7 +207,7 @@ typedef enum {
         // update weak references
         [backItem _setNavigationBar: nil];
         [topItem _setNavigationBar: self];
-
+        
         CGRect leftFrame = CGRectZero;
         CGRect rightFrame = CGRectZero;
         
@@ -205,16 +216,16 @@ typedef enum {
         } else {
             _leftView = [isa _viewWithBarButtonItem:topItem.leftBarButtonItem];
         }
-
+        
         if (_leftView) {
             leftFrame = _leftView.frame;
             leftFrame.origin = CGPointMake(kButtonEdgeInsets.left, kButtonEdgeInsets.top);
             _leftView.frame = leftFrame;
             [self addSubview:_leftView];
         }
-
+        
         _rightView = [isa _viewWithBarButtonItem:topItem.rightBarButtonItem];
-
+        
         if (_rightView) {
             _rightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             rightFrame = _rightView.frame;
@@ -225,7 +236,7 @@ typedef enum {
         }
         
         _centerView = topItem.titleView;
-
+        
         if (!_centerView) {
             UILabel *titleLabel = [[[UILabel alloc] init] autorelease];
             titleLabel.text = topItem.title;
@@ -235,27 +246,27 @@ typedef enum {
             titleLabel.font = [UIFont boldSystemFontOfSize:14];
             _centerView = titleLabel;
         }
-
+        
         const CGFloat centerPadding = MAX(leftFrame.size.width, rightFrame.size.width);
         _centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _centerView.frame = CGRectMake(kButtonEdgeInsets.left+centerPadding,kButtonEdgeInsets.top,self.bounds.size.width-kButtonEdgeInsets.right-kButtonEdgeInsets.left-centerPadding-centerPadding,kMaxButtonHeight);
         [self addSubview:_centerView];
-
+        
         if (animated) {
             CGFloat moveCenterBy = self.bounds.size.width - ((_centerView)? _centerView.frame.origin.x : 0);
             CGFloat moveLeftBy = self.bounds.size.width * 0.33f;
-
+            
             if (transition == _UINavigationBarTransitionPush) {
                 moveLeftBy *= -1.f;
                 moveCenterBy *= -1.f;
             }
-
+            
             CGRect destinationLeftFrame = _leftView? _leftView.frame : CGRectZero;
             CGRect destinationCenterFrame = _centerView? _centerView.frame : CGRectZero;
             
             if (_leftView)      _leftView.frame = CGRectOffset(_leftView.frame, -moveLeftBy, 0);
             if (_centerView)    _centerView.frame = CGRectOffset(_centerView.frame, -moveCenterBy, 0);
-
+            
             _leftView.alpha = 0;
             _rightView.alpha = 0;
             _centerView.alpha = 0;
@@ -265,7 +276,7 @@ typedef enum {
                                  _leftView.frame = destinationLeftFrame;
                                  _centerView.frame = destinationCenterFrame;
                              }];
-
+            
             [UIView animateWithDuration:kAnimationDuration * 0.8
                                   delay:kAnimationDuration * 0.2
                                 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionTransitionNone
@@ -304,23 +315,24 @@ typedef enum {
     [self setItems:items animated:NO];
 }
 
-- (UIBarStyle)barStyle
+/*- (UIBarStyle)barStyle
 {
     return UIBarStyleDefault;
 }
 
 - (void)setBarStyle:(UIBarStyle)barStyle
 {
-}
+    barStyle = barStyle;
+}**/
 
 - (void)pushNavigationItem:(UINavigationItem *)item animated:(BOOL)animated
 {
     BOOL shouldPush = YES;
-
+    
     if (_delegateHas.shouldPushItem) {
         shouldPush = [_delegate navigationBar:self shouldPushItem:item];
     }
-
+    
     if (shouldPush) {
         [_navStack addObject:item];
         [self _setViewsWithTransition:_UINavigationBarTransitionPush animated:animated];
@@ -337,7 +349,7 @@ typedef enum {
     
     if (previousItem) {
         BOOL shouldPop = YES;
-
+        
         if (_delegateHas.shouldPopItem) {
             shouldPop = [_delegate navigationBar:self shouldPopItem:previousItem];
         }
@@ -390,13 +402,45 @@ typedef enum {
 - (void)drawRect:(CGRect)rect
 {
     const CGRect bounds = self.bounds;
+	
+	CGContextRef c = UIGraphicsGetCurrentContext();
     
-    // I kind of suspect that the "right" thing to do is to draw the background and then paint over it with the tintColor doing some kind of blending
-    // so that it actually doesn "tint" the image instead of define it. That'd probably work better with the bottom line coloring and stuff, too, but
-    // for now hardcoding stuff works well enough.
-    
-    [_tintColor setFill];
-    UIRectFill(bounds);
+	if(self.barStyle == UIBarStyleDefault) {
+		
+		UIImage *currentBackgroundImage = nil;
+		currentBackgroundImage = [UIImage _defaultNavigationBarBackgroundImage];
+		
+		CGContextSaveGState(c);
+		[currentBackgroundImage drawInRect:bounds];
+		CGContextRestoreGState(c);
+	}
+	else if(self.barStyle == UIBarStyleBlackTranslucent) {
+		
+		UIImage *currentBackgroundImage = nil;
+		currentBackgroundImage = [UIImage _blackTranslucentNavigationBarBackgroundImage];
+		
+		CGContextSaveGState(c);
+		[currentBackgroundImage drawInRect:bounds];
+		CGContextRestoreGState(c);
+	}
+	else if(self.barStyle == UIBarStyleBlackOpaque) {
+		
+		UIImage *currentBackgroundImage = nil;
+		currentBackgroundImage = [UIImage _blackOpaqueNavigationBarBackgroundImage];
+		
+		CGContextSaveGState(c);
+		[currentBackgroundImage drawInRect:bounds];
+		CGContextRestoreGState(c);
+	}
+	else {
+		
+		UIImage *currentBackgroundImage = nil;
+		currentBackgroundImage = [UIImage _blackOpaqueNavigationBarBackgroundImage];
+		
+		CGContextSaveGState(c);
+		[currentBackgroundImage drawInRect:bounds];
+		CGContextRestoreGState(c);
+	}
 }
 
 @end

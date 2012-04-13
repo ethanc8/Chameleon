@@ -31,8 +31,11 @@
 #import "UIViewAdapter.h"
 #import <WebKit/WebKit.h>
 
-@implementation UIWebView
-@synthesize request=_request, delegate=_delegate, dataDetectorTypes=_dataDetectorTypes, scalesPageToFit=_scalesPageToFit;
+@implementation UIWebView 
+@synthesize request = _request;
+@synthesize delegate = _delegate;
+@synthesize dataDetectorTypes = _dataDetectorTypes;
+@synthesize scalesPageToFit = _scalesPageToFit;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -46,7 +49,7 @@
         [_webView setUIDelegate:self];
         [_webView setDrawsBackground:NO];
 
-        _webViewAdapter = [[UIViewAdapter alloc] initWithFrame:self.bounds];
+        _webViewAdapter = [(UIViewAdapter *)[UIViewAdapter alloc] initWithFrame:self.bounds];
         _webViewAdapter.NSView = _webView;
         _webViewAdapter.scrollEnabled = NO;		// WebView does its own scrolling :/
         
@@ -82,6 +85,11 @@
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL
 {
     [[_webView mainFrame] loadHTMLString:string baseURL:baseURL];
+}
+
+//bitrzr
+- (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType textEncodingName:(NSString *)encodingName baseURL:(NSURL *)URL {
+    [[_webView mainFrame] loadData:data MIMEType:MIMEType textEncodingName:encodingName baseURL:URL];
 }
 
 - (void)loadRequest:(NSURLRequest *)request
@@ -159,7 +167,7 @@
     
     if (_delegateHas.shouldStartLoadWithRequest) {
         id navTypeObject = [actionInformation objectForKey:WebActionNavigationTypeKey];
-        NSInteger navTypeCode = [navTypeObject intValue];
+        NSInteger navTypeCode = [navTypeObject integerValue];
         UIWebViewNavigationType navType = UIWebViewNavigationTypeOther;
 
         switch (navTypeCode) {
@@ -210,6 +218,21 @@
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
     return [NSArray array];
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return [_webViewAdapter canBecomeFirstResponder];
+}
+
+- (BOOL)becomeFirstResponder
+{
+    return [_webViewAdapter becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder
+{
+    return [_webViewAdapter resignFirstResponder];
 }
 
 @end

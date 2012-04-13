@@ -30,34 +30,38 @@
 #import "UIGraphics.h"
 #import "UIImage.h"
 #import "UIScreen.h"
-#import <AppKit/AppKit.h>
+#import <AppKit/NSGraphicsContext.h>
 
-static NSMutableArray *contextStack = nil;
+
+static NSString* const kUIGraphicsContextStackKey = @"kUIGraphicsContextStackKey";
+static BOOL pdfPageStarted = FALSE;
 
 void UIGraphicsPushContext(CGContextRef ctx)
 {
-    if (!contextStack) {
-        contextStack = [[NSMutableArray alloc] initWithCapacity:2];
+    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
+    if (!stack) {
+        stack = [[NSMutableArray alloc] initWithCapacity:10];
+        [threadDictionary setObject:stack forKey:kUIGraphicsContextStackKey];
+        [stack release];
     }
-    
-    if ([NSGraphicsContext currentContext]) {
-        [contextStack addObject:[NSGraphicsContext currentContext]];
-    }
-
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:(void *)ctx flipped:YES]];
+    [stack addObject:(id)ctx];
 }
 
 void UIGraphicsPopContext()
 {
-    if ([contextStack count] > 0) {
-        [NSGraphicsContext setCurrentContext:[contextStack lastObject]];
-        [contextStack removeLastObject];
-    }
+    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
+    assert(stack.count); // Someone didn't call *push* first.
+    [stack removeLastObject];
 }
 
 CGContextRef UIGraphicsGetCurrentContext()
 {
-    return [[NSGraphicsContext currentContext] graphicsPort];
+    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
+    assert(stack.count); // Someone didn't call *push* first.
+    return (CGContextRef)[stack lastObject];
 }
 
 void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)
@@ -129,4 +133,55 @@ void UIRectFrameUsingBlendMode(CGRect rect, CGBlendMode blendMode)
     CGContextSetBlendMode(c, blendMode);
     UIRectFrame(rect);
     CGContextRestoreGState(c);
+}
+
+void UIGraphicsBeginPDFPage(void)
+{
+    if (pdfPageStarted) {
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGPDFContextEndPage(ctx);
+    } 
+    pdfPageStarted = TRUE;
+    CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),nil);
+}
+
+void UIGraphicsEndPDFContext(void)
+{
+    
+    CGContextRef ctx =  UIGraphicsGetCurrentContext();
+    
+    if (pdfPageStarted) {
+        CGPDFContextEndPage(ctx);
+    }
+    
+    CGPDFContextClose(ctx);
+    UIGraphicsPopContext();
+}
+
+
+void UIGraphicsBeginPDFPageWithInfo(CGRect bounds, NSDictionary *pageInfo) 
+{
+    if (pdfPageStarted) {
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGPDFContextEndPage(ctx);
+    } 
+    pdfPageStarted = TRUE;
+    
+    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:pageInfo];
+    
+    if (![pageInfo objectForKey:(NSString*)kCGPDFContextMediaBox])  {
+        CFDataRef mediaBox = CFDataCreate(NULL, (const UInt8 *)&bounds, sizeof(CGRect));
+        [mutableDic setValue:(id)mediaBox forKey:(NSString*)kCGPDFContextMediaBox];
+    }
+    
+    CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),(CFMutableDictionaryRef)pageInfo);
+}
+
+void UIGraphicsBeginPDFContextToData(NSMutableData *data, CGRect bounds, NSDictionary *documentInfo) 
+{
+    CGDataConsumerRef dataConsumer = CGDataConsumerCreateWithCFData((CFMutableDataRef)data);
+    
+   CGContextRef ctx = CGPDFContextCreate(dataConsumer, &bounds, (CFMutableDictionaryRef)documentInfo);
+    UIGraphicsPushContext(ctx);
+    CGContextRelease(ctx);
 }

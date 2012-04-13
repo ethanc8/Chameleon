@@ -30,8 +30,7 @@
 #import "UIDatePicker.h"
 
 
-@implementation UIDatePicker
-
+@implementation UIDatePicker 
 @synthesize calendar = _calendar;
 @synthesize date = _date;
 @synthesize locale = _locale;
@@ -41,6 +40,10 @@
 @synthesize maximumDate = _maximumDate;
 @synthesize minuteInterval = _minuteInterval;
 @synthesize countDownDuration = _countDownDuration;
+
+- (void)setDate:(NSDate *)date animated:(BOOL)animated {
+    self.date = date;
+}
 
 - (void) dealloc
 {

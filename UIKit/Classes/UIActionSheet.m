@@ -37,15 +37,19 @@
 #import <AppKit/NSMenuItem.h>
 #import <AppKit/NSEvent.h>
 
-@implementation UIActionSheet
-@synthesize delegate=_delegate, destructiveButtonIndex=_destructiveButtonIndex, cancelButtonIndex=_cancelButtonIndex, title=_title;
-@synthesize firstOtherButtonIndex=_firstOtherButtonIndex, actionSheetStyle = _actionSheetStyle;
+@implementation UIActionSheet 
+@synthesize delegate = _delegate;
+@synthesize destructiveButtonIndex = _destructiveButtonIndex;
+@synthesize cancelButtonIndex = _cancelButtonIndex;
+@synthesize title = _title;
+@synthesize firstOtherButtonIndex = _firstOtherButtonIndex;
+@synthesize actionSheetStyle = _actionSheetStyle;
 
 - (id)initWithFrame:(CGRect)frame
 {
     if ((self=[super initWithFrame:frame])) {
         _menuTitles = [[NSMutableArray alloc] init];
-        _separatorIndexes = [[NSMutableArray alloc] init];
+        _separatorIndexes = [[NSMutableSet alloc] init];
         _destructiveButtonIndex = -1;
         _cancelButtonIndex = -1;
         _firstOtherButtonIndex = -1;
@@ -119,7 +123,7 @@
 
 - (void)addSeparator
 {
-    [_separatorIndexes addObject:[NSNumber numberWithInt:[_menuTitles count]]];
+    [_separatorIndexes addObject:[NSNumber numberWithInteger:[_menuTitles count]]];
 }
 
 - (void)setDestructiveButtonIndex:(NSInteger)index
@@ -168,7 +172,7 @@
         [_menu setAllowsContextMenuPlugIns:NO];
         
         for (NSInteger index=0; index<[_menuTitles count]; index++) {
-            if ([_separatorIndexes containsObject:[NSNumber numberWithInt:index]]) {
+            if ([_separatorIndexes containsObject:[NSNumber numberWithInteger:index]]) {
                 [_menu addItem:[NSMenuItem separatorItem]];
             }
             
@@ -283,6 +287,7 @@
 
 - (void)showFromToolbar:(UIToolbar *)view
 {
+    
 }
 
 - (void)showFromTabBar:(UITabBar *)view

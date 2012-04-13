@@ -42,8 +42,9 @@ static UITouch *PanTouch(NSSet *touches)
     return nil;
 }
 
-@implementation UIPanGestureRecognizer
-@synthesize maximumNumberOfTouches=_maximumNumberOfTouches, minimumNumberOfTouches=_minimumNumberOfTouches;
+@implementation UIPanGestureRecognizer 
+@synthesize maximumNumberOfTouches = _maximumNumberOfTouches;
+@synthesize minimumNumberOfTouches = _minimumNumberOfTouches;
 
 - (id)initWithTarget:(id)target action:(SEL)action
 {
@@ -128,6 +129,15 @@ static UITouch *PanTouch(NSSet *touches)
         } else {
             self.state = UIGestureRecognizerStateCancelled;
         }
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.state == UIGestureRecognizerStatePossible) {
+        self.state = UIGestureRecognizerStateFailed;
+    } else if (self.state == UIGestureRecognizerStateBegan || self.state == UIGestureRecognizerStateChanged) {
+        self.state = UIGestureRecognizerStateCancelled;
     }
 }
 

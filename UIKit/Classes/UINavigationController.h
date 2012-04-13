@@ -47,8 +47,9 @@ typedef enum {
 @private
     UINavigationBar *_navigationBar;
     UIToolbar *_toolbar;
+    UIView* _containerView;
     NSMutableArray *_viewControllers;
-    __unsafe_unretained id _delegate;
+    id _delegate;
     BOOL _toolbarHidden;
     BOOL _navigationBarHidden;
     

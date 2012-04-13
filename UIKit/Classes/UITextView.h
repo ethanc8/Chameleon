@@ -49,7 +49,7 @@ extern NSString *const UITextViewTextDidEndEditingNotification;
 - (void)textViewDidChangeSelection:(UITextView *)textView;
 @end
 
-@interface UITextView : UIScrollView <UITextInputTraits> {
+@interface UITextView : UIScrollView <NSCoding, UITextInputTraits> {
 @private
     UITextLayer *_textLayer;
     UIDataDetectorTypes _dataDetectorTypes;
@@ -65,6 +65,7 @@ extern NSString *const UITextViewTextDidEndEditingNotification;
         unsigned shouldChangeText : 1;
         unsigned didChange : 1;
         unsigned didChangeSelection : 1;
+        unsigned doCommandBySelector: 1;
     } _delegateHas;
 }
 

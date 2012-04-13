@@ -47,17 +47,45 @@
 + (UIImage *)_topPopoverArrowImage;
 + (UIImage *)_bottomPopoverArrowImage;
 + (UIImage *)_popoverBackgroundImage;
++ (UIImage *)_leftLionPopoverArrowImage;
++ (UIImage *)_rightLionPopoverArrowImage;
++ (UIImage *)_topLionPopoverArrowImage;
++ (UIImage *)_bottomLionPopoverArrowImage;
++ (UIImage *)_popoverLionBackgroundImage;
 + (UIImage *)_roundedRectButtonImage;
 + (UIImage *)_highlightedRoundedRectButtonImage;
 + (UIImage *)_windowResizeGrabberImage;
 + (UIImage *)_buttonBarSystemItemAdd;
++ (UIImage *)_buttonBarSystemItemCompose;
 + (UIImage *)_buttonBarSystemItemReply;
++ (UIImage *)_buttonBarSystemItemAction;
++ (UIImage *)_buttonBarSystemItemOrganize;
++ (UIImage *)_buttonBarSystemItemTrash;
++ (UIImage *)_buttonBarSystemItemBookmarks;
++ (UIImage *)_buttonBarSystemItemSearch;
++ (UIImage *)_buttonBarSystemItemRefresh;
++ (UIImage *)_buttonBarSystemItemStop;
++ (UIImage *)_buttonBarSystemItemCamera;
++ (UIImage *)_buttonBarSystemItemPlay;
++ (UIImage *)_buttonBarSystemItemPause;
++ (UIImage *)_buttonBarSystemItemRewind;
++ (UIImage *)_buttonBarSystemItemFastForward;
 + (UIImage *)_tabBarBackgroundImage;
-+ (UIImage *)_tabBarItemImage;
++ (UIImage *)_textFieldRoundedRectBackground;
++ (UIImage *)_searchBarIcon;
++ (UIImage *)_buttonBarSystemItemDone;
++ (UIImage *)_highlightedButtonBarSystemItemDone;
++ (UIImage *)_buttonBarSystemItemPlain;
++ (UIImage *)_highlightedButtonBarSystemItemPlain;
++ (UIImage *)_tableSelection;
++ (UIImage *)_tableSelectionGray;
++ (UIImage *)_defaultNavigationBarBackgroundImage;
++ (UIImage *)_blackTranslucentNavigationBarBackgroundImage;
++ (UIImage *)_blackOpaqueNavigationBarBackgroundImage;
++ (UIImage *)_tabBarButtonImage;
++ (UIImage *)_highlightedTabBarImage;
++ (UIImage *)_tabBarButtonBadgeImage;
 
 - (UIImage *)_toolbarImage;		// returns a new image which is modified as required for toolbar buttons (turned into a solid color)
 + (UIImage *)_imageFromNSImage:(NSImage *)ns;
 @end
-
-// this is used by stretchable images to break the NSImage into multiple parts
-NSImage *_NSImageCreateSubimage(NSImage *theImage, CGRect rect);

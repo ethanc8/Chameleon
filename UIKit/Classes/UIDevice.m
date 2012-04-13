@@ -28,7 +28,6 @@
  */
 
 #import "UIDevice.h"
-#import <IOKit/IOKitLib.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
 NSString *const UIDeviceOrientationDidChangeNotification = @"UIDeviceOrientationDidChangeNotification";

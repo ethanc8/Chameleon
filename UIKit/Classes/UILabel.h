@@ -32,7 +32,7 @@
 
 @class UIFont, UIColor;
 
-@interface UILabel : UIView {
+@interface UILabel : UIView <NSCoding> {
 @private
     NSString *_text;
     UIFont *_font;
@@ -48,6 +48,7 @@
     BOOL _adjustsFontSizeToFitWidth;
     CGFloat _minimumFontSize;
     BOOL _highlighted;
+	NSAttributedString *_attributedText;
 }
 
 @property (nonatomic, copy) NSString *text;
@@ -64,6 +65,7 @@
 @property (nonatomic) BOOL adjustsFontSizeToFitWidth;			// not implemented
 @property (nonatomic) CGFloat minimumFontSize;					// not implemented
 @property (nonatomic, getter=isHighlighted) BOOL highlighted;
+@property (nonatomic, copy) NSAttributedString *attributedText;
 
 
 - (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines;

@@ -61,12 +61,26 @@ typedef enum {
     UITableViewCellEditingStyleInsert
 } UITableViewCellEditingStyle;
 
-@class UITableViewCellSeparator, UILabel, UIImageView;
+typedef enum {
+    UITableViewCellSectionLocationUnique,
+    UITableViewCellSectionLocationTop,
+    UITableViewCellSectionLocationMiddle,
+	UITableViewCellSectionLocationBottom
+} UITableViewCellSectionLocation;
 
-@interface UITableViewCell : UIView {
+enum {
+    UITableViewCellStateDefaultMask                     = 0,
+    UITableViewCellStateShowingEditControlMask          = 1 << 0,
+    UITableViewCellStateShowingDeleteConfirmationMask   = 1 << 1
+};
+typedef NSUInteger UITableViewCellStateMask;
+
+@class UITableViewCellSeparator, UILabel, UIImageView, UITableViewCellLayoutManager;
+
+@interface UITableViewCell : UIView <NSCoding> {
 @private
     UITableViewCellStyle _style;
-    UITableViewCellSeparator *_seperatorView;
+    UITableViewCellSeparator *_separatorView;
     UIView *_contentView;
     UILabel *_textLabel;
     UILabel *_detailTextLabel; // not yet displayed!
@@ -77,13 +91,24 @@ typedef enum {
     UIView *_accessoryView;
     UITableViewCellAccessoryType _editingAccessoryType;
     UITableViewCellSelectionStyle _selectionStyle;
+	UITableViewCellSectionLocation _sectionLocation;
     NSInteger _indentationLevel;
     BOOL _editing;
     BOOL _selected;
-    BOOL _highlighted;
     BOOL _showingDeleteConfirmation;
     NSString *_reuseIdentifier;
     CGFloat _indentationWidth;
+    
+    
+    CFMutableDictionaryRef _unhighlightedStates;
+    UITableViewCellLayoutManager* _layoutManager;
+    
+    struct {
+        BOOL tableViewStyleIsGrouped : 1;
+        BOOL usingDefaultSelectedBackgroundView : 1;
+        BOOL usingDefaultAccessoryView : 1;
+        BOOL highlighted : 1;
+    } _tableCellFlags;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
@@ -98,6 +123,7 @@ typedef enum {
 @property (nonatomic, retain) UIView *backgroundView;
 @property (nonatomic, retain) UIView *selectedBackgroundView;
 @property (nonatomic) UITableViewCellSelectionStyle selectionStyle;
+@property (nonatomic) UITableViewCellSectionLocation sectionLocation;
 @property (nonatomic) NSInteger indentationLevel;
 @property (nonatomic) UITableViewCellAccessoryType accessoryType;
 @property (nonatomic, retain) UIView *accessoryView;

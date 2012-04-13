@@ -27,13 +27,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef IBAction
-#define IBAction void
+
+#ifndef UIKit_Chameleon
+#define UIKit_Chameleon 1
 #endif
 
-#ifndef IBOutlet
-#define IBOutlet
-#endif
+#import "UIBase.h"
 
 #import "UIApplicationDelegate.h"
 #import "UIScreen.h"
@@ -98,7 +97,6 @@
 #import "UIAccelerometer.h"
 #import "UIMenuController.h"
 #import "UIMenuItem.h"
-#import "UIViewAdapter.h"
 #import "UIPageControl.h"
 #import "UIProgressView.h"
 #import "UIPickerView.h"
@@ -107,15 +105,15 @@
 #import "UIRotationGestureRecognizer.h"
 #import "UISwipeGestureRecognizer.h"
 #import "UIDatePicker.h"
+#import "UITextInput.h"
+#import <UIKit/UINib.h>
 
 // non-standard imports
-#import "UIKey.h"
-#import "UIScrollWheelGestureRecognizer.h"
-#import "UINSCellControl.h"
 #import "CALayer+UIKitCompatibility.h"      // only needed on 10.6
 
 // only add if core data is included on 10.6
 #import "NSFetchedResultsController.h"
+#import "NSIndexPath+UITableView.h"
 
 // SystemConfiguration-Helper
 #define kSCNetworkReachabilityFlagsIsWWAN kSCNetworkReachabilityFlagsConnectionOnDemand

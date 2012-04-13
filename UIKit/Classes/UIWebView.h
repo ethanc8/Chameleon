@@ -51,7 +51,7 @@ typedef NSUInteger UIWebViewNavigationType;
 
 @interface UIWebView : UIView {
 @private
-    __unsafe_unretained id _delegate;
+    id _delegate;
     NSURLRequest *_request;
     UIDataDetectorTypes _dataDetectorTypes;
     WebView *_webView;
@@ -71,6 +71,9 @@ typedef NSUInteger UIWebViewNavigationType;
 - (void)reload;
 - (void)goBack;
 - (void)goForward;
+
+//bitrzr
+- (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType textEncodingName:(NSString *)encodingName baseURL:(NSURL *)URL;
 
 - (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script;
 

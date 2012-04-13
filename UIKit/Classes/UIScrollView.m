@@ -40,7 +40,9 @@
 #import "UIScrollViewAnimationDeceleration.h"
 #import "UIPanGestureRecognizer.h"
 #import "UIScrollWheelGestureRecognizer.h"
+#import "UIGeometry.h"
 #import <QuartzCore/QuartzCore.h>
+#include <tgmath.h>
 
 static const NSTimeInterval UIScrollViewAnimationDuration = 0.33;
 static const NSTimeInterval UIScrollViewQuickAnimationDuration = 0.22;
@@ -49,72 +51,163 @@ static const NSUInteger UIScrollViewScrollAnimationFramesPerSecond = 60;
 const float UIScrollViewDecelerationRateNormal = 0.998;
 const float UIScrollViewDecelerationRateFast = 0.99;
 
+static NSString* const kUIAlwaysBounceHorizontalKey = @"UIAlwaysBounceHorizontal";
+static NSString* const kUIAlwaysBounceVerticalKey = @"UIAlwaysBounceVertical";
+static NSString* const kUIBounceEnabledKey = @"UIBounceEnabled";
+static NSString* const kUIBouncesZoomKey = @"UIBouncesZoom";
+static NSString* const kUICanCancelContentTouchesKey = @"UICanCancelContentTouches";
+static NSString* const kUIDelaysContentTouchesKey = @"UIDelaysContentTouches";
+static NSString* const kUIIndicatorStyleKey = @"UIIndicatorStyle";
+static NSString* const kUIMaximumZoomScaleKey = @"UIMaximumZoomScale";
+static NSString* const kUIMinimumZoomScaleKey = @"UIMinimumZoomScale";
+static NSString* const kUIPagingEnabledKey = @"UIPagingEnabled";
+static NSString* const kUIScrollDisabledKey = @"UIScrollDisabled";
+static NSString* const kUIShowsHorizontalScrollIndicatorKey = @"UIShowsHorizontalScrollIndicator";
+static NSString* const kUIShowsVerticalScrollIndicatorKey = @"UIShowsVerticalScrollIndicatorKey";
+static NSString* const kUIContentInsetKey = @"UIContentInset";
+static NSString* const kUIContentSizeKey = @"UIContentSize";
+static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
+
+// TODO: directionalLockEnabled property (can't find the key for this one) 
+
 @interface UIScrollView () <_UIScrollerDelegate>
 @end
 
-@implementation UIScrollView
-@synthesize contentOffset=_contentOffset, contentInset=_contentInset, scrollIndicatorInsets=_scrollIndicatorInsets, scrollEnabled=_scrollEnabled;
-@synthesize showsHorizontalScrollIndicator=_showsHorizontalScrollIndicator, showsVerticalScrollIndicator=_showsVerticalScrollIndicator, contentSize=_contentSize;
-@synthesize maximumZoomScale=_maximumZoomScale, minimumZoomScale=_minimumZoomScale, scrollsToTop=_scrollsToTop;
-@synthesize indicatorStyle=_indicatorStyle, delaysContentTouches=_delaysContentTouches, delegate=_delegate, pagingEnabled=_pagingEnabled;
-@synthesize canCancelContentTouches=_canCancelContentTouches, bouncesZoom=_bouncesZoom, zooming=_zooming;
-@synthesize alwaysBounceVertical=_alwaysBounceVertical, alwaysBounceHorizontal=_alwaysBounceHorizontal, bounces=_bounces;
-@synthesize decelerationRate=_decelerationRate, scrollWheelGestureRecognizer=_scrollWheelGestureRecognizer, panGestureRecognizer=_panGestureRecognizer;
+@implementation UIScrollView 
+@synthesize contentOffset = _contentOffset;
+@synthesize contentInset = _contentInset;
+@synthesize scrollIndicatorInsets = _scrollIndicatorInsets;
+@synthesize scrollEnabled = _scrollEnabled;
+@synthesize showsHorizontalScrollIndicator = _showsHorizontalScrollIndicator;
+@synthesize showsVerticalScrollIndicator = _showsVerticalScrollIndicator;
+@synthesize contentSize = _contentSize;
+@synthesize maximumZoomScale = _maximumZoomScale;
+@synthesize minimumZoomScale = _minimumZoomScale;
+@synthesize scrollsToTop = _scrollsToTop;
+@synthesize indicatorStyle = _indicatorStyle;
+@synthesize delaysContentTouches = _delaysContentTouches;
+@synthesize delegate = _delegate;
+@synthesize pagingEnabled = _pagingEnabled;
+@synthesize canCancelContentTouches = _canCancelContentTouches;
+@synthesize bouncesZoom = _bouncesZoom;
+@synthesize zooming = _zooming;
+@synthesize alwaysBounceVertical = _alwaysBounceVertical;
+@synthesize alwaysBounceHorizontal = _alwaysBounceHorizontal;
+@synthesize bounces = _bounces;
+@synthesize decelerationRate = _decelerationRate;
+@synthesize scrollWheelGestureRecognizer = _scrollWheelGestureRecognizer;
+@synthesize panGestureRecognizer = _panGestureRecognizer;
+
+- (void)dealloc
+{
+    [_scrollAnimation release];
+    [_verticalScroller release];
+    [_horizontalScroller release];
+    [_panGestureRecognizer release];
+    [_scrollWheelGestureRecognizer release];
+    [super dealloc];
+}
+
+- (void) _commonInitForUIScrollView
+{
+    _contentOffset = CGPointZero;
+    _contentSize = CGSizeZero;
+    _contentInset = UIEdgeInsetsZero;
+    _scrollIndicatorInsets = UIEdgeInsetsZero;
+    _scrollEnabled = YES;
+    _showsVerticalScrollIndicator = YES;
+    _showsHorizontalScrollIndicator = YES;
+    _maximumZoomScale = 1;
+    _minimumZoomScale = 1;
+    _scrollsToTop = YES;
+    _indicatorStyle = UIScrollViewIndicatorStyleDefault;
+    _delaysContentTouches = YES;
+    _canCancelContentTouches = YES;
+    _pagingEnabled = NO;
+    _bouncesZoom = NO;
+    _zooming = NO;
+    _alwaysBounceVertical = NO;
+    _alwaysBounceHorizontal = NO;
+    _bounces = YES;
+    _decelerationRate = UIScrollViewDecelerationRateNormal;
+    
+    _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_gestureDidChange:)];
+    [self addGestureRecognizer:_panGestureRecognizer];
+    
+    _scrollWheelGestureRecognizer = [[UIScrollWheelGestureRecognizer alloc] initWithTarget:self action:@selector(_gestureDidChange:)];
+    [self addGestureRecognizer:_scrollWheelGestureRecognizer];
+    
+    _verticalScroller = [[UIScroller alloc] init];
+    _verticalScroller.delegate = self;
+    [self addSubview:_verticalScroller];
+    
+    _horizontalScroller = [[UIScroller alloc] init];
+    _horizontalScroller.delegate = self;
+    [self addSubview:_horizontalScroller];
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
-    if ((self=[super initWithFrame:frame])) {
-        _contentOffset = CGPointZero;
-        _contentSize = CGSizeZero;
-        _contentInset = UIEdgeInsetsZero;
-        _scrollIndicatorInsets = UIEdgeInsetsZero;
-        _scrollEnabled = YES;
-        _showsVerticalScrollIndicator = YES;
-        _showsHorizontalScrollIndicator = YES;
-        _maximumZoomScale = 1;
-        _minimumZoomScale = 1;
-        _scrollsToTop = YES;
-        _indicatorStyle = UIScrollViewIndicatorStyleDefault;
-        _delaysContentTouches = YES;
-        _canCancelContentTouches = YES;
-        _pagingEnabled = NO;
-        _bouncesZoom = NO;
-        _zooming = NO;
-        _alwaysBounceVertical = NO;
-        _alwaysBounceHorizontal = NO;
-        _bounces = YES;
-        _decelerationRate = UIScrollViewDecelerationRateNormal;
-        
-        _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_gestureDidChange:)];
-        [self addGestureRecognizer:_panGestureRecognizer];
-
-        _scrollWheelGestureRecognizer = [[UIScrollWheelGestureRecognizer alloc] initWithTarget:self action:@selector(_gestureDidChange:)];
-        [self addGestureRecognizer:_scrollWheelGestureRecognizer];
-
-        _verticalScroller = [[UIScroller alloc] init];
-        _verticalScroller.delegate = self;
-        [self addSubview:_verticalScroller];
-
-        _horizontalScroller = [[UIScroller alloc] init];
-        _horizontalScroller.delegate = self;
-        [self addSubview:_horizontalScroller];
-        
-        self.clipsToBounds = YES;
+    if (nil != (self = [super initWithFrame:frame])) {
+        [self _commonInitForUIScrollView];
     }
     return self;
 }
 
-- (void)dealloc
+- (id) initWithCoder:(NSCoder*)coder
 {
-    _horizontalScroller.delegate = nil;
-    _verticalScroller.delegate = nil;
-    
-    [_panGestureRecognizer release];
-    [_scrollWheelGestureRecognizer release];
-    [_scrollAnimation release];
-    [_verticalScroller release];
-    [_horizontalScroller release];
-    [super dealloc];
+    if (nil != (self = [super initWithCoder:coder])) {
+        [self _commonInitForUIScrollView];
+        if ([coder containsValueForKey:kUIAlwaysBounceHorizontalKey]) {
+            self.alwaysBounceHorizontal = [coder decodeBoolForKey:kUIAlwaysBounceHorizontalKey];
+        }
+        if ([coder containsValueForKey:kUIAlwaysBounceVerticalKey]) {
+            self.alwaysBounceVertical = [coder decodeBoolForKey:kUIAlwaysBounceVerticalKey];
+        }
+        if ([coder containsValueForKey:kUIBounceEnabledKey]) {
+            self.bounces = [coder decodeBoolForKey:kUIBounceEnabledKey];
+        }
+        if ([coder containsValueForKey:kUIBouncesZoomKey]) {
+            self.bouncesZoom = [coder decodeBoolForKey:kUIBouncesZoomKey];
+        }
+        if ([coder containsValueForKey:kUICanCancelContentTouchesKey]) {
+            self.canCancelContentTouches = [coder decodeBoolForKey:kUICanCancelContentTouchesKey];
+        }
+        if ([coder containsValueForKey:kUIDelaysContentTouchesKey]) {
+            self.delaysContentTouches = [coder decodeBoolForKey:kUIDelaysContentTouchesKey];
+        }
+        if ([coder containsValueForKey:kUIIndicatorStyleKey]) {
+            self.indicatorStyle = [coder decodeIntegerForKey:kUIIndicatorStyleKey];
+        }
+        if ([coder containsValueForKey:kUIMaximumZoomScaleKey]) {
+            self.maximumZoomScale = [coder decodeIntegerForKey:kUIMaximumZoomScaleKey];
+        }
+        if ([coder containsValueForKey:kUIMinimumZoomScaleKey]) {
+            self.minimumZoomScale = [coder decodeIntegerForKey:kUIMinimumZoomScaleKey];
+        }
+        if ([coder containsValueForKey:kUIPagingEnabledKey]) {
+            self.pagingEnabled = [coder decodeBoolForKey:kUIPagingEnabledKey];
+        }
+        if ([coder containsValueForKey:kUIScrollDisabledKey]) {
+            self.scrollEnabled = ![coder decodeBoolForKey:kUIScrollDisabledKey];
+        }
+        if ([coder containsValueForKey:kUIShowsHorizontalScrollIndicatorKey]) {
+            self.showsHorizontalScrollIndicator = [coder decodeBoolForKey:kUIShowsHorizontalScrollIndicatorKey];
+        }
+        if ([coder containsValueForKey:kUIShowsVerticalScrollIndicatorKey]) {
+            self.showsVerticalScrollIndicator = [coder decodeBoolForKey:kUIShowsVerticalScrollIndicatorKey];
+        }
+        if ([coder containsValueForKey:kUIContentSizeKey]) {
+            self.contentSize = [coder decodeCGSizeForKey:kUIContentSizeKey];
+        }
+        if ([coder containsValueForKey:kUIContentInsetKey]) {
+            self.contentInset = [coder decodeUIEdgeInsetsForKey:kUIContentInsetKey];
+        }
+        if ([coder containsValueForKey:kUIScrollIndicatorInsetsKey]) {
+            self.scrollIndicatorInsets = [coder decodeUIEdgeInsetsForKey:kUIScrollIndicatorInsetsKey];
+        }
+    }
+    return self;
 }
 
 - (void)setDelegate:(id)newDelegate
@@ -329,8 +422,8 @@ const float UIScrollViewDecelerationRateFast = 0.99;
         [self _setScrollAnimation:animation];
         [animation release];
     } else {
-        _contentOffset.x = roundf(theOffset.x);
-        _contentOffset.y = roundf(theOffset.y);
+        _contentOffset.x = round(theOffset.x);
+        _contentOffset.y = round(theOffset.y);
 
         [self _updateContentLayout];
 
@@ -400,9 +493,9 @@ const float UIScrollViewDecelerationRateFast = 0.99;
 - (UIScrollViewAnimation *)_pageSnapAnimation
 {
     const CGSize pageSize = self.bounds.size;
-    const CGSize numberOfWholePages = CGSizeMake(floorf(_contentSize.width/pageSize.width), floorf(_contentSize.height/pageSize.height));
+    const CGSize numberOfWholePages = CGSizeMake(floor(_contentSize.width/pageSize.width), floor(_contentSize.height/pageSize.height));
     const CGSize currentRawPage = CGSizeMake(_contentOffset.x/pageSize.width, _contentOffset.y/pageSize.height);
-    const CGSize currentPage = CGSizeMake(floorf(currentRawPage.width), floorf(currentRawPage.height));
+    const CGSize currentPage = CGSizeMake(floor(currentRawPage.width), floor(currentRawPage.height));
     const CGSize currentPagePercentage = CGSizeMake(1-(currentRawPage.width-currentPage.width), 1-(currentRawPage.height-currentPage.height));
     
     CGPoint finalContentOffset = CGPointZero;
@@ -721,6 +814,10 @@ const float UIScrollViewDecelerationRateFast = 0.99;
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; frame = (%.0f %.0f; %.0f %.0f); clipsToBounds = %@; layer = %@; contentOffset = {%.0f, %.0f}>", [self className], self, self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height, (self.clipsToBounds ? @"YES" : @"NO"), self.layer, self.contentOffset.x, self.contentOffset.y];
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder {
+    //TODO: later
 }
 
 @end

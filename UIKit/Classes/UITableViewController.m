@@ -29,8 +29,8 @@
 
 #import "UITableViewController.h"
 
-@implementation UITableViewController
-@synthesize clearsSelectionOnViewWillAppear=_clearsSelectionOnViewWillAppear;
+@implementation UITableViewController 
+@synthesize clearsSelectionOnViewWillAppear = _clearsSelectionOnViewWillAppear;
 
 - (id)init
 {
@@ -47,7 +47,7 @@
 
 - (void)loadView
 {
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0,0,320,480) style:_style] autorelease];
+    self.tableView = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) ? [[[UITableView alloc] initWithFrame:CGRectMake(0,0,320,480) style:_style] autorelease] : [[[UITableView alloc] initWithFrame:CGRectMake(0,0,768,1024) style:_style]  autorelease];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 }
@@ -95,6 +95,10 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p; tableView = %@>", [self className], self, self.tableView];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.tableView.rowHeight;
 }
 
 @end

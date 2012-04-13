@@ -37,7 +37,6 @@
     UITableViewCellSeparatorStyle _style;
     UIColor *_color;
 }
-
-- (void)setSeparatorStyle:(UITableViewCellSeparatorStyle)theStyle color:(UIColor *)theColor;
-
+@property (nonatomic, assign) UITableViewCellSeparatorStyle style;
+@property (nonatomic, retain) UIColor* color;
 @end

@@ -27,23 +27,13 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "UILabel.h"
 
-@class UIView, UIWindow;
-
-@interface UIInputController : NSObject {
-    UIWindow *_inputWindow;
-    UIView *_inputAccessoryView;
-    UIView *_inputView;
+@interface UITabBarButtonBadge : UIView {
+@private
+    UILabel *_title;
 }
 
-+ (UIInputController *)sharedInputController;
-
-- (void)setInputVisible:(BOOL)visible animated:(BOOL)animated;
-
-@property (nonatomic, retain) UIView *inputAccessoryView;
-@property (nonatomic, retain) UIView *inputView;
-@property (nonatomic, assign) BOOL inputVisible;
-
+@property (nonatomic, copy) NSString *text;
 
 @end

@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "UIGeometry.h"
 
 enum {
     UIPopoverArrowDirectionUp = 1UL << 0,
@@ -40,7 +41,7 @@ enum {
 };
 typedef NSUInteger UIPopoverArrowDirection;
 
-@class UIView, UIViewController, UIPopoverController, UIBarButtonItem, UIPopoverView;
+@class UIView, UIViewController, UIPopoverController, UIBarButtonItem, UIPopoverView, UIImage, UIPopoverNSWindow, NSWindow, UIWindow;
 
 @protocol UIPopoverControllerDelegate <NSObject>
 @optional
@@ -48,24 +49,7 @@ typedef NSUInteger UIPopoverArrowDirection;
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController;
 @end
 
-@interface UIPopoverController : NSObject {
-@private
-    UIViewController *_contentViewController;
-    NSArray *_passthroughViews;
-    UIPopoverArrowDirection _popoverArrowDirection;
-
-    UIPopoverView *_popoverView;
-    id _popoverWindow;
-    id _overlayWindow;
-    
-    BOOL _isDismissing;
-    
-    __unsafe_unretained id _delegate;
-    struct {
-        unsigned popoverControllerDidDismissPopover : 1;
-        unsigned popoverControllerShouldDismissPopover : 1;
-    } _delegateHas;	
-}
+@interface UIPopoverController : NSObject 
 
 - (id)initWithContentViewController:(UIViewController *)viewController;
 
@@ -75,10 +59,19 @@ typedef NSUInteger UIPopoverArrowDirection;
 - (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
 - (void)dismissPopoverAnimated:(BOOL)animated;
 
++ (UIEdgeInsets)insetForArrows;
++ (CGRect)backgroundRectForBounds:(CGRect)bounds;
++ (CGRect)contentRectForBounds:(CGRect)bounds withNavigationBar:(BOOL)hasNavBar;
++ (CGSize)frameSizeForContentSize:(CGSize)contentSize withNavigationBar:(BOOL)hasNavBar;
+
+
 @property (nonatomic, assign) id <UIPopoverControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController *contentViewController;
 @property (nonatomic, readonly, getter=isPopoverVisible) BOOL popoverVisible;
 @property (nonatomic, copy) NSArray *passthroughViews;
 @property (nonatomic, readonly) UIPopoverArrowDirection popoverArrowDirection;
+@property (nonatomic, assign) CGSize popoverContentSize;
+
+- (void)setPopoverContentSize:(CGSize)size animated:(BOOL)animated;
 
 @end

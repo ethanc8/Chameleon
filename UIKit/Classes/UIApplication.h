@@ -57,6 +57,15 @@ typedef enum {
   UIStatusBarStyleBlackOpaque
 } UIStatusBarStyle;
 
+/**
+ * The animation applied to the status bar as it is hidden or made visible.
+ */
+typedef enum {
+    UIStatusBarAnimationNone,       /*!< No animation is applied to the status bar as it is shown or hidden. */
+    UIStatusBarAnimationFade,       /*!< The status bar fades in and out as it is shown or hidden, respectively. */
+    UIStatusBarAnimationSlide,      /*!< The status bar slides in or out as it is shown or hidden, respectively. */
+} UIStatusBarAnimation;
+
 typedef enum {
     UIInterfaceOrientationPortrait           = UIDeviceOrientationPortrait,
     UIInterfaceOrientationPortraitUpsideDown = UIDeviceOrientationPortraitUpsideDown,
@@ -119,8 +128,7 @@ extern const NSTimeInterval UIMinimumKeepAliveTimeout;
     UIEvent *_currentEvent;
     UIWindow *_keyWindow;
     NSMutableSet *_visibleWindows;
-    UIApplicationState _applicationState;
-    __unsafe_unretained id<UIApplicationDelegate> _delegate;
+    id<UIApplicationDelegate> _delegate;
     BOOL _idleTimerDisabled;
     BOOL _networkActivityIndicatorVisible;
     BOOL _applicationSupportsShakeToEdit;
@@ -128,6 +136,7 @@ extern const NSTimeInterval UIMinimumKeepAliveTimeout;
     NSInteger _applicationIconBadgeNumber;
     NSDate *_backgroundTasksExpirationDate;
     NSMutableArray *_backgroundTasks;
+    UIApplicationState _applicationState;
 }
 
 + (UIApplication *)sharedApplication;
@@ -139,6 +148,7 @@ extern const NSTimeInterval UIMinimumKeepAliveTimeout;
 - (BOOL)canOpenURL:(NSURL *)URL;
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated;  // no effect
+- (void)setStatusBarHidden:(BOOL)hidden withAnimation:(UIStatusBarAnimation)animation;
 
 - (void)beginIgnoringInteractionEvents;
 - (void)endIgnoringInteractionEvents;
@@ -149,6 +159,11 @@ extern const NSTimeInterval UIMinimumKeepAliveTimeout;
 - (void)cancelAllLocalNotifications;
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void(^)(void))handler;
+
+- (void)registerForRemoteNotificationTypes:(UIRemoteNotificationType)types;
+- (void)unregisterForRemoteNotifications;
+- (UIRemoteNotificationType)enabledRemoteNotificationTypes;
+
 - (void)endBackgroundTask:(UIBackgroundTaskIdentifier)identifier;
 
 @property (nonatomic, readonly) UIWindow *keyWindow;

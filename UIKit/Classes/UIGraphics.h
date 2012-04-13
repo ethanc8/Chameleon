@@ -52,6 +52,17 @@ void UIRectFillUsingBlendMode(CGRect rect, CGBlendMode blendMode);
 void UIRectFrame(CGRect rect);
 void UIRectFrameUsingBlendMode(CGRect rect, CGBlendMode blendMode);
 
+//bitrzr
+void UIGraphicsBeginPDFPage(void);
+void UIGraphicsEndPDFContext(void); 
+void UIGraphicsBeginPDFPageWithInfo(CGRect bounds, NSDictionary *pageInfo);
+void UIGraphicsBeginPDFContextToData(NSMutableData *data, CGRect bounds, NSDictionary *documentInfo);    
+//BOOL UIGraphicsBeginPDFContextToFile(NSString *path, CGRect bounds, NSDictionary *documentInfo);
+//CGRect UIGraphicsGetPDFContextBounds(void);
+//void UIGraphicsAddPDFContextDestinationAtPoint(NSString *name, CGPoint point);
+//void UIGraphicsSetPDFContextDestinationForRect(NSString *name, CGRect rect);
+//void UIGraphicsSetPDFContextURLForRect(NSURL *url,CGRect rect);
+    
 #ifdef __cplusplus
 }
 #endif

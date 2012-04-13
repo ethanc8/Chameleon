@@ -109,6 +109,8 @@ NSMutableDictionary *imageCache = nil;
 
     if (!image) {
         NSBundle *frameworkBundle = [NSBundle bundleWithIdentifier:@"org.chameleonproject.UIKit"];
+        //NSString *myBundleId = [[NSBundle mainBundle] bundleIdentifier];
+        //NSBundle *frameworkBundle = [NSBundle bundleWithIdentifier:myBundleId];
         NSString *frameworkFile = [[frameworkBundle resourcePath] stringByAppendingPathComponent:name];
         image = [[self imageWithContentsOfFile:frameworkFile] stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
         [self _cacheImage:image forName:name];
@@ -162,6 +164,32 @@ NSMutableDictionary *imageCache = nil;
     return [self _frameworkImageWithName:@"<UIPopoverView> background.png" leftCapWidth:23 topCapHeight:23];
 }
 
+
++ (UIImage *)_leftLionPopoverArrowImage
+{
+    return [self _frameworkImageWithName:@"<UIPopoverView> lion-arrow-left.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_rightLionPopoverArrowImage
+{
+    return [self _frameworkImageWithName:@"<UIPopoverView> lion-arrow-right.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_topLionPopoverArrowImage
+{
+    return [self _frameworkImageWithName:@"<UIPopoverView> lion-arrow-top.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_bottomLionPopoverArrowImage
+{
+    return [self _frameworkImageWithName:@"<UIPopoverView> lion-arrow-bottom.png" leftCapWidth:0 topCapHeight:0];
+}
+	
++ (UIImage *)_popoverLionBackgroundImage
+{
+    return [self _frameworkImageWithName:@"<UIPopoverView> lion-background.png" leftCapWidth:23 topCapHeight:23];
+}
+
 + (UIImage *)_roundedRectButtonImage
 {
     return [self _frameworkImageWithName:@"<UIRoundedRectButton> normal.png" leftCapWidth:12 topCapHeight:9];
@@ -185,6 +213,111 @@ NSMutableDictionary *imageCache = nil;
 + (UIImage *)_buttonBarSystemItemReply
 {
     return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> reply.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_textFieldRoundedRectBackground
+{
+    return [self _frameworkImageWithName:@"<UITextField> roundedRectBackgroundImage.png" leftCapWidth:12.0f topCapHeight:0];
+}
+
++ (UIImage *)_searchBarIcon
+{
+	return [self _frameworkImageWithName:@"<UISearchBar> search-icon.png" leftCapWidth:0.0f topCapHeight:0.0f];
+}
+
++ (UIImage *)_buttonBarSystemItemCompose
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> compose.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemAction
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> action.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemOrganize;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> organize.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemTrash;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> trash.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemBookmarks;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> bookmarks.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemSearch;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> search.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemRefresh;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> refresh.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemStop;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> stop.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemCamera;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> camera.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemPlay;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> play.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemPause;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> search.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemRewind;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> rewind.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemFastForward;
+{
+    return [self _frameworkImageWithName:@"<UIBarButtonSystemItem> fastforward.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemDone
+{
+	return [self _frameworkImageWithName:@"<UIBarButtonItemStyleDone>.png" leftCapWidth:8 topCapHeight:0];
+}
+
++ (UIImage *)_highlightedButtonBarSystemItemDone
+{
+	return [self _frameworkImageWithName:@"<UIBarButtonItemStyleDone> hi.png" leftCapWidth:8 topCapHeight:0];
+}
+
++ (UIImage *)_buttonBarSystemItemPlain
+{
+	return [self _frameworkImageWithName:@"<UIBarButtonItemStylePlain>.png" leftCapWidth:8 topCapHeight:0];
+}
+
++ (UIImage *)_highlightedButtonBarSystemItemPlain
+{
+	return [self _frameworkImageWithName:@"<UIBarButtonItemStylePlain> hi.png" leftCapWidth:8 topCapHeight:0];
+}
+
++ (UIImage *)_tableSelection
+{
+	return [self _frameworkImageWithName:@"<UITableView> selection.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_tableSelectionGray
+{
+	return [self _frameworkImageWithName:@"<UITableView> selectionGray.png" leftCapWidth:0 topCapHeight:0];
 }
 
 - (UIImage *)_toolbarImage
@@ -216,25 +349,38 @@ NSMutableDictionary *imageCache = nil;
 
 + (UIImage *)_tabBarBackgroundImage
 {
-  return [self _frameworkImageWithName:@"<UITabBar> background.png" leftCapWidth:6 topCapHeight:0];
+    return [self _frameworkImageWithName:@"<UITabBar> background.png" leftCapWidth:3 topCapHeight:5];
 }
 
-+ (UIImage *)_tabBarItemImage
++ (UIImage *)_tabBarButtonImage
 {
-  return [self _frameworkImageWithName:@"<UITabBar> item.png" leftCapWidth:8 topCapHeight:0];
+    return [self _frameworkImageWithName:@"<UITabBar> button.png" leftCapWidth:8 topCapHeight:8];
 }
+
++ (UIImage *)_highlightedTabBarImage
+{
+    return [self _frameworkImageWithName:@"<UITabBarButtonImage> highlighted.png" leftCapWidth:3 topCapHeight:5];
+}
+
++ (UIImage *)_tabBarButtonBadgeImage
+{
+    return [self _frameworkImageWithName:@"<UITabBarButtonBadge> background.png" leftCapWidth:6 topCapHeight:8];
+}
+
++ (UIImage *)_defaultNavigationBarBackgroundImage
+{
+	return [self _frameworkImageWithName:@"<UINavigationBarBackground> default.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_blackTranslucentNavigationBarBackgroundImage
+{
+	return [self _frameworkImageWithName:@"<UINavigationBarBackground> blackTranslucent.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_blackOpaqueNavigationBarBackgroundImage
+{
+	return [self _frameworkImageWithName:@"<UINavigationBarBackground> blackOpaque.png" leftCapWidth:0 topCapHeight:0];
+}
+
 
 @end
-
-
-NSImage *_NSImageCreateSubimage(NSImage *theImage, CGRect rect)
-{
-    // flip coordinates around...
-    rect.origin.y = (theImage.size.height) - rect.size.height - rect.origin.y;
-    NSImage *destinationImage = [[NSImage alloc] initWithSize:NSSizeFromCGSize(rect.size)];
-    [destinationImage lockFocus];
-    [theImage drawAtPoint:NSZeroPoint fromRect:NSRectFromCGRect(rect) operation:NSCompositeCopy fraction:1];
-    [destinationImage unlockFocus];
-    return destinationImage;
-}
-
