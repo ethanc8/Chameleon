@@ -97,8 +97,8 @@
     return [NSString stringWithFormat:@"<%@: %p; tableView = %@>", [self className], self, self.tableView];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+/*- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return self.tableView.rowHeight;
-}
+}*/
 
 @end
