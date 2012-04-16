@@ -238,6 +238,9 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize p
         [_overlayWindow setContentView:[[[UIPopoverOverlayNSView alloc] initWithFrame:overlayContentRect popoverController:self] autorelease]];
         [viewNSWindow addChildWindow:_overlayWindow ordered:NSWindowAbove];
         
+        //bitrzr: set the content view frame to the size of the chosen content for the popover
+        _contentViewController.view.frame = CGRectMake(_contentViewController.view.frame.origin.x, _contentViewController.view.frame.origin.y, _contentViewController.contentSizeForViewInPopover.width, _contentViewController.contentSizeForViewInPopover.height);
+        
 		[_contentViewController viewWillAppear:animated];
 		
         // now build the actual popover view which represents the popover's chrome, and since it's a UIView, we need to build a UIKitView 
