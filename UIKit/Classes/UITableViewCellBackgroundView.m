@@ -15,7 +15,7 @@
 - (void)drawRect:(CGRect)rect
 {
     
-	NSLog(@"DR");
+	//NSLog(@"DR");
 	//const CGRect bounds = self.bounds;
     
 	CGFloat minX = CGRectGetMinX(rect), midX = CGRectGetMidX(rect), maxX = CGRectGetMaxX(rect);
@@ -56,7 +56,7 @@
 		CGContextAddArcToPoint(c,maxX, minY, maxX, maxY, radius);
 		CGContextAddLineToPoint(c, maxX, maxY);
 		//CGContextStrokePath(c);
-		NSLog(@"bc %@",self.backgroundColor);
+		//NSLog(@"bc %@",self.backgroundColor);
 		CGContextSetFillColor(c,CGColorGetComponents(self.backgroundColor.CGColor));
 		CGContextDrawPath(c, kCGPathFillStroke);
         
