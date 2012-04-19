@@ -1,33 +1,3 @@
-//
-// UIImage.m
-//
-// Original Author:
-//  The IconFactory
-//
-// Contributor: 
-//	Zac Bowling <zac@seatme.com>
-//
-// Copyright (C) 2011 SeatMe, Inc http://www.seatme.com
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 /*
  * Copyright (c) 2011, The Iconfactory. All rights reserved.
  *
@@ -64,34 +34,58 @@
 #import "UIPhotosAlbum.h"
 #import <AppKit/NSImage.h>
 
-@implementation UIImage 
+@implementation UIImage {
+    CGImageRef _image;
+    CGImageSourceRef _imageSource;
+}
+
+- (void)dealloc
+{
+    if (_image) {
+        CGImageRelease(_image);
+    }
+    if (_imageSource) {
+        CFRelease(_imageSource);
+    }
+    [super dealloc];
+}
 
 - (id)initWithNSImage:(NSImage *)theImage
 {
-    if (theImage) {
-        return [self initWithCGImage:[theImage CGImageForProposedRect:NULL context:NULL hints:nil]];
-    } else {
+    if (!theImage) {
         [self release];
         return nil;
     }
+    return [self initWithCGImage:[theImage CGImageForProposedRect:NULL context:NULL hints:nil]];
+}
+
+- (id)initWithCGImageSource:(CGImageSourceRef)imageSource
+{
+    NSAssert(imageSource != nil, @"???");
+    if (nil != (self = [super init])) {
+        _imageSource = (CGImageSourceRef)CFRetain(imageSource);
+    }
+    return self;
 }
 
 - (id)initWithData:(NSData *)data
 {
-    if (data) {
-        const NSDictionary *options = [NSDictionary dictionaryWithObject:(id)kCFBooleanFalse forKey:(NSString*)kCGImageSourceShouldCache]; // no caching
-        CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)data, (CFDictionaryRef)options);
-        if (!imageSource) {
-            [self release];
-            return nil;
-        }
-        CGImageRef image = (CGImageRef)[(id)CGImageSourceCreateImageAtIndex(imageSource, 0, (CFDictionaryRef)options)autorelease];
-        CFRelease(imageSource);
-        return [self initWithCGImage:image];
-    } else {
+    if (!data) {
         [self release];
         return nil;
     }
+    
+    const NSDictionary* options = [NSDictionary dictionaryWithObject:(id)kCFBooleanFalse forKey:(NSString*)kCGImageSourceShouldCache]; // no caching
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)data, (CFDictionaryRef)options);
+    if (!imageSource) {
+        [self release];
+        return nil;
+    }
+    if (nil != (self = [self initWithCGImageSource:imageSource])) {
+        /**/
+    }
+    CFRelease(imageSource);
+    return self;
 }
 
 - (id)initWithContentsOfFile:(NSString *)path
@@ -108,9 +102,11 @@
         [self release];
         return nil;
     }
-    CGImageRef image = (CGImageRef)[(id)CGImageSourceCreateImageAtIndex(imageSource, 0, NULL) autorelease];
+    if (nil != (self = [self initWithCGImageSource:imageSource])) {
+        /**/
+    }
     CFRelease(imageSource);
-    return [self initWithCGImage:image];
+    return self;
 }
 
 - (id)initWithCGImage:(CGImageRef)imageRef
@@ -118,9 +114,10 @@
     if (!imageRef) {
         [self release];
         return nil;
-    } else if ((self=[super init])) {
-        _image = imageRef;
-        CGImageRetain(_image);
+    }
+    
+    if (nil != (self = [super init])) {
+        _image = CGImageRetain(imageRef);
     }
     return self;
 }
@@ -136,13 +133,6 @@
 - (void) encodeWithCoder:(NSCoder*)coder
 {
     [self doesNotRecognizeSelector:_cmd];
-}
-
-
-- (void)dealloc
-{
-    if (_image) CGImageRelease(_image);
-    [super dealloc];
 }
 
 + (UIImage *)_loadImageNamed:(NSString *)name
@@ -221,25 +211,11 @@
     if ((leftCapWidth == 0 && topCapHeight == 0) || (leftCapWidth >= size.width && topCapHeight >= size.height)) {
         return self;
     } else if (leftCapWidth <= 0 || leftCapWidth >= size.width) {
-        return [[[UIThreePartImage alloc] initWithCGImage:_image capSize:MIN(topCapHeight,size.height) vertical:YES] autorelease];
+        return [[[UIThreePartImage alloc] initWithCGImage:[self CGImage] capSize:MIN(topCapHeight,size.height) vertical:YES] autorelease];
     } else if (topCapHeight <= 0 || topCapHeight >= size.height) {
-        return [[[UIThreePartImage alloc] initWithCGImage:_image capSize:MIN(leftCapWidth,size.width) vertical:NO] autorelease];
+        return [[[UIThreePartImage alloc] initWithCGImage:[self CGImage] capSize:MIN(leftCapWidth,size.width) vertical:NO] autorelease];
     } else {
-        return [[[UINinePartImage alloc] initWithCGImage:_image leftCapWidth:leftCapWidth topCapHeight:topCapHeight] autorelease];
-    }
-}
-
-- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets 
-{
-    const CGSize size = self.size;
-    if (UIEdgeInsetsEqualToEdgeInsets(UIEdgeInsetsZero, capInsets)) {
-        return self;
-    } else if ((capInsets.left <= 0 || capInsets.left >= size.width) && (capInsets.right <= 0 || capInsets.right >= size.width)){
-        return [[[UIThreePartImage alloc] initWithCGImage:_image capTop:MIN(capInsets.top,size.height) capBottom:MIN(capInsets.bottom,size.height)] autorelease];
-    } else if ((capInsets.top <= 0 || capInsets.top >= size.height) && (capInsets.bottom <= 0 || capInsets.bottom >= size.height)) {
-        return [[[UIThreePartImage alloc] initWithCGImage:_image capLeft:MIN(capInsets.left,size.width) capRight:MIN(capInsets.right,size.width)] autorelease];
-    } else {
-        return [[[UINinePartImage alloc] initWithCGImage:_image edge:capInsets] autorelease];
+        return [[[UINinePartImage alloc] initWithCGImage:[self CGImage] leftCapWidth:leftCapWidth topCapHeight:topCapHeight] autorelease];
     }
 }
 
@@ -267,17 +243,25 @@
 
 - (void)drawInRect:(CGRect)rect
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(ctx);
-    CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y+rect.size.height);
-    CGContextScaleCTM(ctx, 1.0, -1.0);
-    CGContextDrawImage(ctx, CGRectMake(0,0,rect.size.width,rect.size.height), _image);
-    CGContextRestoreGState(ctx);
+    CGImageRef image = [self CGImage];
+    if (image) {
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(ctx);
+        CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y+rect.size.height);
+        CGContextScaleCTM(ctx, 1.0, -1.0);
+        CGContextDrawImage(ctx, CGRectMake(0,0,rect.size.width,rect.size.height), image);
+        CGContextRestoreGState(ctx);
+    }
 }
 
 - (CGSize)size
 {
-    return CGSizeMake(CGImageGetWidth(_image), CGImageGetHeight(_image));
+    CGImageRef image = [self CGImage];
+    if (image) {
+        return CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
+    } else {
+        return CGSizeZero;
+    }
 }
 
 - (NSInteger)leftCapWidth
@@ -290,13 +274,14 @@
     return 0;
 }
 
-- (UIEdgeInsets)capInsets 
-{
-    return UIEdgeInsetsZero;
-}
-
 - (CGImageRef)CGImage
 {
+    if (!_image) {
+        if (_imageSource) {
+            _image = CGImageSourceCreateImageAtIndex(_imageSource, 0, NULL);
+            CFRelease(_imageSource), _imageSource = nil;
+        }
+    }
     return _image;
 }
 
@@ -307,12 +292,12 @@
 
 - (NSImage *)NSImage
 {
-    return [[[NSImage alloc] initWithCGImage:_image size:NSSizeFromCGSize(self.size)] autorelease];
+    return [[[NSImage alloc] initWithCGImage:[self CGImage] size:NSSizeFromCGSize(self.size)] autorelease];
 }
 
 - (NSBitmapImageRep *)_NSBitmapImageRep
 {
-    return [[[NSBitmapImageRep alloc] initWithCGImage:_image] autorelease];
+    return [[[NSBitmapImageRep alloc] initWithCGImage:[self CGImage]] autorelease];
 }
 
 - (CGFloat)scale
@@ -338,7 +323,7 @@ BOOL UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(NSString *videoPath)
 
 NSData *UIImageJPEGRepresentation(UIImage *image, CGFloat compressionQuality)
 {
-    return [[image _NSBitmapImageRep] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:compressionQuality] forKey:NSImageCompressionFactor]];
+    return [[image _NSBitmapImageRep] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionQuality] forKey:NSImageCompressionFactor]];
 }
 
 NSData *UIImagePNGRepresentation(UIImage *image)
