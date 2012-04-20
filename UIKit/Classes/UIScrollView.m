@@ -787,18 +787,36 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
 {
     UIView *zoomingView = [self _zoomingView];
     scale = MIN(MAX(scale, _minimumZoomScale), _maximumZoomScale);
-
+    
     if (zoomingView && self.zoomScale != scale) {
-        [UIView animateWithDuration:animated? UIScrollViewAnimationDuration : 0
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
-                         animations:^(void) {
-                             zoomingView.transform = CGAffineTransformMakeScale(scale, scale);
-                             const CGSize size = zoomingView.frame.size;
-                             zoomingView.layer.position = CGPointMake(size.width/2.f, size.height/2.f);
-                             self.contentSize = size;
-                         }
-                         completion:NULL];
+        const CGSize prevSize = zoomingView.frame.size;
+        void(^transformBlock)(void) = ^ {
+            zoomingView.transform = CGAffineTransformMakeScale(scale, scale);
+            
+            const CGSize size = zoomingView.frame.size;
+            zoomingView.layer.position = CGPointMake(size.width/2.f, size.height/2.f);
+            
+            CGPoint contentOffset = self.contentOffset;
+            if (size.width > self.frame.size.width) {
+                contentOffset.x += 0.5f*(size.width - prevSize.width);
+            }
+            if (size.height > self.frame.size.height) {
+                contentOffset.y += 0.5f*(size.height - prevSize.height);
+            }
+            
+            self.contentOffset = contentOffset;
+            self.contentSize = size;
+        };
+        if (animated) {
+            [UIView animateWithDuration:UIScrollViewAnimationDuration
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
+                             animations:transformBlock
+                             completion:nil
+             ];
+        } else {
+            transformBlock();
+        }
     }
 }
 
