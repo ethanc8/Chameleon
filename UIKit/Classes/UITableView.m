@@ -113,7 +113,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
     self.sectionHeaderHeight = self.sectionFooterHeight = 22;
     self.alwaysBounceVertical = YES;
     
-    if (_style == UITableViewStylePlain) {
+    if (_style == UITableViewStylePlain && !self.backgroundColor) {
         self.backgroundColor = [UIColor whiteColor];
     }
     
@@ -400,6 +400,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
                 CGRect rowRect = [self rectForRowAtIndexPath:indexPath];
                 if (CGRectIntersectsRect(rowRect,visibleBounds) && rowRect.size.height > 0) {
                     UITableViewCell* cell = [self _ensureCellExistsAtIndexPath:indexPath];
+                    cell.frame = rowRect;
                     [usedCells setObject:cell forKey:indexPath];
                 }
                 [rowPool drain];
@@ -1047,9 +1048,9 @@ static NSString* const kUIStyleKey = @"UIStyle";
 {
     NSIndexPath* indexPath = [self indexPathForSelectedRow];
     NSIndexPath* newIndexPath = nil;
-    if(indexPath == nil) {
+    if(indexPath == nil && [self numberOfSections]) {
         newIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    } else if (indexPath.section <= self.numberOfSections) {
+    } else if (indexPath && indexPath.section <= self.numberOfSections) {
         if (indexPath.row < [self numberOfRowsInSection:indexPath.section] - 1) {
             newIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         } else if (indexPath.section < [self numberOfSections] - 1) {
