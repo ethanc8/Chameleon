@@ -99,7 +99,30 @@
 
 - (id)init
 {
-    return [self initWithNibName:nil bundle:nil];
+    //find if there is a nib with this class's name
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *className = [self className];
+    
+    NSString *pathToNib = [bundle pathForResource:className ofType:@"nib"];
+    
+    if (pathToNib) {
+        return [self initWithNibName:className bundle:bundle];
+    } else {
+        // The loader on iOS seems to try loading from nib fooBarViewController and fooBarView if it finds them so let's also try that.
+        if ([className rangeOfString:@"Controller"].location != NSNotFound) {
+            className = [className stringByReplacingOccurrencesOfString:@"Controller" withString:@""];
+        } else {
+            className = [className stringByAppendingString:@"Controller"];
+        }
+        
+        pathToNib = [bundle pathForResource:className ofType:@"nib"];
+        if (pathToNib) {
+            return [self initWithNibName:className bundle:bundle];
+        } else {             
+            
+            return [self initWithNibName:nil bundle:nil];
+        }
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -552,15 +575,20 @@
 
 - (BOOL)beginAppearanceTransition:(BOOL)shouldAppear animated:(BOOL)animated
 {
-    _flags.isInAnimatedVCTransition = YES;
-    UIViewControllerAppearState appearState;
-    if (shouldAppear) {
-        appearState = UIViewControllerStateWillAppear;
-    } else {
-        appearState = UIViewControllerStateWillDisappear;
+    if (animated) {
+        _flags.isInAnimatedVCTransition = YES;
+        UIViewControllerAppearState appearState;
+        
+        if (shouldAppear) {
+            appearState = UIViewControllerStateWillAppear;
+        } else {
+            appearState = UIViewControllerStateWillDisappear;
+        }
+       	
+        [self _setViewAppearState:appearState isAnimating:animated];
+        return YES;
     }
-    [self _setViewAppearState:appearState isAnimating:animated];
-    return YES;
+    return NO;
 }
 
 - (BOOL)_endAppearanceTransition
@@ -575,6 +603,7 @@
             return NO;
         }
         [self _setViewAppearState:appearState isAnimating:NO];
+        _flags.isInAnimatedVCTransition = NO;
         return YES;
     }
     return NO;
