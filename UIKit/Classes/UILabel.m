@@ -42,6 +42,7 @@ static NSString* const kUIShadowColorKey = @"UIShadowColor";
 static NSString* const kUIShadowOffsetKey = @"UIShadowOffset";
 static NSString* const kUITextColorKey = @"UITextColor";
 static NSString* const kUITextKey = @"UIText";
+static NSString* const kUITextAlignmentKey = @"UITextAlignment";
 static NSString* const kUIBaselineAdjustmentKey = @"UIBaselineAdjustment";
 static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
 
@@ -79,7 +80,9 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
     self.textAlignment = UITextAlignmentLeft;
     self.lineBreakMode = UILineBreakModeTailTruncation;
     self.textColor = [UIColor blackColor];
-    self.backgroundColor = [UIColor whiteColor];
+    if (!self.backgroundColor) {
+        self.backgroundColor = [UIColor whiteColor];
+    }
     self.enabled = YES;
     self.font = [UIFont systemFontOfSize:17];
     self.numberOfLines = 1;
@@ -118,6 +121,9 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
         }
         if ([coder containsValueForKey:kUITextKey]) {
             self.text = [coder decodeObjectForKey:kUITextKey];
+        }
+        if ([coder containsValueForKey:kUITextAlignmentKey]) {
+            self.textAlignment = [coder decodeBoolForKey:kUITextAlignmentKey];
         }
         if ([coder containsValueForKey:kUIBaselineAdjustmentKey]) {
             self.baselineAdjustment = [coder decodeIntegerForKey:kUIBaselineAdjustmentKey];
