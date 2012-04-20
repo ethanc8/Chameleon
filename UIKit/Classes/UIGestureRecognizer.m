@@ -148,7 +148,7 @@
 
     typedef struct { UIGestureRecognizerState fromState, toState; BOOL shouldNotify, shouldReset; } StateTransition;
 
-    #define NumberOfStateTransitions 9
+    #define NumberOfStateTransitions 10
     static const StateTransition allowedTransitions[NumberOfStateTransitions] = {
         // discrete gestures
         {UIGestureRecognizerStatePossible,		UIGestureRecognizerStateRecognized,     YES,    YES},
@@ -161,7 +161,8 @@
         {UIGestureRecognizerStateBegan,			UIGestureRecognizerStateEnded,          YES,    YES},
         {UIGestureRecognizerStateChanged,		UIGestureRecognizerStateChanged,        YES,    NO },
         {UIGestureRecognizerStateChanged,		UIGestureRecognizerStateCancelled,      YES,    YES},
-        {UIGestureRecognizerStateChanged,		UIGestureRecognizerStateEnded,          YES,    YES}
+        {UIGestureRecognizerStateChanged,		UIGestureRecognizerStateEnded,          YES,    YES},
+        {UIGestureRecognizerStateChanged,       UIGestureRecognizerStateFailed,         NO,     YES}
     };
     
     const StateTransition *transition = NULL;
