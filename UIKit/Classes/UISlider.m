@@ -1,33 +1,3 @@
-//
-//  UISlider.m
-//  UIKit
-//
-//  Created by Peter Steinberger on 24.03.11.
-//
-// Contributor: 
-//	Zac Bowling <zac@seatme.com>
-//
-// Copyright (C) 2011 SeatMe, Inc http://www.seatme.com
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 /*
  * Copyright (c) 2011, The Iconfactory. All rights reserved.
  *
@@ -58,90 +28,167 @@
  */
 
 #import "UISlider.h"
+#import "UIImage+UIPrivate.h"
+#import "UIButton.h"
+#import "UIColor.h"
+#import "UITouch.h"
+#import "UIImageView.h"
+#import <QuartzCore/QuartzCore.h>
 
+static NSString* const kUIValueKey = @"UIValue";
+static NSString* const kUIMinValueKey = @"UIMinValue";
+static NSString* const kUIMaxValueKey = @"UIMaxValue";
 
-@implementation UISlider 
+@implementation UISlider {
+    UIImageView* _minimumTrackView;
+    UIImageView* _maximumTrackView;
+    UIButton* _thumbView;
+}
 @synthesize value = _value;
 @synthesize minimumValue = _minimumValue;
 @synthesize maximumValue = _maximumValue;
 @synthesize continuous = _continuous;
-@synthesize thumbTintColor = _thumbTintColor;
 
-- (void)setValue:(float)value animated:(BOOL)animated
+- (void) _commonInitForUISlider
 {
-    self.value = value;
-}
-
-
-- (UIImage *)maximumTrackImageForState:(UIControlState)state 
-{
-    return nil;
-}
-
-- (void)setMaximumTrackImage:(UIImage *)image forState:(UIControlState)state 
-{
+    _continuous = YES;
+    _minimumValue = 0.0;
+    _maximumValue = 1.0;
+    _value = 0.5;
+    CALayer* layer = self.layer;
+    layer.backgroundColor = [[UIColor clearColor] CGColor];
     
-}
-
-- (UIImage *)minimumTrackImageForState:(UIControlState)state 
-{
-    return nil;
-}
-
-- (void)setMinimumTrackImage:(UIImage *)image forState:(UIControlState)state 
-{
+    _minimumTrackView = [[UIImageView alloc] initWithImage:[UIImage _sliderMinimumTrackImage]];
+    _minimumTrackView.frame = CGRectMake(3, 7, 18, 9);
+    [self addSubview:_minimumTrackView];
     
-}
-
-- (void)setThumbImage:(UIImage *)image forState:(UIControlState)state 
-{
+    _maximumTrackView = [[UIImageView alloc] initWithImage:[UIImage _sliderMaximumTrackImage]];
+    _maximumTrackView.frame = CGRectMake(0, 7, 18, 9);
+    [self addSubview:_maximumTrackView];
     
+    _thumbView = [UIButton buttonWithType:UIButtonTypeCustom];
+    _thumbView.userInteractionEnabled = NO;
+    [_thumbView setBackgroundImage:[UIImage _sliderThumbImage] forState:UIControlStateNormal];
+    _thumbView.frame = CGRectMake(0, 0, 23, 23);
+    [self addSubview:_thumbView];
 }
 
-- (UIImage *)thumbImageForState:(UIControlState)state 
+- (id) initWithFrame:(CGRect)frame
 {
-    return nil;
+    if (nil != (self = [super initWithFrame:frame])) {
+        [self _commonInitForUISlider];
+	}
+    return self;
 }
 
-- (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value
+- (id) initWithCoder:(NSCoder*)coder
 {
-    return CGRectZero;
+    if (nil != (self = [super initWithCoder:coder])) {
+        [self _commonInitForUISlider];
+        if ([coder containsValueForKey:kUIValueKey]) {
+            self.value = [coder decodeFloatForKey:kUIValueKey];
+            
+        }
+        if ([coder containsValueForKey:kUIMinValueKey]) {
+            self.minimumValue = [coder decodeFloatForKey:kUIMinValueKey];
+        }
+        if ([coder containsValueForKey:kUIMaxValueKey]) {
+            self.maximumValue = [coder decodeFloatForKey:kUIMaxValueKey];
+        }
+	}
+    return self;
 }
 
-- (CGRect)trackRectForBounds:(CGRect)bounds
+- (void) setMinimumTrackImage:(UIImage*)image forState:(UIControlState)state
 {
-    return CGRectZero;
+    CGRect minimumTrackRect = _minimumTrackView.frame;
+    minimumTrackRect.size.height = MIN(9, image.size.height);
+    minimumTrackRect.origin.y = floor(0.5*(23 - minimumTrackRect.size.height));
+    _minimumTrackView.frame = minimumTrackRect;
+    _minimumTrackView.image = image;
 }
 
-- (CGRect)maximumValueImageRectForBounds:(CGRect)bounds
+- (void) setMaximumTrackImage:(UIImage*)image forState:(UIControlState)state
 {
-    return CGRectZero;
+    CGRect maximumTrackRect = _maximumTrackView.frame;
+    maximumTrackRect.size.height = MIN(9, image.size.height);
+    maximumTrackRect.origin.y = floor(0.5*(23 - maximumTrackRect.size.height));
+    _maximumTrackView.frame = maximumTrackRect;
+    _maximumTrackView.image = image;
 }
 
+- (void) setThumbImage:(UIImage*)image forState:(UIControlState)state
+{ 
+    CGRect thumbRect = _thumbView.frame;
+    thumbRect.size.width = MIN(23, image.size.width);
+    thumbRect.size.height = MIN(23, image.size.height);
+    thumbRect.origin.y = floor(0.5*(23 - thumbRect.size.height));
+    _thumbView.frame = thumbRect;
+    [_thumbView setBackgroundImage:image forState:state];
+}
 
-- (CGRect)minimumValueImageRectForBounds:(CGRect)bounds
+- (void) layoutSubviews
 {
-    return CGRectZero;
+    [super layoutSubviews];
+    
+    CGRect thumbRect = _thumbView.frame;
+    CGFloat percentage = (_value - _minimumValue) / (_maximumValue - _minimumValue);
+    CGFloat offset = thumbRect.size.width / 2.0;
+    CGFloat maxX = self.bounds.size.width - (offset * 2.0);
+    thumbRect.origin.x = MIN(maxX, MAX(0, percentage * maxX));
+    _thumbView.frame = thumbRect;
+    
+    
+    CGRect minimumTrackRect = _minimumTrackView.frame;
+    minimumTrackRect.size.width = MAX(offset, MIN(self.bounds.size.width * percentage, self.bounds.size.width - offset));
+    _minimumTrackView.frame = minimumTrackRect;
+    CGRect maximumTrackRect = _maximumTrackView.frame;
+    maximumTrackRect.origin.x = minimumTrackRect.size.width;
+    maximumTrackRect.size.width = MAX(1, self.bounds.size.width - maximumTrackRect.origin.x) - 3;
+    _maximumTrackView.frame = maximumTrackRect;
 }
 
-- (NSString *)description
+- (void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+	[super touchesBegan:touches withEvent:event];
+    
+    UITouch* touch = [touches anyObject];
+    CGPoint point = [touch locationInView:_thumbView];
+	if ([_thumbView pointInside:point withEvent:event]) {
+        _thumbView.highlighted = YES;
+    }
+}
+
+- (void) touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
+{
+	[super touchesMoved:touches withEvent:event];
+    
+	if (_thumbView.highlighted) {
+        UITouch* touch = [touches anyObject];
+        CGPoint point = [touch locationInView:self];
+        CGFloat offset = _thumbView.frame.size.width / 2.0;
+        CGFloat xValue = MAX(offset, point.x) - offset;
+        CGFloat maxX = self.bounds.size.width - (offset * 2);
+        CGFloat percentage = MIN(xValue, maxX) / maxX;
+        float oldValue = _value;
+        _value = _minimumValue + ((_maximumValue - _minimumValue) * percentage);
+        if (_continuous && _value != oldValue) {
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+        }
+        [self setNeedsLayout];
+    }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesEnded:touches withEvent:event];
+    
+    _thumbView.highlighted = NO;
+}
+
+- (NSString*) description
 {
     return [NSString stringWithFormat:@"<%@: %p; frame = (%.0f %.0f; %.0f %.0f); opaque = %@; layer = %@; value = %f>", [self className], self, self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height, (self.opaque ? @"YES" : @"NO"), self.layer, self.value];
-}
-
-- (UIImage*)currentMaximumTrackImage
-{
-    return nil;
-}
-
-- (UIImage*)currentMinimumTrackImage 
-{
-    return nil;
-}
-
-- (UIImage*)currentThumbImage
-{
-    return nil;
 }
 
 @end
