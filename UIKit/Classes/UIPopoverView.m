@@ -108,7 +108,7 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
     if ((self=(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) ? [super initWithFrame:CGRectMake(0,0,320,480)] : [super initWithFrame:CGRectMake(0,0,768,1024)])) {
         _contentView = [aView retain];
 		
-		_popoverController = controller;
+		 _popoverController = [controller retain];
         
         _theme = UIPopoverThemeDefault;
         _backgroundView = [[UIImageView alloc] initWithImage:[[_popoverController class] backgroundImageForTheme:_theme]];	
@@ -135,6 +135,7 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
     [_arrowView release];
     [_contentContainerView release];
     [_contentView release];
+    [_popoverController release];
     [super dealloc];
 }
 
