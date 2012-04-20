@@ -82,6 +82,9 @@
 + (UIImage *)_defaultNavigationBarBackgroundImage;
 + (UIImage *)_blackTranslucentNavigationBarBackgroundImage;
 + (UIImage *)_blackOpaqueNavigationBarBackgroundImage;
++ (UIImage *)_sliderMinimumTrackImage;
++ (UIImage *)_sliderMaximumTrackImage;
++ (UIImage *)_sliderThumbImage;
 + (UIImage *)_tabBarButtonImage;
 + (UIImage *)_highlightedTabBarImage;
 + (UIImage *)_tabBarButtonBadgeImage;
