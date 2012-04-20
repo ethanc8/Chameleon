@@ -37,32 +37,7 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 @end
 
-typedef enum {
-	_UINavigationControllerVisibleControllerTransitionNone = 0,
-	_UINavigationControllerVisibleControllerTransitionPushAnimated,
-	_UINavigationControllerVisibleControllerTransitionPopAnimated
-} _UINavigationControllerVisibleControllerTransition;
-
-@interface UINavigationController : UIViewController {
-@private
-    UINavigationBar *_navigationBar;
-    UIToolbar *_toolbar;
-    UIView* _containerView;
-    NSMutableArray *_viewControllers;
-    id _delegate;
-    BOOL _toolbarHidden;
-    BOOL _navigationBarHidden;
-    
-    BOOL _visibleViewControllerNeedsUpdate;
-    _UINavigationControllerVisibleControllerTransition _visibleViewControllerTransition;
-    UIViewController *_visibleViewController;
-
-    struct {
-        unsigned didShowViewController : 1;
-        unsigned willShowViewController : 1;
-    } _delegateHas;
-}
-
+@interface UINavigationController : UIViewController
 - (id)initWithRootViewController:(UIViewController *)rootViewController;
 
 - (void)setViewControllers:(NSArray *)newViewControllers animated:(BOOL)animated;
@@ -80,10 +55,10 @@ typedef enum {
 @property (nonatomic, copy) NSArray *viewControllers;
 @property (nonatomic, readonly, retain) UIViewController *visibleViewController;
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
-@property (nonatomic, readonly) UIToolbar *toolbar;                               // toolbar support is not really implemented yet
+@property (nonatomic, readonly) UIToolbar *toolbar;                               
 @property (nonatomic, assign) id<UINavigationControllerDelegate> delegate;
 @property (nonatomic, readonly, retain) UIViewController *topViewController;
 @property (nonatomic,getter=isNavigationBarHidden) BOOL navigationBarHidden;
-@property (nonatomic,getter=isToolbarHidden) BOOL toolbarHidden;                  // toolbar support is not really implemented yet
+@property (nonatomic,getter=isToolbarHidden) BOOL toolbarHidden;                 
 
 @end
