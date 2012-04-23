@@ -337,6 +337,7 @@ static inline double decodeFloat64(void const** pp);
             NSString* className = [[NSString alloc] initWithBytes:cp length:length encoding:NSUTF8StringEncoding];
             Class class = NSClassFromString(className);
             if (!class) {
+                NSLog(@"Cannot find class:%@",className);
                 [self release];
                 return nil;
             }
