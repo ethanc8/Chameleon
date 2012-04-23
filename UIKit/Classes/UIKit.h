@@ -107,6 +107,7 @@
 #import "UIDatePicker.h"
 #import "UITextInput.h"
 #import <UIKit/UINib.h>
+#import "UIAppearance.h"
 
 // non-standard imports
 #import "CALayer+UIKitCompatibility.h"      // only needed on 10.6

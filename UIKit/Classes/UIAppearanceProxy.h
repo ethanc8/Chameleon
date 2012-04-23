@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, The Iconfactory. All rights reserved.
+ * Copyright (c) 2012, The Iconfactory. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,35 +27,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "UIAppearance.h"
+#import <UIKit/UIAppearanceProperty.h>
 
-@class UIView;
-
-@interface UITableViewSection : NSObject {
-    CGFloat rowsHeight;
-    CGFloat headerHeight;
-    CGFloat footerHeight;
-    NSInteger numberOfRows;
-    CGFloat *rowHeights;
-    UIView *headerView;
-    UIView *footerView;
-    NSString *headerTitle;
-    NSString *footerTitle;
+@interface UIAppearanceProxy : NSObject {
+    Class<UIAppearance> _targetClass;
+    NSMutableDictionary *_settings;
 }
 
-- (CGFloat)sectionHeight;
-
-- (void)setNumberOfRows:(NSInteger)rows withHeights:(CGFloat *)newRowHeights;
-
-@property (nonatomic, assign) CGFloat rowsHeight;
-@property (nonatomic, assign) CGFloat headerHeight;
-@property (nonatomic, assign) CGFloat footerHeight;
-@property (nonatomic, readonly) NSInteger numberOfRows;
-@property (nonatomic, assign) CGFloat *rowHeights;
-@property (nonatomic, retain) UIView *headerView;
-@property (nonatomic, retain) UIView *footerView;
-@property (nonatomic, copy) NSString *headerTitle;
-@property (nonatomic, copy) NSString *footerTitle;
+- (id)initWithClass:(Class<UIAppearance>)k;
+- (NSDictionary *)_appearancePropertiesAndValues;
 
 @end
-

@@ -38,11 +38,12 @@
     return rowsHeight + headerHeight + footerHeight;
 }
 
-- (void)setRowHeights:(CGFloat *)newRowHeights
+- (void)setNumberOfRows:(NSInteger)rows withHeights:(CGFloat *)newRowHeights
 {
-    if (rowHeights != newRowHeights) {
-        if (rowHeights) free(rowHeights);
-        rowHeights = newRowHeights;
+    if (rows != numberOfRows) {
+        rowHeights = realloc(rowHeights, sizeof(CGFloat) * rows);
+        memcpy(rowHeights, newRowHeights, sizeof(CGFloat) * rows);
+        numberOfRows = rows;
     }
 }
 
