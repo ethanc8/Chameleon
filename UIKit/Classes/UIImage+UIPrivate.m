@@ -397,4 +397,34 @@ NSMutableDictionary *imageCache = nil;
     return [self _frameworkImageWithName:@"<UISlider> thumb.png" leftCapWidth:0 topCapHeight:0];
 }
 
++ (UIImage *)_segmentedControlButtonImage 
+{
+    return [self _frameworkImageWithName:@"<UISegmentedControl> button.png" leftCapWidth:6 topCapHeight:0];
+}
+
++ (UIImage *)_segmentedControlHighlightedButtonImage 
+{    
+    return [self _frameworkImageWithName:@"<UISegmentedControl> button-highlighted.png" leftCapWidth:6 topCapHeight:0];
+}
+
++ (UIImage *)_segmentedControlDividerImage 
+{    
+    return [self _frameworkImageWithName:@"<UISegmentedControl> divider.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_segmentedControlHighlightedDividerImage
+{
+    return [self _frameworkImageWithName:@"<UISegmentedControl> divider-highlighted.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_switchOnImage
+{
+    return [self _frameworkImageWithName:@"<UISwitch> on.png" leftCapWidth:0 topCapHeight:0];
+}
+
++ (UIImage *)_switchOffImage
+{
+    return [self _frameworkImageWithName:@"<UISwitch> off.png" leftCapWidth:0 topCapHeight:0];
+}
+
 @end

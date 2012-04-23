@@ -43,6 +43,7 @@
 #import "UIColor.h"
 #import "UIStringDrawing.h"
 #import "UIGraphics.h"
+#import "UIImage+UIPrivate.h"
 #include <tgmath.h>
 
 static NSString* const kUISegmentedControlEnabledKey = @"kUISegmentedControlEnabledKey";
@@ -189,11 +190,10 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
     _segments = [[NSMutableArray alloc] init];
     _momentary = NO;
     
-    // TODO: add images
-    self.buttonImage = [[UIImage imageNamed:@"UISegmentBarButton.png"] stretchableImageWithLeftCapWidth:6 topCapHeight:0];
-    self.highlightedButtonImage = [[UIImage imageNamed:@"UISegmentBarButtonHighlighted.png"] stretchableImageWithLeftCapWidth:6 topCapHeight:0];
-    self.dividerImage = [UIImage imageNamed:@"UISegmentBarDivider.png"];
-    self.highlightedDividerImage = [UIImage imageNamed:@"UISegmentBarDividerHighlighted.png"];
+    self.buttonImage = [UIImage _segmentedControlButtonImage];
+    self.highlightedButtonImage = [UIImage _segmentedControlHighlightedButtonImage];;
+    self.dividerImage = [UIImage _segmentedControlDividerImage];
+    self.highlightedDividerImage = [UIImage _segmentedControlHighlightedDividerImage];
     self.selectedSegmentIndex = UISegmentedControlNoSegment;
     
     _font = [[UIFont boldSystemFontOfSize:12.0f] retain];
