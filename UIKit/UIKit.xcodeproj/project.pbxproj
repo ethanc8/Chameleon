@@ -244,6 +244,8 @@
 		38E523B11339680400E041B3 /* UINavigationItem+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E523AF1339680400E041B3 /* UINavigationItem+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		38E523B513396B5B00E041B3 /* UINavigationBar+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 38615C69133A54DF00841EEA /* UIPopoverControllerAppKitIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */; settings = {ATTRIBUTES = (); }; };
+		497770C41545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */; };
 		49AA6A711538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */; };
 		49AA6A721538A28400FA4D10 /* <UIPopoverView> lion-arrow-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 49AA6A691538A28400FA4D10 /* <UIPopoverView> lion-arrow-left.png */; };
 		49AA6A731538A28400FA4D10 /* <UIPopoverView> lion-arrow-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 49AA6A6A1538A28400FA4D10 /* <UIPopoverView> lion-arrow-right.png */; };
@@ -618,6 +620,8 @@
 		38615C77133A81B900841EEA /* UIFont+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+UIPrivate.h"; sourceTree = "<group>"; };
 		38E523AF1339680400E041B3 /* UINavigationItem+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+UIPrivate.h"; sourceTree = "<group>"; };
 		38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+UIPrivate.h"; sourceTree = "<group>"; };
+		497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRuntimeAccessibilityConfiguration.h; sourceTree = "<group>"; };
+		497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIRuntimeAccessibilityConfiguration.m; sourceTree = "<group>"; };
 		49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-bottom.png"; path = "Resources/<UIPopoverView> lion-arrow-bottom.png"; sourceTree = "<group>"; };
 		49AA6A691538A28400FA4D10 /* <UIPopoverView> lion-arrow-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-left.png"; path = "Resources/<UIPopoverView> lion-arrow-left.png"; sourceTree = "<group>"; };
 		49AA6A6A1538A28400FA4D10 /* <UIPopoverView> lion-arrow-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-right.png"; path = "Resources/<UIPopoverView> lion-arrow-right.png"; sourceTree = "<group>"; };
@@ -1188,6 +1192,8 @@
 				F99E83F813D05A1E00107358 /* UIRuntimeEventConnection.m */,
 				F99E83FB13D05A3C00107358 /* UIRuntimeOutletConnection.h */,
 				F99E83FC13D05A3D00107358 /* UIRuntimeOutletConnection.m */,
+				497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */,
+				497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */,
 			);
 			name = "Nib Support";
 			sourceTree = "<group>";
@@ -1397,6 +1403,7 @@
 				F900793013E7405600DFAF19 /* UISegment.h in Headers */,
 				EFC0455F1370B35B006FB9DC /* UITabBarController+UIPrivate.h in Headers */,
 				4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */,
+				497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,6 +1666,7 @@
 				F900793113E7405600DFAF19 /* UISegment.m in Sources */,
 				EF5C2F4E1364118000FA1BC7 /* UITabBarButton.m in Sources */,
 				EF2DD1001364DE5400B866AF /* UITabBarButtonBadge.m in Sources */,
+				497770C41545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
