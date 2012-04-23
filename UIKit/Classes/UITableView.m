@@ -754,7 +754,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
     if (exclusively) {
         [self deselectAllRowsAnimated:animated];
     }
-    if (![_selectedRows containsObject:indexPath]) {
+    if (indexPath && ![_selectedRows containsObject:indexPath]) {
         [_selectedRows addObject:indexPath];
         [self cellForRowAtIndexPath:indexPath].selected = YES;
     }
