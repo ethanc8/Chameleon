@@ -41,8 +41,45 @@
 @synthesize minuteInterval = _minuteInterval;
 @synthesize countDownDuration = _countDownDuration;
 
+static NSString* const kUIDatePickerMode = @"UIDatePickerMode";
+static NSString* const KUICalendar = @"UICalendar";
+static NSString* const kUILocale = @"UILocale";
+static NSString* const kUITimeZone = @"UITimeZone";
+static NSString* const kUIMinimumDate = @"UIMinimumDate";
+static NSString* const kUIMaximumDate = @"UIMaximumDate";
+static NSString* const kUIMinuteInterval = @"UIMinuteInterval";
+static NSString* const kUICountDownDuration = @"UICountDownDuration";
+
 - (void)setDate:(NSDate *)date animated:(BOOL)animated {
     self.date = date;
+}
+
+- (id) initWithCoder:(NSCoder*)coder
+{
+    if (nil != (self = [super initWithCoder:coder])) {
+        if ([coder containsValueForKey:kUIDatePickerMode]) {
+            self.datePickerMode = [coder decodeIntegerForKey:kUIDatePickerMode];
+        } 
+        if ([coder containsValueForKey:KUICalendar]) {
+            self.calendar = [coder decodeObjectForKey:KUICalendar];
+        } 
+        if ([coder containsValueForKey:kUILocale]) {
+            self.locale = [coder decodeObjectForKey:kUILocale];
+        } 
+        if ([coder containsValueForKey:kUITimeZone]) {
+            self.timeZone = [coder decodeObjectForKey:kUITimeZone];
+        } 
+        if ([coder containsValueForKey:kUIMinimumDate]) {
+            self.minimumDate = [coder decodeObjectForKey:kUIMinimumDate];
+        } 
+        if ([coder containsValueForKey:kUIMaximumDate]) {
+            self.maximumDate = [coder decodeObjectForKey:kUIMaximumDate];
+        } 
+        if ([coder containsValueForKey:kUICountDownDuration]) {
+            self.countDownDuration = [coder decodeFloatForKey:kUICountDownDuration];
+        } 
+    }
+    return self;
 }
 
 - (void) dealloc
