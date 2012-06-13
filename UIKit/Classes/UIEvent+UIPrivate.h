@@ -33,4 +33,6 @@
 - (id)initWithEventType:(UIEventType)type;
 - (void)_setTouch:(UITouch *)touch;
 - (void)_setTimestamp:(NSTimeInterval)timestamp;
+- (void)_setUnhandledKeyPressEvent;
+- (BOOL)_isUnhandledKeyPressEvent;
 @end
