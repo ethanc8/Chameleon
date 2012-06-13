@@ -34,19 +34,52 @@
  */
 
 #import "UIView.h"
+#import "UITextField.h"
+#import "UIButton.h"
 
 @protocol UISearchBarDelegate;
+@class UISearchLayer;
 @class UISearchField;
 @class UIKey;
 
-@interface UISearchBar : UIView {
+@protocol UISearchLayerContainerViewProtocol <NSObject>
+@required
+- (UIWindow *)window;
+- (CALayer *)layer;
+- (BOOL)isHidden;
+- (BOOL)isDescendantOfView:(UIView *)view;
+- (BOOL)becomeFirstResponder;
+- (BOOL)resignFirstResponder;
+@end
+
+@protocol UISearchLayerTextDelegate <NSObject>
+@required
+- (BOOL)_textShouldBeginEditing;
+- (void)_textDidBeginEditing;
+- (BOOL)_textShouldEndEditing;
+- (void)_textDidEndEditing;
+- (BOOL)_textShouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
+
+@optional
+- (void)_textDidChange;
+- (void)_textDidChangeSelection;
+- (void)_textDidReceiveReturnKey;
+- (void)_searchScopeDidChange;
+- (void)_searchCancelButtonClicked;
+@end
+
+@interface UISearchBar : UIView  <UISearchLayerContainerViewProtocol, UISearchLayerTextDelegate>{
     UISearchField *_searchField;
     BOOL _showsCancelButton;
     id<UISearchBarDelegate> _delegate;
     NSString *_placeholder;
 	
-    //bitrzr
     UIColor *_tintColor;
+    BOOL _showsScopeBar;
+    NSInteger _selectedScopeButtonIndex;
+    NSArray *_scopeButtonTitles;
+    
+    NSString *identifier;
     
 	struct {
         BOOL shouldBeginEditing : 1;
@@ -60,6 +93,7 @@
 		BOOL resultsButtonClicked : 1;
 		BOOL selectedScopeButtonChanged : 1;
 		BOOL doCommandBySelector : 1;
+		BOOL didChange : 1;
     } _delegateHas;
 }
 
@@ -68,7 +102,12 @@
 @property (nonatomic) BOOL showsCancelButton;
 @property (nonatomic,copy) NSString *placeholder;
 @property (nonatomic,retain) UIColor *tintColor;             // default is nil
-
+@property (nonatomic, retain) UISearchLayer *searchLayer;
+@property (nonatomic, retain) UIButton *cancelButton;
+@property (nonatomic, assign) BOOL showsScopeBar;
+@property (nonatomic, assign) NSInteger selectedScopeButtonIndex;
+@property (nonatomic, retain) NSArray *scopeButtonTitles;
+@property (nonatomic, retain) NSString *identifier;
 @end
 
 

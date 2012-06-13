@@ -53,8 +53,12 @@
 @synthesize delegate = _delegate;
 @synthesize showsCancelButton = _showsCancelButton;
 @synthesize placeholder = _placeholder;
-
-//bitrzr
+@synthesize selectedScopeButtonIndex = _selectedScopeButtonIndex;
+@synthesize identifier;
+@synthesize scopeButtonTitles = _scopeButtonTitles;
+@synthesize searchLayer = _searchLayer;
+@synthesize cancelButton = _cancelButton;
+@synthesize showsScopeBar;
 @synthesize tintColor = _tintColor;
 
 - (id)initWithFrame:(CGRect)frame
@@ -77,8 +81,12 @@
     _delegate = nil;
     [_placeholder release];
     [_searchField release];
-    //bitrzr
     [_tintColor release];
+    [identifier release];
+    [_scopeButtonTitles release];
+    [_searchLayer release];
+    [_cancelButton release];
+    
     [super dealloc];
 }
 
