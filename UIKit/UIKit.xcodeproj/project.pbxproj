@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03E591AA13E863E100C6D194 /* UITableViewAppKitIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E591A913E863E100C6D194 /* UITableViewAppKitIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.h in Headers */ = {isa = PBXBuildFile; fileRef = 1413D20E13D72A06004D77E9 /* UIScrollViewAnimationDeceleration.h */; };
-		1413D21213D72A06004D77E9 /* UIScrollViewAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1413D20C13D72A06004D77E9 /* UIScrollViewAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1413D21313D72A06004D77E9 /* UIScrollViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413D20D13D72A06004D77E9 /* UIScrollViewAnimation.m */; };
+		1413D21213D72A06004D77E9 /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Private, ); }; };
 		1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.h in Headers */ = {isa = PBXBuildFile; fileRef = 1413D20E13D72A06004D77E9 /* UIScrollViewAnimationDeceleration.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1413D21513D72A06004D77E9 /* UIScrollViewAnimationDeceleration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413D20F13D72A06004D77E9 /* UIScrollViewAnimationDeceleration.m */; };
 		1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.h in Headers */ = {isa = PBXBuildFile; fileRef = 1413D21013D72A06004D77E9 /* UIScrollViewAnimationScroll.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -218,8 +216,7 @@
 		14CC844511EFA91A005988CC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14CC844411EFA91A005988CC /* SystemConfiguration.framework */; };
 		14D796381540A5DA00C02139 /* UIAppearanceProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D796361540A5DA00C02139 /* UIAppearanceProperty.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		14D796391540A5DA00C02139 /* UIAppearanceProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D796371540A5DA00C02139 /* UIAppearanceProperty.m */; };
-		14D8D941135DE90A00FE639A /* UIInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 14D8D93F135DE90A00FE639A /* UIInputController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		14D8D942135DE90A00FE639A /* UIInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D8D940135DE90A00FE639A /* UIInputController.m */; };
+		14D8D941135DE90A00FE639A /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Private, ); }; };
 		14DD1C281289B3C900DCF231 /* UIImage+UIPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14DD1C271289B3C900DCF231 /* UIImage+UIPrivate.m */; };
 		14DD1C361289B4D500DCF231 /* <UIToolbar> button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 14DD1C341289B4D500DCF231 /* <UIToolbar> button-highlighted.png */; };
 		14DD1C371289B4D500DCF231 /* <UIToolbar> button.png in Resources */ = {isa = PBXBuildFile; fileRef = 14DD1C351289B4D500DCF231 /* <UIToolbar> button.png */; };
@@ -255,6 +252,9 @@
 		38615C78133A81B900841EEA /* UIFont+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38615C77133A81B900841EEA /* UIFont+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		38E523B11339680400E041B3 /* UINavigationItem+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E523AF1339680400E041B3 /* UINavigationItem+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		38E523B513396B5B00E041B3 /* UINavigationBar+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4900FF3E15630A74004E99B8 /* UINSCellControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4900FF3D15630A74004E99B8 /* UINSCellControl.m */; };
+		4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4900FF5E15630CD3004E99B8 /* UIInputController.h */; };
+		4900FF6115630CD3004E99B8 /* UIInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4900FF5F15630CD3004E99B8 /* UIInputController.m */; };
 		4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 38615C69133A54DF00841EEA /* UIPopoverControllerAppKitIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */; settings = {ATTRIBUTES = (); }; };
 		497770C41545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */; };
@@ -639,6 +639,9 @@
 		38615C77133A81B900841EEA /* UIFont+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+UIPrivate.h"; sourceTree = "<group>"; };
 		38E523AF1339680400E041B3 /* UINavigationItem+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+UIPrivate.h"; sourceTree = "<group>"; };
 		38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+UIPrivate.h"; sourceTree = "<group>"; };
+		4900FF3D15630A74004E99B8 /* UINSCellControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINSCellControl.m; sourceTree = "<group>"; };
+		4900FF5E15630CD3004E99B8 /* UIInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIInputController.h; sourceTree = "<group>"; };
+		4900FF5F15630CD3004E99B8 /* UIInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIInputController.m; sourceTree = "<group>"; };
 		497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRuntimeAccessibilityConfiguration.h; sourceTree = "<group>"; };
 		497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIRuntimeAccessibilityConfiguration.m; sourceTree = "<group>"; };
 		49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-bottom.png"; path = "Resources/<UIPopoverView> lion-arrow-bottom.png"; sourceTree = "<group>"; };
@@ -907,6 +910,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4900FF3D15630A74004E99B8 /* UINSCellControl.m */,
 				14C6C120133AFC91002F111E /* CALayer+UIKitCompatibility.h */,
 				14C6C121133AFC92002F111E /* CALayer+UIKitCompatibility.m */,
 				789CF896133A3CD500250AB4 /* NSFetchedResultsController.h */,
@@ -1060,6 +1064,8 @@
 				1489856712EE2CFE003D4751 /* UIWebView.m */,
 				1489856812EE2CFE003D4751 /* UIWindow.h */,
 				1489856912EE2CFE003D4751 /* UIWindow.m */,
+				4900FF5E15630CD3004E99B8 /* UIInputController.h */,
+				4900FF5F15630CD3004E99B8 /* UIInputController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1420,7 +1426,7 @@
 				F922DB6113D3310000469869 /* UITextSelectionView.h in Headers */,
 				F922DB6A13D3506300469869 /* UITableViewCellContentView.h in Headers */,
 				14C0715E13CF5A2400B76E35 /* UIAction.h in Headers */,
-				1413D21213D72A06004D77E9 /* UIScrollViewAnimation.h in Headers */,
+				1413D21213D72A06004D77E9 /* (null) in Headers */,
 				1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.h in Headers */,
 				1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.h in Headers */,
 				F91D413013DA4228006ED0DA /* UIScrollViewAnimation.h in Headers */,
@@ -1432,10 +1438,11 @@
 				EFC0455F1370B35B006FB9DC /* UITabBarController+UIPrivate.h in Headers */,
 				4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */,
 				497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */,
-				14D8D941135DE90A00FE639A /* UIInputController.h in Headers */,
+				14D8D941135DE90A00FE639A /* (null) in Headers */,
 				14FDE9A5153CAECA00A2D499 /* UIAppearanceProxy.h in Headers */,
 				14D796381540A5DA00C02139 /* UIAppearanceProperty.h in Headers */,
 				145576231541DC560029EF4D /* UIAppearanceInstance.h in Headers */,
+				4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1702,6 +1709,8 @@
 				14FDE9A6153CAECA00A2D499 /* UIAppearanceProxy.m in Sources */,
 				14D796391540A5DA00C02139 /* UIAppearanceProperty.m in Sources */,
 				145576261541DC830029EF4D /* UIAppearanceInstance.m in Sources */,
+				4900FF3E15630A74004E99B8 /* UINSCellControl.m in Sources */,
+				4900FF6115630CD3004E99B8 /* UIInputController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1716,8 +1725,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_MODEL_TUNING = G5;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = UIKit_Prefix.pch;
