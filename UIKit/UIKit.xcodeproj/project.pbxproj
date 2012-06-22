@@ -251,6 +251,7 @@
 		38E523B513396B5B00E041B3 /* UINavigationBar+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4900FF5E15630CD3004E99B8 /* UIInputController.h */; };
 		4900FF6115630CD3004E99B8 /* UIInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4900FF5F15630CD3004E99B8 /* UIInputController.m */; };
+		493095561595193B00B56483 /* UIColor+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 493095541595193B00B56483 /* UIColor+UIPrivate.h */; };
 		4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 38615C69133A54DF00841EEA /* UIPopoverControllerAppKitIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */; settings = {ATTRIBUTES = (); }; };
 		497770C41545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */; };
@@ -634,6 +635,7 @@
 		38E523B413396B5B00E041B3 /* UINavigationBar+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+UIPrivate.h"; sourceTree = "<group>"; };
 		4900FF5E15630CD3004E99B8 /* UIInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIInputController.h; sourceTree = "<group>"; };
 		4900FF5F15630CD3004E99B8 /* UIInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIInputController.m; sourceTree = "<group>"; };
+		493095541595193B00B56483 /* UIColor+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+UIPrivate.h"; sourceTree = "<group>"; };
 		497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRuntimeAccessibilityConfiguration.h; sourceTree = "<group>"; };
 		497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIRuntimeAccessibilityConfiguration.m; sourceTree = "<group>"; };
 		49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-bottom.png"; path = "Resources/<UIPopoverView> lion-arrow-bottom.png"; sourceTree = "<group>"; };
@@ -1147,6 +1149,7 @@
 				14BF16DA12E621EB007DAA01 /* UIViewBlockAnimationDelegate.m */,
 				14FA8C5B121DA4A000C4264B /* UIViewLayoutManager.h */,
 				14FA8C5C121DA4A000C4264B /* UIViewLayoutManager.m */,
+				493095541595193B00B56483 /* UIColor+UIPrivate.h */,
 			);
 			name = "Private Classes";
 			path = Classes;
@@ -1429,6 +1432,7 @@
 				14D796381540A5DA00C02139 /* UIAppearanceProperty.h in Headers */,
 				145576231541DC560029EF4D /* UIAppearanceInstance.h in Headers */,
 				4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */,
+				493095561595193B00B56483 /* UIColor+UIPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

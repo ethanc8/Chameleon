@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, The Iconfactory. All rights reserved.
+ * Copyright (c) 2012, The Iconfactory. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,18 +27,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "UIView.h"
+#import "UIColor.h"
 
-extern NSString *const UIViewFrameDidChangeNotification;
-extern NSString *const UIViewBoundsDidChangeNotification;
-extern NSString *const UIViewDidMoveToSuperviewNotification;
-extern NSString *const UIViewHiddenDidChangeNotification;
+@class UIColorRep;
 
-@interface UIView (UIPrivate)
-- (void)_removeFromSuperview:(BOOL)notifyViewController;
-- (void)_setViewController:(UIViewController *)theViewController;
-- (UIViewController *)_viewController;
-- (void)_superviewSizeDidChangeFrom:(CGSize)oldSize to:(CGSize)newSize;
-- (void)_layoutSubviews;
-- (void)_didMoveToScreen;
+@interface UIColor (UIPrivate)
+- (id)_initWithRepresentations:(NSArray *)reps;
+- (UIColorRep *)_bestRepresentationForProposedScale:(CGFloat)scale;
+- (BOOL)_isOpaque;
 @end

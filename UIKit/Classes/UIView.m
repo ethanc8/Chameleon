@@ -71,7 +71,8 @@
 #import "UIApplication+UIPrivate.h"
 #import "UIGestureRecognizer+UIPrivate.h"
 #import "UIScreen.h"
-#import "UIGeometry.h"
+#import "UIColor+UIPrivate.h"
+#import "UIColorRep.h"
 #import <QuartzCore/CALayer.h>
 #include <tgmath.h>
 
@@ -150,6 +151,9 @@ static IMP defaultImplementationOfDisplayLayer;
     _layer = [[[isa layerClass] alloc] init];
     _layer.delegate = self;
     _layer.layoutManager = [UIViewLayoutManager layoutManager];
+    
+    self.contentMode = UIViewContentModeScaleToFill;
+    self.contentScaleFactor = 0;
 
     self.alpha = 1;
     self.opaque = YES;
@@ -290,7 +294,6 @@ static IMP defaultImplementationOfDisplayLayer;
     return subviews;
 }
 
-
 - (void)_willMoveFromWindow:(UIWindow *)fromWindow toWindow:(UIWindow *)toWindow
 {
     if (fromWindow != toWindow) {
@@ -309,6 +312,19 @@ static IMP defaultImplementationOfDisplayLayer;
         for (UIView *subview in self.subviews) {
             [subview _willMoveFromWindow:fromWindow toWindow:toWindow];
         }
+    }
+}
+
+- (void)_didMoveToScreen
+{
+    if (_implementsDrawRect && self.contentScaleFactor != self.window.screen.scale) {
+        self.contentScaleFactor = self.window.screen.scale;
+    } else {
+        [self setNeedsDisplay];
+    }
+    
+    for (UIView *subview in self.subviews) {
+        [subview _didMoveToScreen];
     }
 }
 
@@ -354,9 +370,14 @@ static IMP defaultImplementationOfDisplayLayer;
             [subview release];
         }
         
+        if (oldWindow.screen != newWindow.screen) {
+            [subview _didMoveToScreen];
+        }
+        
         if (newWindow) {
             [subview _didMoveFromWindow:oldWindow toWindow:newWindow];
         }
+
         [subview didMoveToSuperview];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:UIViewDidMoveToSuperviewNotification object:subview];
@@ -574,7 +595,9 @@ static IMP defaultImplementationOfDisplayLayer;
     // whole bitmap the size of view just to hold the backgroundColor, this allows a lot of views to simply act as containers and not waste
     // a bunch of unnecessary memory in those cases - but you can still use background colors because CALayer manages that effeciently.
     
-    // Clever, huh?
+    // note that the last time I checked this, the layer's background color was being set immediately on call to -setBackgroundColor:
+    // when there was no -drawRect: implementation, but I needed to change this to work around issues with pattern image colors in HiDPI.
+    _layer.backgroundColor = [self.backgroundColor _bestRepresentationForProposedScale:self.window.screen.scale].CGColor;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -869,15 +892,7 @@ static IMP defaultImplementationOfDisplayLayer;
         [_backgroundColor release];
         _backgroundColor = [newColor retain];
 
-        CGColorRef color = [_backgroundColor CGColor];
-
-        if (color) {
-            self.opaque = (CGColorGetAlpha(color) == 1);
-        }
-        
-        if (!ourDrawRect_) {
-            _layer.backgroundColor = color;
-        }
+        self.opaque = [_backgroundColor _isOpaque]; 
     }
 }
 
@@ -896,13 +911,32 @@ static IMP defaultImplementationOfDisplayLayer;
 - (void)setContentStretch:(CGRect)rect
 {
     if (!CGRectEqualToRect(rect,_layer.contentsCenter)) {
-        _layer.contentsRect = rect;
+        _layer.contentsCenter = rect;
     }
 }
 
 - (CGRect)contentStretch
 {
     return _layer.contentsCenter;
+}
+
+- (void)setContentScaleFactor:(CGFloat)scale
+{
+    if (scale <= 0 && _implementsDrawRect) {
+        scale = [UIScreen mainScreen].scale;
+    }
+    
+    if (scale > 0 && scale != self.contentScaleFactor) {
+        if ([_layer respondsToSelector:@selector(setContentsScale:)]) {
+            [_layer setContentsScale:scale];
+            [self setNeedsDisplay];
+        }
+    }
+}
+
+- (CGFloat)contentScaleFactor
+{
+    return [_layer respondsToSelector:@selector(contentsScale)]? [_layer contentsScale] : 1;
 }
 
 - (void)setHidden:(BOOL)h
