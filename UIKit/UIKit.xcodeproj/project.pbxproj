@@ -252,6 +252,9 @@
 		4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4900FF5E15630CD3004E99B8 /* UIInputController.h */; };
 		4900FF6115630CD3004E99B8 /* UIInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4900FF5F15630CD3004E99B8 /* UIInputController.m */; };
 		493095561595193B00B56483 /* UIColor+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 493095541595193B00B56483 /* UIColor+UIPrivate.h */; };
+		4930955F159520E700B56483 /* UIImageAppKitIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4930955C159520E700B56483 /* UIImageAppKitIntegration.m */; };
+		49309560159520E700B56483 /* UIImageRep.h in Headers */ = {isa = PBXBuildFile; fileRef = 4930955D159520E700B56483 /* UIImageRep.h */; };
+		49309561159520E700B56483 /* UIImageRep.m in Sources */ = {isa = PBXBuildFile; fileRef = 4930955E159520E700B56483 /* UIImageRep.m */; };
 		4962A16B1537792500D54221 /* UIPopoverControllerAppKitIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 38615C69133A54DF00841EEA /* UIPopoverControllerAppKitIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		497770C31545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */; settings = {ATTRIBUTES = (); }; };
 		497770C41545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */; };
@@ -636,6 +639,9 @@
 		4900FF5E15630CD3004E99B8 /* UIInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIInputController.h; sourceTree = "<group>"; };
 		4900FF5F15630CD3004E99B8 /* UIInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIInputController.m; sourceTree = "<group>"; };
 		493095541595193B00B56483 /* UIColor+UIPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+UIPrivate.h"; sourceTree = "<group>"; };
+		4930955C159520E700B56483 /* UIImageAppKitIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAppKitIntegration.m; sourceTree = "<group>"; };
+		4930955D159520E700B56483 /* UIImageRep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageRep.h; sourceTree = "<group>"; };
+		4930955E159520E700B56483 /* UIImageRep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageRep.m; sourceTree = "<group>"; };
 		497770C11545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRuntimeAccessibilityConfiguration.h; sourceTree = "<group>"; };
 		497770C21545AFDA00A5B479 /* UIRuntimeAccessibilityConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIRuntimeAccessibilityConfiguration.m; sourceTree = "<group>"; };
 		49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIPopoverView> lion-arrow-bottom.png"; path = "Resources/<UIPopoverView> lion-arrow-bottom.png"; sourceTree = "<group>"; };
@@ -1065,6 +1071,9 @@
 			isa = PBXGroup;
 			children = (
 				F922DB5E13D3308800469869 /* Nib Support */,
+				4930955C159520E700B56483 /* UIImageAppKitIntegration.m */,
+				4930955D159520E700B56483 /* UIImageRep.h */,
+				4930955E159520E700B56483 /* UIImageRep.m */,
 				14C0715C13CF5A2300B76E35 /* UIAction.h */,
 				14C0715D13CF5A2300B76E35 /* UIAction.m */,
 				145576221541DC560029EF4D /* UIAppearanceInstance.h */,
@@ -1433,6 +1442,7 @@
 				145576231541DC560029EF4D /* UIAppearanceInstance.h in Headers */,
 				4900FF6015630CD3004E99B8 /* UIInputController.h in Headers */,
 				493095561595193B00B56483 /* UIColor+UIPrivate.h in Headers */,
+				49309560159520E700B56483 /* UIImageRep.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1699,6 +1709,8 @@
 				14D796391540A5DA00C02139 /* UIAppearanceProperty.m in Sources */,
 				145576261541DC830029EF4D /* UIAppearanceInstance.m in Sources */,
 				4900FF6115630CD3004E99B8 /* UIInputController.m in Sources */,
+				4930955F159520E700B56483 /* UIImageAppKitIntegration.m in Sources */,
+				49309561159520E700B56483 /* UIImageRep.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
