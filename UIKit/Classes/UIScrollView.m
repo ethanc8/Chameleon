@@ -114,7 +114,6 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
     _contentSize = CGSizeZero;
     _contentInset = UIEdgeInsetsZero;
     _scrollIndicatorInsets = UIEdgeInsetsZero;
-    _scrollEnabled = YES;
     _showsVerticalScrollIndicator = YES;
     _showsHorizontalScrollIndicator = YES;
     _maximumZoomScale = 1;
@@ -251,8 +250,15 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
 
 - (void)setScrollEnabled:(BOOL)enabled
 {
-    _scrollEnabled = enabled;
+    self.panGestureRecognizer.enabled = enabled;
+    self.scrollWheelGestureRecognizer.enabled = enabled;
+
     [self setNeedsLayout];
+}
+
+- (BOOL)isScrollEnabled
+{
+    return self.panGestureRecognizer.enabled || self.scrollWheelGestureRecognizer.enabled;
 }
 
 - (BOOL)_canScrollHorizontal
