@@ -192,6 +192,20 @@
     }
 }
 
+- (id) initWithCoder:(NSCoder*)coder
+{
+    if (nil != (self = [super init])) {
+        /* XXX: Implement Me */
+    }
+    return self;
+}
+
+- (void) encodeWithCoder:(NSCoder*)coder
+{
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+@end
 
 void UIImageWriteToSavedPhotosAlbum(UIImage *image, id completionTarget, SEL completionSelector, void *contextInfo)
 {
@@ -233,17 +247,3 @@ NSData *UIImagePNGRepresentation(UIImage *image)
     return [(__bridge NSData *)data autorelease];
 }
 
-- (id) initWithCoder:(NSCoder*)coder
-{
-    if (nil != (self = [super init])) {
-    /* XXX: Implement Me */
-    }
-    return self;
-}
-
-- (void) encodeWithCoder:(NSCoder*)coder
-{
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-@end

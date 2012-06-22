@@ -84,4 +84,3 @@ BOOL UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(NSString *videoPath);
 // both of these use .CGImage to generate the image data - note what this means for multi-scale images!
 NSData *UIImageJPEGRepresentation(UIImage *image, CGFloat compressionQuality);
 NSData *UIImagePNGRepresentation(UIImage *image);
-
