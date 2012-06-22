@@ -46,23 +46,24 @@
     return (id)[NSNull null];
 }
 
-- (void)configureLayers
+- (void)setScreenLayer
 {
     [self setWantsLayer:YES];
-    assert(_screen != nil);
-    assert([self layer] != nil);
+    CALayer *screenLayer = [_screen _layer];
+    CALayer *myLayer = [self layer];
     
-    self.layer.delegate = self;
-    [[self layer] insertSublayer:[_screen _layer] atIndex:0];
-    [_screen _layer].frame = [self layer].bounds;
-    [_screen _layer].autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    [myLayer addSublayer:screenLayer];
+    screenLayer.frame = myLayer.bounds;
+    screenLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    myLayer.geometryFlipped = YES;
 }
 
 - (id)initWithFrame:(NSRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
         _screen = [[UIScreen alloc] init];
-        [self configureLayers];
+        [self setScreenLayer];
+
     }
     return self;
 }
@@ -88,7 +89,7 @@
 
 - (void)awakeFromNib
 {
-    [self configureLayers];
+    [self setScreenLayer];
 }
 
 - (BOOL)isFlipped
@@ -96,18 +97,21 @@
     return YES;
 }
 
+- (void)updateUIKitView
+{
+    [_screen _setUIKitView:(self.superview && self.window)? self : nil];
+}
+
 - (void)viewDidMoveToSuperview
 {	
-    [_screen _setUIKitView:self.superview? self : nil];
+    [super viewDidMoveToSuperview];
+    [self updateUIKitView];
 }
 
 - (void)viewDidMoveToWindow 
 {
-    if(self.window != nil) {
-		[[self layer] insertSublayer:[_screen _layer] atIndex:0];
-		[_screen _layer].frame = [self layer].bounds;
-		[_screen _layer].autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-    }
+    [super viewDidMoveToWindow];
+    [self updateUIKitView];
 }
 
 - (BOOL)acceptsFirstResponder
