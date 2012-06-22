@@ -47,6 +47,7 @@ typedef enum {
 + (UIImage *)imageWithData:(NSData *)data;
 + (UIImage *)imageWithContentsOfFile:(NSString *)path;
 + (UIImage *)imageWithCGImage:(CGImageRef)imageRef;
++ (UIImage *)imageWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
 
 - (id)initWithData:(NSData *)data;
 - (id)initWithContentsOfFile:(NSString *)path;

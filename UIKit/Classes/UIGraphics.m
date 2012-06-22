@@ -32,8 +32,8 @@
 #import "UIScreen.h"
 #import <AppKit/NSGraphicsContext.h>
 
-
 static NSString* const kUIGraphicsContextStackKey = @"kUIGraphicsContextStackKey";
+static NSString* const kUIImageContextStackKey = @"kUIImageContextStackKey";
 static BOOL pdfPageStarted = FALSE;
 
 void UIGraphicsPushContext(CGContextRef ctx)
@@ -41,7 +41,7 @@ void UIGraphicsPushContext(CGContextRef ctx)
     NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
     NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
     if (!stack) {
-        stack = [[NSMutableArray alloc] initWithCapacity:10];
+        stack = [[NSMutableArray alloc] initWithCapacity:1];
         [threadDictionary setObject:stack forKey:kUIGraphicsContextStackKey];
         [stack release];
     }
@@ -54,6 +54,7 @@ void UIGraphicsPopContext()
     NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
     assert(stack.count); // Someone didn't call *push* first.
     [stack removeLastObject];
+
 }
 
 CGContextRef UIGraphicsGetCurrentContext()
@@ -64,20 +65,37 @@ CGContextRef UIGraphicsGetCurrentContext()
     return (CGContextRef)[stack lastObject];
 }
 
+CGFloat _UIGraphicsGetContextScaleFactor(CGContextRef ctx)
+{
+    const CGRect rect = CGContextGetClipBoundingBox(ctx);
+    const CGRect deviceRect = CGContextConvertRectToDeviceSpace(ctx, rect);
+    const CGFloat scale = deviceRect.size.height / rect.size.height;
+    return scale;
+}
+
 void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)
 {
     if (scale == 0.f) {
         scale = [UIScreen mainScreen].scale;
     }
-    
+
     const size_t width = size.width * scale;
     const size_t height = size.height * scale;
     
     if (width > 0 && height > 0) {
+        NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+        NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
+
+        if (!imageContextStack) {
+            imageContextStack = [[NSMutableArray alloc] initWithCapacity:1];
+        }
+        
+        [imageContextStack addObject:[NSNumber numberWithFloat:scale]];
+
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef ctx = CGBitmapContextCreate(NULL, width, height, 8, 4*width, colorSpace, (opaque? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst));
         CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, height));
-        CGContextScaleCTM(ctx, 1.f/scale, 1.f/scale);
+        CGContextScaleCTM(ctx, scale, scale);
         CGColorSpaceRelease(colorSpace);
         UIGraphicsPushContext(ctx);
         CGContextRelease(ctx);
@@ -91,15 +109,29 @@ void UIGraphicsBeginImageContext(CGSize size)
 
 UIImage *UIGraphicsGetImageFromCurrentImageContext()
 {
-    CGImageRef theCGImage = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
-    UIImage *image = [UIImage imageWithCGImage:theCGImage];
-    CGImageRelease(theCGImage);
-    return image;
+    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+    NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
+
+    if ([imageContextStack lastObject]) {
+        const CGFloat scale = [[imageContextStack lastObject] floatValue];
+        CGImageRef theCGImage = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
+        UIImage *image = [UIImage imageWithCGImage:theCGImage scale:scale orientation:UIImageOrientationUp];
+        CGImageRelease(theCGImage);
+        return image;
+    } else {
+        return nil;
+    }
 }
 
 void UIGraphicsEndImageContext()
 {
-    UIGraphicsPopContext();
+    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
+    NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
+
+    if ([imageContextStack lastObject]) {
+        [imageContextStack removeLastObject];
+        UIGraphicsPopContext();
+    }
 }
 
 void UIRectClip(CGRect rect)
