@@ -132,6 +132,11 @@ static IMP defaultImplementationOfDisplayLayer;
     return [CALayer class];
 }
 
++ (BOOL)_instanceImplementsDrawRect
+{
+    return [UIView instanceMethodForSelector:@selector(drawRect:)] != [self instanceMethodForSelector:@selector(drawRect:)];
+}
+
 - (void) _commonInitForUIView
 {
     _flags.overridesDisplayLayer = defaultImplementationOfDisplayLayer != [[self class] instanceMethodForSelector:displayLayerSelector];
@@ -140,6 +145,7 @@ static IMP defaultImplementationOfDisplayLayer;
     if (ourDrawRect != defaultImplementationOfDrawRect) {
         ourDrawRect_ = ourDrawRect;
     }
+    _implementsDrawRect = [isa _instanceImplementsDrawRect];
     
     _flags.clearsContextBeforeDrawing = YES;
     //_flags.autoresizesSubviews = YES;

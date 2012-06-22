@@ -31,6 +31,7 @@
 #import "UIImageAppKitIntegration.h"
 #import "UIColor.h"
 #import "UIGraphics.h"
+#import "UIImageRep.h"
 #import <AppKit/NSImage.h>
 
 NSMutableDictionary *imageCache = nil;
@@ -42,26 +43,6 @@ NSMutableDictionary *imageCache = nil;
     imageCache = [[NSMutableDictionary alloc] init];
 }
 
-+ (NSString *)_macPathForFile:(NSString *)path
-{
-    NSString *home = [path stringByDeletingLastPathComponent];
-    NSString *filename = [path lastPathComponent];
-    NSString *extension = [filename pathExtension];
-    NSString *bareFilename = [filename stringByDeletingPathExtension];
-
-    return [home stringByAppendingPathComponent:[[bareFilename stringByAppendingString:@"@mac"] stringByAppendingPathExtension:extension]];
-}
-
-+ (NSString *)_pathForFile:(NSString *)path
-{
-    NSString *macPath = [self _macPathForFile:path];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:macPath]) {
-        return macPath;
-    } else {
-        return path;
-    }
-}
 
 + (void)_cacheImage:(UIImage *)image forName:(NSString *)name
 {
@@ -75,33 +56,7 @@ NSMutableDictionary *imageCache = nil;
     return [imageCache objectForKey:name];
 }
 
-+ (NSString *)_nameForCachedImage:(UIImage *)image
-{
-    __block NSString * result = nil;
-    [imageCache enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
-        if ( obj == image ) {
-            result = [key copy];
-            *stop = YES;
-        }
-    }];
-    return [result autorelease];
-}
 
-+ (UIImage *)_imageFromNSImage:(NSImage *)ns
-{
-    // if the NSImage isn't named, we can't optimize
-    if ([[ns name] length] == 0)
-        return [[[self alloc] initWithNSImage:ns] autorelease];
-    
-    // if it's named, we can cache a UIImage instance for it
-    UIImage *cached = [self _cachedImageForName:[ns name]];
-    if (cached == nil) {
-        cached = [[[self alloc] initWithNSImage:ns] autorelease];
-        [self _cacheImage:cached forName:[ns name]];
-    }
-    
-    return cached;
-}
 
 + (UIImage *)_frameworkImageWithName:(NSString *)name leftCapWidth:(NSUInteger)leftCapWidth topCapHeight:(NSUInteger)topCapHeight
 {
@@ -349,8 +304,61 @@ NSMutableDictionary *imageCache = nil;
 
 + (UIImage *)_tabBarBackgroundImage
 {
-    return [self _frameworkImageWithName:@"<UITabBar> background.png" leftCapWidth:3 topCapHeight:5];
+    return [self _frameworkImageWithName:@"<UITabBar> background.png" leftCapWidth:6 topCapHeight:0];
 }
+
++ (UIImage *)_tabBarItemImage
+{
+    return [self _frameworkImageWithName:@"<UITabBar> item.png" leftCapWidth:8 topCapHeight:0];
+}
+
+- (id)_initWithRepresentations:(NSArray *)reps
+{
+    if ([reps count] == 0) {
+        [self release];
+        self = nil;
+    } else if ((self=[super init])) {
+        _representations = [reps copy];
+    }
+    
+    return self;
+}
+
+- (NSArray *)_representations
+{
+    return _representations;
+}
+
+- (UIImageRep *)_bestRepresentationForProposedScale:(CGFloat)scale
+{
+    UIImageRep *bestRep = nil;
+    
+    for (UIImageRep *rep in [self _representations]) {
+        if (rep.scale > scale) {
+            break;
+        } else {
+            bestRep = rep;
+        }
+    }
+    
+    return bestRep ?: [[self _representations] lastObject];
+}
+
+- (BOOL)_isOpaque
+{
+    for (UIImageRep *rep in [self _representations]) {
+        if (!rep.opaque) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)_drawRepresentation:(UIImageRep *)rep inRect:(CGRect)rect
+{
+    [rep drawInRect:rect fromRect:CGRectNull];
+}
+
 
 + (UIImage *)_tabBarButtonImage
 {

@@ -149,6 +149,7 @@ typedef NSUInteger UIViewAnimationOptions;
     UIView *_nextKeyView; // NR
     UIView *_previousKeyView; // NR
     NSString *_toolTip;
+    BOOL _implementsDrawRect;
     
     IMP ourDrawRect_;
     
