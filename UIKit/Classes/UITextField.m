@@ -35,6 +35,7 @@
 #import "UIImage+UIPrivate.h"
 #import "UIBezierPath.h"
 #import "UIGraphics.h"
+#import <AppKit/NSCursor.h>
 
 NSString *const UITextFieldTextDidBeginEditingNotification = @"UITextFieldTextDidBeginEditingNotification";
 NSString *const UITextFieldTextDidChangeNotification = @"UITextFieldTextDidChangeNotification";
@@ -720,5 +721,9 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     return [NSString stringWithFormat:@"<%@: %p; textAlignment = %@; editing = %@; textColor = %@; font = %@; delegate = %@>", [self className], self, textAlignment, (self.editing ? @"YES" : @"NO"), self.textColor, self.font, self.delegate];
 }
 
+- (id)mouseCursorForEvent:(UIEvent *)event
+{
+    return [NSCursor IBeamCursor];
+}
 
 @end

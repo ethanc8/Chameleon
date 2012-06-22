@@ -32,6 +32,7 @@
 #import "UIFont.h"
 #import "UITextLayer.h"
 #import "UIScrollView.h"
+#import <AppKit/NSCursor.h>
 
 NSString *const UITextViewTextDidBeginEditingNotification = @"UITextViewTextDidBeginEditingNotification";
 NSString *const UITextViewTextDidChangeNotification = @"UITextViewTextDidChangeNotification";
@@ -356,8 +357,14 @@ static NSString* const kUIEditableKey = @"UIEditable";
     return [NSString stringWithFormat:@"<%@: %p; textAlignment = %@; selectedRange = %@; editable = %@; textColor = %@; font = %@; delegate = %@>", [self className], self, textAlignment, NSStringFromRange(self.selectedRange), (self.editable ? @"YES" : @"NO"), self.textColor, self.font, self.delegate];
 }
 
+
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     //TODO:later
+}
+
+- (id)mouseCursorForEvent:(UIEvent *)event
+{
+    return self.editable? [NSCursor IBeamCursor] : nil;
 }
 
 @end
