@@ -110,7 +110,8 @@
 #import "UIAppearance.h"
 
 // non-standard imports
-#import "CALayer+UIKitCompatibility.h"      // only needed on 10.6
+#import "UIKey.h"
+#import "UIScrollWheelGestureRecognizer.h"
 
 // only add if core data is included on 10.6
 #import "NSFetchedResultsController.h"
