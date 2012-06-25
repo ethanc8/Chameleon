@@ -62,11 +62,11 @@
     //topLeftCorner
     [rep drawInRect:CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect), _leftCapWidth, _topCapHeight)
            fromRect:CGRectMake(0, 0, _leftCapWidth, _topCapHeight)];
-    
+
     //topEdgeFill
     [rep drawInRect:CGRectMake(CGRectGetMinX(rect)+_leftCapWidth, CGRectGetMinY(rect), rect.size.width-rightCapWidth-_leftCapWidth, _topCapHeight)
            fromRect:CGRectMake(_leftCapWidth, 0, stretchyWidth, _topCapHeight)];
-    
+
     //topRightCorner
     [rep drawInRect:CGRectMake(CGRectGetMaxX(rect)-rightCapWidth, CGRectGetMinY(rect), rightCapWidth, _topCapHeight)
            fromRect:CGRectMake(size.width-rightCapWidth, 0, rightCapWidth, _topCapHeight)];

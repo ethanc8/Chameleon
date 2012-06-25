@@ -30,39 +30,37 @@
 #import "UIGraphics.h"
 #import "UIImage.h"
 #import "UIScreen.h"
-#import <AppKit/NSGraphicsContext.h>
+#import <AppKit/AppKit.h>
 
-static NSString* const kUIGraphicsContextStackKey = @"kUIGraphicsContextStackKey";
-static NSString* const kUIImageContextStackKey = @"kUIImageContextStackKey";
+static NSMutableArray *contextStack = nil;
+static NSMutableArray *imageContextStack = nil;
 static BOOL pdfPageStarted = FALSE;
 
 void UIGraphicsPushContext(CGContextRef ctx)
 {
-    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
-    if (!stack) {
-        stack = [[NSMutableArray alloc] initWithCapacity:1];
-        [threadDictionary setObject:stack forKey:kUIGraphicsContextStackKey];
-        [stack release];
+    if (!contextStack) {
+        contextStack = [[NSMutableArray alloc] initWithCapacity:1];
     }
-    [stack addObject:(id)ctx];
+    
+    if ([NSGraphicsContext currentContext]) {
+        [contextStack addObject:[NSGraphicsContext currentContext]];
+    }
+    
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:(void *)ctx flipped:YES]];
 }
 
 void UIGraphicsPopContext()
 {
-    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
-    assert(stack.count); // Someone didn't call *push* first.
-    [stack removeLastObject];
+    if ([contextStack lastObject]) {
+        [NSGraphicsContext setCurrentContext:[contextStack lastObject]];
+        [contextStack removeLastObject];
+    }
 
 }
 
 CGContextRef UIGraphicsGetCurrentContext()
 {
-    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-    NSMutableArray* stack = [threadDictionary objectForKey:kUIGraphicsContextStackKey];
-    assert(stack.count); // Someone didn't call *push* first.
-    return (CGContextRef)[stack lastObject];
+    return [[NSGraphicsContext currentContext] graphicsPort];
 }
 
 CGFloat _UIGraphicsGetContextScaleFactor(CGContextRef ctx)
@@ -78,20 +76,17 @@ void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat sc
     if (scale == 0.f) {
         scale = [UIScreen mainScreen].scale;
     }
-
+    
     const size_t width = size.width * scale;
     const size_t height = size.height * scale;
     
     if (width > 0 && height > 0) {
-        NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-        NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
-
         if (!imageContextStack) {
             imageContextStack = [[NSMutableArray alloc] initWithCapacity:1];
         }
         
         [imageContextStack addObject:[NSNumber numberWithFloat:scale]];
-
+        
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef ctx = CGBitmapContextCreate(NULL, width, height, 8, 4*width, colorSpace, (opaque? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst));
         CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, height));
@@ -109,9 +104,6 @@ void UIGraphicsBeginImageContext(CGSize size)
 
 UIImage *UIGraphicsGetImageFromCurrentImageContext()
 {
-    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-    NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
-
     if ([imageContextStack lastObject]) {
         const CGFloat scale = [[imageContextStack lastObject] floatValue];
         CGImageRef theCGImage = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
@@ -125,9 +117,6 @@ UIImage *UIGraphicsGetImageFromCurrentImageContext()
 
 void UIGraphicsEndImageContext()
 {
-    NSMutableDictionary* threadDictionary = [[NSThread currentThread] threadDictionary];
-    NSMutableArray* imageContextStack = [threadDictionary objectForKey:kUIImageContextStackKey];
-
     if ([imageContextStack lastObject]) {
         [imageContextStack removeLastObject];
         UIGraphicsPopContext();
