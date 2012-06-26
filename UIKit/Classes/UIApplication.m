@@ -668,9 +668,7 @@ static BOOL TouchIsActive(UITouch *touch)
     if (TouchIsActiveGesture(touch) && ([theNSEvent type] == NSLeftMouseDown || [theNSEvent type] == NSRightMouseDown)) {
         [touch _updatePhase:_UITouchPhaseGestureEnded screenLocation:screenLocation timestamp:timestamp];
         [self sendEvent:_currentEvent];
-    }
-    
-    if (TouchIsActiveNonGesture(touch)) {
+    } else if (TouchIsActiveNonGesture(touch)) {
         switch ([theNSEvent type]) {
             case NSLeftMouseUp:
                 [touch _updatePhase:UITouchPhaseEnded screenLocation:screenLocation timestamp:timestamp];

@@ -106,17 +106,22 @@
 - (NSView *)hitTest:(NSPoint)aPoint
 {
     NSView *hit = [super hitTest:aPoint];
-
-    if (hit && behaviorDelegate) {
-        // call out to the text layer via a delegate or something and ask if this point should be considered a hit or not.
-        // if not, then we set hit to nil, otherwise we return it like normal.
-        // the purpose of this is to make the NSView act invisible/hidden to clicks when it's visually behind other UIViews.
-        // super tricky, eh?
-        if (![behaviorDelegate hitTestForClipViewPoint:aPoint]) {
-            hit = nil;
+    
+    if (behaviorDelegate) {
+        if(hit) {
+            // call out to the text layer via a delegate or something and ask if this point should be considered a hit or not.
+            // if not, then we set hit to nil, otherwise we return it like normal.
+            // the purpose of this is to make the NSView act invisible/hidden to clicks when it's visually behind other UIViews.
+            // super tricky, eh?
+            if (![behaviorDelegate hitTestForClipViewPoint:aPoint]) {
+                hit = nil;
+            }
+        } else if ([behaviorDelegate hitTestForClipViewPoint:aPoint]) {
+            hit = self.documentView;
+            
         }
     }
-
+    
     return hit;
 }
 
