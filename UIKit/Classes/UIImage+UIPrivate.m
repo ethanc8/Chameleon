@@ -293,7 +293,8 @@ NSMutableDictionary *imageCache = nil;
     CGRect rect = CGRectMake(0,0,size.width,size.height);
     
     UIGraphicsBeginImageContext(size);
-    [[UIColor colorWithRed:101/255.f green:104/255.f blue:121/255.f alpha:1] setFill];
+    //[[UIColor colorWithRed:101/255.f green:104/255.f blue:121/255.f alpha:1] setFill];
+    [[UIColor whiteColor] setFill];
     UIRectFill(rect);
     [self drawInRect:rect blendMode:kCGBlendModeDestinationIn alpha:1];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
