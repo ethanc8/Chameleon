@@ -99,16 +99,49 @@
 				break;
             case UIBarButtonSystemItemFlexibleSpace:
             case UIBarButtonSystemItemOrganize:
+                self.image = [UIImage _buttonBarSystemItemOrganize];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemBookmarks:
+                self.image = [UIImage _buttonBarSystemItemBookmarks];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemSearch:
+                self.image = [UIImage _buttonBarSystemItemSearch];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemRefresh:
+                self.image = [UIImage _buttonBarSystemItemRefresh];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemStop:
+                self.image = [UIImage _buttonBarSystemItemStop];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemCamera:
+                self.image = [UIImage _buttonBarSystemItemCamera];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemTrash:
+                self.image = [UIImage _buttonBarSystemItemTrash];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemPlay:
+                self.image = [UIImage _buttonBarSystemItemPlay];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemPause:
+                self.image = [UIImage _buttonBarSystemItemPause];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemRewind:
+                self.image = [UIImage _buttonBarSystemItemRewind];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemFastForward:
+                self.image = [UIImage _buttonBarSystemItemFastForward];
+				self.style = UIBarButtonItemStylePlain;
+                break;
             case UIBarButtonSystemItemFixedSpace:
                 // TODO: Implement these.
                 break;
