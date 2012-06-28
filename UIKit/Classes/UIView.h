@@ -151,8 +151,6 @@ typedef NSUInteger UIViewAnimationOptions;
     NSString *_toolTip;
     BOOL _implementsDrawRect;
     
-    IMP ourDrawRect_;
-    
     struct {
         BOOL overridesDisplayLayer : 1;
         BOOL clearsContextBeforeDrawing : 1;

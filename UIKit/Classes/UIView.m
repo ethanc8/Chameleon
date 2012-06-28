@@ -142,10 +142,6 @@ static IMP defaultImplementationOfDisplayLayer;
 {
     _flags.overridesDisplayLayer = defaultImplementationOfDisplayLayer != [[self class] instanceMethodForSelector:displayLayerSelector];
 
-    IMP ourDrawRect = [[self class] instanceMethodForSelector:drawRectSelector];
-    if (ourDrawRect != defaultImplementationOfDrawRect) {
-        ourDrawRect_ = ourDrawRect;
-    }
     _implementsDrawRect = [isa _instanceImplementsDrawRect];
     
     _flags.clearsContextBeforeDrawing = YES;
@@ -607,15 +603,17 @@ static IMP defaultImplementationOfDisplayLayer;
     
     // note that the last time I checked this, the layer's background color was being set immediately on call to -setBackgroundColor:
     // when there was no -drawRect: implementation, but I needed to change this to work around issues with pattern image colors in HiDPI.
-    _layer.backgroundColor = [self.backgroundColor _bestRepresentationForProposedScale:self.window.screen.scale].CGColor;
+    
+    //bitrzr: this should be done in setBackgroundColor. Moved there.
+    //_layer.backgroundColor = [self.backgroundColor _bestRepresentationForProposedScale:self.window.screen.scale].CGColor;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
     if (aSelector == @selector(drawLayer:inContext:)) {
-        return nil != ourDrawRect_;
+        return _implementsDrawRect;
     } else if (aSelector == @selector(displayLayer:)) { 
-        return _flags.overridesDisplayLayer || nil == ourDrawRect_;
+        return _flags.overridesDisplayLayer || !_implementsDrawRect;
     } else {
         return [super respondsToSelector:aSelector];
     }
@@ -625,7 +623,7 @@ static IMP defaultImplementationOfDisplayLayer;
 {
     // We only get here if the UIView subclass implements drawRect:. To do this without a drawRect: is a huge waste of memory.
     // See the discussion in drawLayer: above.
-    assert(ourDrawRect_);
+    assert(_implementsDrawRect);
 
     const CGRect bounds = CGContextGetClipBoundingBox(ctx);
 
@@ -678,7 +676,9 @@ static IMP defaultImplementationOfDisplayLayer;
     CGContextSetShouldSubpixelQuantizeFonts(ctx, YES);
     
     [[UIColor blackColor] set];
-    ourDrawRect_(self, drawRectSelector, bounds);
+    
+    //call our drawrect imp.
+    [self drawRect:bounds];
 
     CGContextRestoreGState(ctx);
     UIGraphicsPopContext();
@@ -902,7 +902,15 @@ static IMP defaultImplementationOfDisplayLayer;
         [_backgroundColor release];
         _backgroundColor = [newColor retain];
 
-        self.opaque = [_backgroundColor _isOpaque]; 
+        CGColorRef color = [_backgroundColor _bestRepresentationForProposedScale:self.window.screen.scale].CGColor;
+        
+        if (color) {
+            self.opaque = (CGColorGetAlpha(color) == 1);
+        }
+        
+        if (!_implementsDrawRect) {
+            _layer.backgroundColor = color;
+        }
     }
 }
 
