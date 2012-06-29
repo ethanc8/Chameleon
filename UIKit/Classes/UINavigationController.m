@@ -287,6 +287,8 @@ static const CGFloat ToolbarHeight = 28;
     assert(![viewController isKindOfClass:[UITabBarController class]]);
 	assert(![_viewControllers containsObject:viewController]);
     
+    shouldPop = YES;
+    
     UIViewController *oldViewController = self.topViewController;
 	[_viewControllers addObject:viewController];
     [self addChildViewController:viewController];
@@ -413,5 +415,16 @@ static const CGFloat ToolbarHeight = 28;
 {
     [self setNavigationBarHidden:navigationBarHidden animated:NO];
 }
+
+- (void)navigationBar:(UINavigationBar *)navigationBar didPopItem:(UINavigationItem *)item {
+    shouldPop = NO;
+    [self popViewControllerAnimated:YES];
+    shouldPop = YES;
+}
+
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item; {
+    return shouldPop;
+}
+
 
 @end

@@ -37,7 +37,11 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 @end
 
-@interface UINavigationController : UIViewController
+@interface UINavigationController : UIViewController {
+@private
+    BOOL shouldPop;
+}
+
 - (id)initWithRootViewController:(UIViewController *)rootViewController;
 
 - (void)setViewControllers:(NSArray *)newViewControllers animated:(BOOL)animated;
