@@ -898,6 +898,12 @@ static NSString* const kUIStyleKey = @"UIStyle";
     }
 }
 
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self resignFirstResponder];
+}
+
+
 - (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessages animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition {	
     if (!self.allowsMultipleSelection) {
         exclusively = YES;
