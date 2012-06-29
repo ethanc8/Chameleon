@@ -652,6 +652,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     if (_delegateHas.didBeginEditing) {
         [_delegate textFieldDidBeginEditing:self];
     }
+    
+    [self sendActionsForControlEvents:UIControlEventEditingDidBegin];
     [[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidBeginEditingNotification object:self];
 }
 
@@ -671,6 +673,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     if (_delegateHas.didEndEditing) {
         [_delegate textFieldDidEndEditing:self];
     }
+    
+    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
     [[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidEndEditingNotification object:self];
 }
 
@@ -688,6 +692,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 {
     if (_delegateHas.shouldReturn) {
         [_delegate textFieldShouldReturn:self];
+        [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
     }
 }
 
