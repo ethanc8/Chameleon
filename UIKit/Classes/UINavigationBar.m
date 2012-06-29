@@ -43,6 +43,7 @@ static const UIEdgeInsets kButtonEdgeInsets = {0,0,0,0};
 static const CGFloat kMinButtonWidth = 33;
 static const CGFloat kMaxButtonWidth = 200;
 static const CGFloat kMaxButtonHeight = 44;
+static const CGFloat kMinBorderInset = 10;
 
 static const NSTimeInterval kAnimationDuration = 0.33;
 
@@ -77,6 +78,10 @@ typedef enum {
     backButton.contentEdgeInsets = UIEdgeInsetsMake(0,15,0,7);
     [backButton addTarget:nil action:@selector(_backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self _setBarButtonSize:backButton];
+    CGRect frame = backButton.frame;
+    frame.origin.y = 8;
+    frame.size.height = 30;
+    backButton.frame = frame;
     return backButton;
 }
 
@@ -219,7 +224,7 @@ typedef enum {
         
         if (_leftView) {
             leftFrame = _leftView.frame;
-            leftFrame.origin = CGPointMake(kButtonEdgeInsets.left, kButtonEdgeInsets.top);
+            leftFrame.origin = CGPointMake(MAX(kButtonEdgeInsets.left,kMinBorderInset), MAX(kButtonEdgeInsets.top, leftFrame.origin.y));
             _leftView.frame = leftFrame;
             [self addSubview:_leftView];
         }
@@ -229,8 +234,8 @@ typedef enum {
         if (_rightView) {
             _rightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             rightFrame = _rightView.frame;
-            rightFrame.origin.x = self.bounds.size.width-rightFrame.size.width - kButtonEdgeInsets.right;
-            rightFrame.origin.y = kButtonEdgeInsets.top;
+            rightFrame.origin.x = self.bounds.size.width-rightFrame.size.width - MAX(kButtonEdgeInsets.right,kMinBorderInset);
+            rightFrame.origin.y = MAX(kButtonEdgeInsets.top, rightFrame.origin.y);
             _rightView.frame = rightFrame;
             [self addSubview:_rightView];
         }
