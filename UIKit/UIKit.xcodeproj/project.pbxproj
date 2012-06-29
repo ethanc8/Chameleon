@@ -286,8 +286,8 @@
 		49AA6A781538A28400FA4D10 /* <UISlider> thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 49AA6A6F1538A28400FA4D10 /* <UISlider> thumb.png */; };
 		49AA6A791538A28400FA4D10 /* <UITabBar> item.png in Resources */ = {isa = PBXBuildFile; fileRef = 49AA6A701538A28400FA4D10 /* <UITabBar> item.png */; };
 		49CBCC4F15457CE7003AFDD0 /* <UISwitch> off.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC4E15457CE7003AFDD0 /* <UISwitch> off.png */; };
-		49CBCC5315457D2B003AFDD0 /* <UISegmentedControl> button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button-highlighted.png */; };
-		49CBCC5515457D3F003AFDD0 /* <UISegmentedControl> button.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button.png */; };
+		49CBCC5315457D2B003AFDD0 /* <UISegmentedControl> button.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button.png */; };
+		49CBCC5515457D3F003AFDD0 /* <UISegmentedControl> button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button-highlighted.png */; };
 		49CBCC5715457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5615457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png */; };
 		49CBCC5915457D8E003AFDD0 /* <UISegmentedControl> divider.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5815457D8E003AFDD0 /* <UISegmentedControl> divider.png */; };
 		49CBCC5B15457DA3003AFDD0 /* <UISwitch> on.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5A15457DA3003AFDD0 /* <UISwitch> on.png */; };
@@ -690,8 +690,8 @@
 		49AA6A6F1538A28400FA4D10 /* <UISlider> thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISlider> thumb.png"; path = "Resources/<UISlider> thumb.png"; sourceTree = "<group>"; };
 		49AA6A701538A28400FA4D10 /* <UITabBar> item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UITabBar> item.png"; path = "Resources/<UITabBar> item.png"; sourceTree = "<group>"; };
 		49CBCC4E15457CE7003AFDD0 /* <UISwitch> off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISwitch> off.png"; path = "Resources/<UISwitch> off.png"; sourceTree = "<group>"; };
-		49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> button-highlighted.png"; path = "Resources/<UISegmentedControl> button-highlighted.png"; sourceTree = "<group>"; };
-		49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> button.png"; path = "Resources/<UISegmentedControl> button.png"; sourceTree = "<group>"; };
+		49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> button.png"; path = "Resources/<UISegmentedControl> button.png"; sourceTree = "<group>"; };
+		49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> button-highlighted.png"; path = "Resources/<UISegmentedControl> button-highlighted.png"; sourceTree = "<group>"; };
 		49CBCC5615457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> divider-highlighted.png"; path = "Resources/<UISegmentedControl> divider-highlighted.png"; sourceTree = "<group>"; };
 		49CBCC5815457D8E003AFDD0 /* <UISegmentedControl> divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> divider.png"; path = "Resources/<UISegmentedControl> divider.png"; sourceTree = "<group>"; };
 		49CBCC5A15457DA3003AFDD0 /* <UISwitch> on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISwitch> on.png"; path = "Resources/<UISwitch> on.png"; sourceTree = "<group>"; };
@@ -890,11 +890,11 @@
 				494741DE159875D300BD9BDD /* <UIToolbar> button@2x.png */,
 				49CBCC5A15457DA3003AFDD0 /* <UISwitch> on.png */,
 				49CBCC4E15457CE7003AFDD0 /* <UISwitch> off.png */,
-				49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button.png */,
+				49CBCC5415457D3F003AFDD0 /* <UISegmentedControl> button-highlighted.png */,
 				49CBCC5815457D8E003AFDD0 /* <UISegmentedControl> divider.png */,
 				49AA6A681538A28400FA4D10 /* <UIPopoverView> lion-arrow-bottom.png */,
 				49CBCC5615457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png */,
-				49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button-highlighted.png */,
+				49CBCC5215457D2B003AFDD0 /* <UISegmentedControl> button.png */,
 				49AA6A691538A28400FA4D10 /* <UIPopoverView> lion-arrow-left.png */,
 				49AA6A6A1538A28400FA4D10 /* <UIPopoverView> lion-arrow-right.png */,
 				49AA6A6B1538A28400FA4D10 /* <UIPopoverView> lion-arrow-top.png */,
@@ -1616,8 +1616,8 @@
 				49AA6A781538A28400FA4D10 /* <UISlider> thumb.png in Resources */,
 				49AA6A791538A28400FA4D10 /* <UITabBar> item.png in Resources */,
 				49CBCC4F15457CE7003AFDD0 /* <UISwitch> off.png in Resources */,
-				49CBCC5315457D2B003AFDD0 /* <UISegmentedControl> button-highlighted.png in Resources */,
-				49CBCC5515457D3F003AFDD0 /* <UISegmentedControl> button.png in Resources */,
+				49CBCC5315457D2B003AFDD0 /* <UISegmentedControl> button.png in Resources */,
+				49CBCC5515457D3F003AFDD0 /* <UISegmentedControl> button-highlighted.png in Resources */,
 				49CBCC5715457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png in Resources */,
 				49CBCC5915457D8E003AFDD0 /* <UISegmentedControl> divider.png in Resources */,
 				49CBCC5B15457DA3003AFDD0 /* <UISwitch> on.png in Resources */,
