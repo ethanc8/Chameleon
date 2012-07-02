@@ -208,6 +208,22 @@
     }
 }
 
+- (void)setTitle:(NSString *)title
+{
+    if (_title != title) {
+        [_title release];
+        _title = [title copy]; 
+        
+        if (_navigationItem) {
+            _navigationItem.title = title;
+        }
+        
+        if (_tabBarItem) {
+            _tabBarItem.title = title;
+        }
+    }
+}
+
 - (void)loadView
 {
     if (self.nibName) {
