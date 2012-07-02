@@ -132,7 +132,7 @@
     if (containerCanScroll) {
         // also update the content size in the UIScrollView
         const NSRect docRect = [clipView documentRect];
-        [containerView setContentSize:CGSizeMake(docRect.size.width+docRect.origin.x, docRect.size.height+docRect.origin.y)];
+        [containerView setContentSize:CGSizeMake(docRect.size.width /*+docRect.origin.x*/, docRect.size.height /*+docRect.origin.y*/)];
     }
 }
 
