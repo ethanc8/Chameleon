@@ -55,14 +55,73 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
         
         if (item->_isSystemItem) {
             switch (item->_systemItem) {
+                case UIBarButtonSystemItemDone:
+                    title = @"Done";
+                    break;
+                case UIBarButtonSystemItemSave:
+                    title = @"Save";
+                    break;
+                case UIBarButtonSystemItemCancel:
+                    title = @"Cancel";
+                    break;
+                case UIBarButtonSystemItemEdit:
+                    title = @"Edit";
+                    break;
+                case UIBarButtonSystemItemUndo:
+                    title = @"Undo";
+                    break;
+                case UIBarButtonSystemItemRedo:
+                    title = @"Redo";
+                    break;
                 case UIBarButtonSystemItemAdd:
+                    self.imageEdgeInsets = UIEdgeInsetsMake(2,0,0,0);
                     image = [UIImage _buttonBarSystemItemAdd];
                     break;
-                    
                 case UIBarButtonSystemItemReply:
                     image = [UIImage _buttonBarSystemItemReply];
                     break;
-                    
+                case UIBarButtonSystemItemAction:
+                    image = [UIImage _buttonBarSystemItemAction];
+                    break;
+                case UIBarButtonSystemItemCompose:
+                    image = [UIImage _buttonBarSystemItemCompose];
+                    break;
+                case UIBarButtonSystemItemOrganize:
+                    image = [UIImage _buttonBarSystemItemOrganize];
+                    break;
+                case UIBarButtonSystemItemBookmarks:
+                    image = [UIImage _buttonBarSystemItemBookmarks];
+                    break;
+                case UIBarButtonSystemItemSearch:
+                    image = [UIImage _buttonBarSystemItemSearch];
+                    break;
+                case UIBarButtonSystemItemRefresh:
+                    image = [UIImage _buttonBarSystemItemRefresh];
+                    break;
+                case UIBarButtonSystemItemStop:
+                    image = [UIImage _buttonBarSystemItemStop];
+                    break;
+                case UIBarButtonSystemItemCamera:
+                    image = [UIImage _buttonBarSystemItemCamera];
+                    break;
+                case UIBarButtonSystemItemTrash:
+                    image = [UIImage _buttonBarSystemItemTrash];
+                    break;
+                case UIBarButtonSystemItemPlay:
+                    image = [UIImage _buttonBarSystemItemPlay];
+                    break;
+                case UIBarButtonSystemItemPause:
+                    image = [UIImage _buttonBarSystemItemPause];
+                    break;
+                case UIBarButtonSystemItemRewind:
+                    image = [UIImage _buttonBarSystemItemRewind];
+                    break;
+                case UIBarButtonSystemItemFastForward:
+                    image = [UIImage _buttonBarSystemItemFastForward];
+                    break;
+                case UIBarButtonSystemItemFixedSpace:
+                    // TODO: Implement these.
+                    break;
                 default:
                     break;
             }

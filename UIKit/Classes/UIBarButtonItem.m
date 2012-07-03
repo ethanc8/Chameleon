@@ -97,7 +97,6 @@
 				self.image = [UIImage _buttonBarSystemItemReply];
 				self.style = UIBarButtonItemStylePlain;
 				break;
-            case UIBarButtonSystemItemFlexibleSpace:
             case UIBarButtonSystemItemOrganize:
                 self.image = [UIImage _buttonBarSystemItemOrganize];
 				self.style = UIBarButtonItemStylePlain;
@@ -142,8 +141,9 @@
                 self.image = [UIImage _buttonBarSystemItemFastForward];
 				self.style = UIBarButtonItemStylePlain;
                 break;
+                //TODO: Implement these
             case UIBarButtonSystemItemFixedSpace:
-                // TODO: Implement these.
+            case UIBarButtonSystemItemFlexibleSpace:
                 break;
 		}
 		
