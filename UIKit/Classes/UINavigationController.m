@@ -79,6 +79,7 @@ static const CGFloat ToolbarHeight = 28;
 {
 	if ((self=[self initWithNibName:nil bundle:nil])) {
 		self.viewControllers = [NSArray arrayWithObject:rootViewController];
+        self.tabBarItem = rootViewController.tabBarItem;
 	}
 	return self;
 }
