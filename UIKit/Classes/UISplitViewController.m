@@ -40,6 +40,7 @@ static const CGFloat SplitterPadding = 3;
 
 @interface _UISplitViewControllerView : UIView {
     BOOL dragging;
+    BOOL fixedSize;
     UIView *leftPanel;
     UIView *rightPanel;
 }
@@ -59,6 +60,8 @@ static const CGFloat SplitterPadding = 3;
         rightPanel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:leftPanel];
         [self addSubview:rightPanel];
+        
+        fixedSize = YES; //do not allow resizing
         
         self.backgroundColor = [UIColor blackColor];
     }
@@ -130,7 +133,7 @@ static const CGFloat SplitterPadding = 3;
     CGPoint point = [[touches anyObject] locationInView:self];
 
     if (CGRectContainsPoint([self splitterHitRect], point)) {
-        dragging = YES;
+        dragging = !fixedSize;
     }
 }
 
@@ -165,7 +168,7 @@ static const CGFloat SplitterPadding = 3;
         return [NSCursor resizeLeftCursor];
     } else if (dragging && point.x > splitterRect.origin.x+splitterRect.size.width) {
         return [NSCursor resizeRightCursor];
-    } else if (dragging || CGRectContainsPoint(splitterRect, point)) {
+    } else if (dragging || (!fixedSize && CGRectContainsPoint(splitterRect, point))) {
         return [NSCursor resizeLeftRightCursor];
     } else {
         return [super mouseCursorForEvent:event];
