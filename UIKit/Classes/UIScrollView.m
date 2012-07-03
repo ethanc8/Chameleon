@@ -248,19 +248,6 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
     [self setNeedsLayout];
 }
 
-- (void)setScrollEnabled:(BOOL)enabled
-{
-    self.panGestureRecognizer.enabled = enabled;
-    self.scrollWheelGestureRecognizer.enabled = enabled;
-
-    [self setNeedsLayout];
-}
-
-- (BOOL)isScrollEnabled
-{
-    return self.panGestureRecognizer.enabled || self.scrollWheelGestureRecognizer.enabled;
-}
-
 - (BOOL)_canScrollHorizontal
 {
     return self.scrollEnabled && (_contentSize.width > self.bounds.size.width);
@@ -271,7 +258,7 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
     return self.scrollEnabled && (_contentSize.height > self.bounds.size.height);
 }
 
-- (void)_updateContentLayout
+- (void)_updateScrollers
 {
     _verticalScroller.contentSize = _contentSize.height;
     _verticalScroller.contentOffset = _contentOffset.y;
@@ -280,13 +267,19 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
     
     _verticalScroller.hidden = !self._canScrollVertical;
     _horizontalScroller.hidden = !self._canScrollHorizontal;
-    
-    CGRect bounds = self.bounds;
-    bounds.origin.x = _contentOffset.x+_contentInset.left;
-    bounds.origin.y = _contentOffset.y+_contentInset.top;
-    self.bounds = bounds;
-    
+}
+
+- (void)setScrollEnabled:(BOOL)enabled
+{
+    self.panGestureRecognizer.enabled = enabled;
+    self.scrollWheelGestureRecognizer.enabled = enabled;
+    [self _updateScrollers];
     [self setNeedsLayout];
+}
+
+- (BOOL)isScrollEnabled
+{
+    return self.panGestureRecognizer.enabled || self.scrollWheelGestureRecognizer.enabled;
 }
 
 - (void)_cancelScrollAnimation
@@ -431,7 +424,13 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
         _contentOffset.x = round(theOffset.x);
         _contentOffset.y = round(theOffset.y);
 
-        [self _updateContentLayout];
+        CGRect bounds = self.bounds;
+        bounds.origin.x = _contentOffset.x+_contentInset.left;
+        bounds.origin.y = _contentOffset.y+_contentInset.top;
+        self.bounds = bounds;
+        
+        [self _updateScrollers];
+        [self setNeedsLayout];
 
         if (_delegateCan.scrollViewDidScroll) {
             [_delegate scrollViewDidScroll:self];
