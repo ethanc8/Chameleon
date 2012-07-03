@@ -72,6 +72,7 @@ CGSize _CGSizeAspectFitToSize(const CGSize original, const CGSize constraint);
         textLayer.shadowOpacity = 1.0f;
         textLayer.shadowRadius = 2.0f;
         textLayer.shadowOffset = CGSizeMake(1.0f, 3.0f);
+        self.titleLabel.font = [UIFont systemFontOfSize:12];
     }
     return self;
 }
