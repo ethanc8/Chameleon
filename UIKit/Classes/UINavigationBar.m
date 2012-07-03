@@ -242,6 +242,7 @@ typedef enum {
         
         _centerView = topItem.titleView;
         
+        const CGFloat centerPadding = MAX(leftFrame.size.width, rightFrame.size.width);
         if (!_centerView) {
             UILabel *titleLabel = [[[UILabel alloc] init] autorelease];
             titleLabel.text = topItem.title;
@@ -250,11 +251,13 @@ typedef enum {
             titleLabel.textColor = [UIColor whiteColor];
             titleLabel.font = [UIFont boldSystemFontOfSize:14];
             _centerView = titleLabel;
+            _centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            _centerView.frame = CGRectMake(kButtonEdgeInsets.left+centerPadding,kButtonEdgeInsets.top, self.bounds.size.width-kButtonEdgeInsets.right-kButtonEdgeInsets.left-centerPadding-centerPadding, kMaxButtonHeight);
+        } else {
+            _centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            _centerView.frame = CGRectMake(kButtonEdgeInsets.left+centerPadding,kButtonEdgeInsets.top + floor((self.bounds.size.height - _centerView.frame.size.height)/2) ,self.bounds.size.width-kButtonEdgeInsets.right-kButtonEdgeInsets.left-centerPadding-centerPadding, MIN(kMaxButtonHeight, _centerView.frame.size.height));
         }
         
-        const CGFloat centerPadding = MAX(leftFrame.size.width, rightFrame.size.width);
-        _centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _centerView.frame = CGRectMake(kButtonEdgeInsets.left+centerPadding,kButtonEdgeInsets.top,self.bounds.size.width-kButtonEdgeInsets.right-kButtonEdgeInsets.left-centerPadding-centerPadding,kMaxButtonHeight);
         [self addSubview:_centerView];
         
         if (animated) {
