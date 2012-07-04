@@ -171,7 +171,7 @@
         
         
         NSArray *group = [sortedByGrouping filterByBlock:^BOOL(id elt) {
-            return [[elt valueForKeyPath:_sectionNameKeyPath] isEqual:groupLeadKeyValue];
+            return [[elt valueForKeyPath:_sectionNameKeyPath] isEqual:groupLeadKeyValue] || ([elt valueForKeyPath:_sectionNameKeyPath] == nil && groupLeadKeyValue == nil);
         }];
         
         NSFetchedResultsSection *oneSection = [[[NSFetchedResultsSection alloc] init] autorelease];
