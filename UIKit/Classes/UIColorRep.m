@@ -61,6 +61,9 @@ static void drawPatternImage(void *info, CGContextRef ctx)
     
     CGContextRestoreGState(ctx);
     UIGraphicsPopContext();
+    
+    //We hanged on, so release. See comment on (CGColorRef)CGColor bellow.
+    [(UIColorRep *)info release];  
 }
 
 @implementation UIColorRep
@@ -120,6 +123,15 @@ static void drawPatternImage(void *info, CGContextRef ctx)
 
         CGColorSpaceRelease(space);
         CGPatternRelease(pattern);
+        
+        //make sure we are still arround at least until we draw
+        //this feels like a hack to me but the thing is that drawPatternImage 
+        //can be called *after* self is dealloc'ed and since the info parameter
+        //is self, guess what? Crash!
+        //this happens especially with colors created with:
+        //  [UIColor colorWithPatternImage:[UIImage imageWithContentsOfFile:pathForResource:ofType:]] :
+        //because UIImage does not caches images created this way (and DOES caches images created differently
+        [self retain];
     }
     
     return _CGColor;
