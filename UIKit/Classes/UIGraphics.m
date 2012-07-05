@@ -193,6 +193,7 @@ void UIGraphicsBeginPDFPageWithInfo(CGRect bounds, NSDictionary *pageInfo)
     if (![pageInfo objectForKey:(NSString*)kCGPDFContextMediaBox])  {
         CFDataRef mediaBox = CFDataCreate(NULL, (const UInt8 *)&bounds, sizeof(CGRect));
         [mutableDic setValue:(id)mediaBox forKey:(NSString*)kCGPDFContextMediaBox];
+        CFRelease(mediaBox);
     }
     
     CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),(CFMutableDictionaryRef)pageInfo);
@@ -202,7 +203,8 @@ void UIGraphicsBeginPDFContextToData(NSMutableData *data, CGRect bounds, NSDicti
 {
     CGDataConsumerRef dataConsumer = CGDataConsumerCreateWithCFData((CFMutableDataRef)data);
     
-   CGContextRef ctx = CGPDFContextCreate(dataConsumer, &bounds, (CFMutableDictionaryRef)documentInfo);
+    CGContextRef ctx = CGPDFContextCreate(dataConsumer, &bounds, (CFMutableDictionaryRef)documentInfo);
     UIGraphicsPushContext(ctx);
     CGContextRelease(ctx);
+    CFRelease(dataConsumer);
 }

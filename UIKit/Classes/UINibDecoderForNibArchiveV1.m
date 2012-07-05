@@ -245,6 +245,7 @@ static inline double decodeFloat64(void const** pp);
                 keyForEmpty = i;
             }
             [keys addObject:key];
+            [key release];
             kp += length;
         }
         
@@ -338,6 +339,7 @@ static inline double decodeFloat64(void const** pp);
             Class class = NSClassFromString(className);
             if (!class) {
                 NSLog(@"Cannot find class:%@",className);
+                [className release];
                 [self release];
                 return nil;
             }
@@ -753,7 +755,6 @@ static Class kClassForUIImageNibPlaceholder;
                     while (value <= lastValue) {
                         id object = [self _extractObjectFromValue:value++];
                         [array addObject:object];
-                        [object release];
                     }
                     object = array;
                 } else if (class == kClassForNSSet || class == kClassForNSMutableSet) {
@@ -764,7 +765,6 @@ static Class kClassForUIImageNibPlaceholder;
                     while (value <= lastValue) {
                         id object = [self _extractObjectFromValue:value++];
                         [set addObject:object];
-                        [object release];
                     }
                     object = set;
                 } else if (class == kClassForNSDictionary || class == kClassForNSDMutableDictionary) {
@@ -780,8 +780,6 @@ static Class kClassForUIImageNibPlaceholder;
                         assert(value->indexOfKey == archiveData_->keyForEmpty);
                         id v = [self _extractObjectFromValue:value++];
                         [dict setObject:v forKey:k];
-                        [v release];
-                        [k release];
                     }
                     object = dict;
                 } else if (class == kClassForNSNumber) {
@@ -803,7 +801,7 @@ static Class kClassForUIImageNibPlaceholder;
                 }
 
                 assert(object);
-                [object awakeAfterUsingCoder:self];
+                object = [object awakeAfterUsingCoder:self];
                 
                 if (class == kClassForUIProxyObject) {
                     NSString* proxiedObjectIdentifier = [object proxiedObjectIdentifier];
@@ -828,35 +826,35 @@ static Class kClassForUIImageNibPlaceholder;
             
         case kValueTypeByte: {
             uint8_t v = decodeByte(&vp);
-            return [[NSNumber alloc] initWithInt:v];
+            return [[[NSNumber alloc] initWithInt:v] autorelease];
         }
         
         case kValueTypeShort: {
             uint16_t v = decodeShort(&vp);
-            return [[NSNumber alloc] initWithShort:v];
+            return [[[NSNumber alloc] initWithShort:v] autorelease];
         }
             
         case kValueTypeConstantEqualsZero: {
-            return [[NSNumber alloc] initWithInt:0];
+            return [[[NSNumber alloc] initWithInt:0] autorelease];
         }
             
         case kValueTypeConstantEqualsOne: {
-            return [[NSNumber alloc] initWithInt:1];
+            return [[[NSNumber alloc] initWithInt:1] autorelease];
         }
 
         case kValueTypeFloat32: {
             float v = decodeFloat32(&vp);
-            return [[NSNumber alloc] initWithFloat:v];
+            return [[[NSNumber alloc] initWithFloat:v] autorelease];
         }
 
         case kValueTypeFloat64: {
             float v = decodeFloat64(&vp);
-            return [[NSNumber alloc] initWithDouble:v];
+            return [[[NSNumber alloc] initWithDouble:v] autorelease];
         }
 
         case kValueTypeData: {
             uint32_t lengthOfData = decodeVariableLengthInteger(&vp);
-            return [[NSData alloc] initWithBytes:vp length:lengthOfData];
+            return [[[NSData alloc] initWithBytes:vp length:lengthOfData] autorelease];
         }
     }
 

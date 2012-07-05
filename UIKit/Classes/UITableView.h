@@ -106,9 +106,6 @@ typedef enum {
     BOOL _allowsSelection;
     BOOL _allowsSelectionDuringEditing;
     BOOL _editing;
-    
-    NSIndexPath *_selectedRow;
-    NSIndexPath *_highlightedRow;
 
     BOOL _allowsMultipleSelection;
     NSMutableDictionary *_cachedCells;

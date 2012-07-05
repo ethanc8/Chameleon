@@ -187,6 +187,8 @@
         [sortedByGrouping removeObjectsInArray:group];
     }
     
+    [sortedByGrouping release];
+    
     self.sections = sectionArray;
     
     if ([self.delegate respondsToSelector:@selector(controllerDidChangeContent:)]) {

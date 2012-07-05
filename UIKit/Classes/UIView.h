@@ -145,9 +145,12 @@ typedef NSUInteger UIViewAnimationOptions;
     UIViewController *_viewController;
     UIViewAutoresizing _autoresizingMask;
     NSMutableSet *_gestureRecognizers;
-	BOOL _suppressAppearanceEvents;
+
+    #ifndef __clang_analyzer__
     UIView *_nextKeyView; // NR
     UIView *_previousKeyView; // NR
+    #endif
+    
     NSString *_toolTip;
     BOOL _implementsDrawRect;
     
