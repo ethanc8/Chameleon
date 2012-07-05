@@ -61,9 +61,11 @@ static void drawPatternImage(void *info, CGContextRef ctx)
     
     CGContextRestoreGState(ctx);
     UIGraphicsPopContext();
-    
-    //We hanged on, so release. See comment on (CGColorRef)CGColor bellow.
-    [(UIColorRep *)info release];  
+}
+
+static void drawPatternImageReleaseInfo(void * info) {
+    [(UIImageRep *) info release];
+    info=nil;
 }
 
 @implementation UIColorRep
@@ -93,8 +95,8 @@ static void drawPatternImage(void *info, CGContextRef ctx)
 
 - (void)dealloc
 {
-    [_patternImageRep release];
     CGColorRelease(_CGColor);
+    [_patternImageRep release];
     [super dealloc];
 }
 
@@ -105,9 +107,20 @@ static void drawPatternImage(void *info, CGContextRef ctx)
         const CGFloat scaler = 1/_patternImageRep.scale;
         //const CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMake(1, 0, 0, -1, 0, imageSize.height), scaler, scaler);
         const CGAffineTransform t = CGAffineTransformMakeScale(scaler, scaler);
-        static const CGPatternCallbacks callbacks = {0, &drawPatternImage, NULL};
+        static const CGPatternCallbacks callbacks = {0, &drawPatternImage, &drawPatternImageReleaseInfo};
         
-        CGPatternRef pattern = CGPatternCreate ((void *)self,
+        
+        //docs say that CGPatternCreate first parameter is *private* storage area and that it should 
+        //be managed by Quartz and be free on CGPatternReleaseInfoCallback
+        //so we retain the patter into _privatePatternImageRep. This is *not* released in dealloc.
+        //but is released in drawPatternImageReleaseInfo
+        
+        if(_privatePatternImageRep) {
+            [_privatePatternImageRep release];
+        }
+        _privatePatternImageRep = [_patternImageRep retain];
+        
+        CGPatternRef pattern = CGPatternCreate ((void *)_privatePatternImageRep,
                                                 CGRectMake (0, 0, imageSize.width, imageSize.height),
                                                 t,
                                                 imageSize.width,
@@ -123,15 +136,6 @@ static void drawPatternImage(void *info, CGContextRef ctx)
 
         CGColorSpaceRelease(space);
         CGPatternRelease(pattern);
-        
-        //make sure we are still arround at least until we draw
-        //this feels like a hack to me but the thing is that drawPatternImage 
-        //can be called *after* self is dealloc'ed and since the info parameter
-        //is self, guess what? Crash!
-        //this happens especially with colors created with:
-        //  [UIColor colorWithPatternImage:[UIImage imageWithContentsOfFile:pathForResource:ofType:]] :
-        //because UIImage does not caches images created this way (and DOES caches images created differently
-        [self retain];
     }
     
     return _CGColor;

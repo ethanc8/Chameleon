@@ -34,6 +34,7 @@
 @interface UIColorRep : NSObject {
     CGColorRef _CGColor;
     UIImageRep *_patternImageRep;
+    UIImageRep *_privatePatternImageRep;
 }
 
 - (id)initWithPatternImageRepresentation:(UIImageRep *)patternImageRep;
