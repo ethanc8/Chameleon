@@ -175,6 +175,8 @@ static NSString* const kUIStyleKey = @"UIStyle";
     _dataSourceHas.numberOfSectionsInTableView = [_dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)];
     _dataSourceHas.titleForHeaderInSection = [_dataSource respondsToSelector:@selector(tableView:titleForHeaderInSection:)];
     _dataSourceHas.titleForFooterInSection = [_dataSource respondsToSelector:@selector(tableView:titleForFooterInSection:)];
+    _dataSourceHas.commitEditingStyle = [_dataSource respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)];
+    _dataSourceHas.canEditRowAtIndexPath = [_dataSource respondsToSelector:@selector(tableView:canEditRowAtIndexPath:)];
     
     [self _setNeedsReload];
 }
@@ -194,6 +196,11 @@ static NSString* const kUIStyleKey = @"UIStyle";
         _delegateHas.willDeselectRowAtIndexPath = [newDelegate respondsToSelector:@selector(tableView:willDeselectRowAtIndexPath:)];
         _delegateHas.didDeselectRowAtIndexPath = [newDelegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)];
         _delegateHas.accessoryButtonTappedForRowWithIndexPath = [newDelegate respondsToSelector:@selector(tableView:accessoryButtonTappedForRowWithIndexPath:)];
+        _delegateHas.willDeselectRowAtIndexPath = [_delegate respondsToSelector:@selector(tableView:willDeselectRowAtIndexPath:)];
+        _delegateHas.didDeselectRowAtIndexPath = [_delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)];
+        _delegateHas.willBeginEditingRowAtIndexPath = [_delegate respondsToSelector:@selector(tableView:willBeginEditingRowAtIndexPath:)];
+        _delegateHas.didEndEditingRowAtIndexPath = [_delegate respondsToSelector:@selector(tableView:didEndEditingRowAtIndexPath:)];
+        _delegateHas.titleForDeleteConfirmationButtonForRowAtIndexPath = [_delegate respondsToSelector:@selector(tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:)];
     }
 }
 
@@ -372,6 +379,10 @@ static NSString* const kUIStyleKey = @"UIStyle";
         _tableHeaderView.frame = tableHeaderFrame;
         _tableHeaderView.hidden = !CGRectIntersectsRect(tableHeaderFrame, visibleBounds);
         tableHeight += tableHeaderFrame.size.height;
+        
+        if(!_tableHeaderView.hidden) {
+            [_tableHeaderView layoutSubviews];
+        }
     }
     
     // layout sections and rows
@@ -405,6 +416,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
                     UITableViewCell* cell = [self _ensureCellExistsAtIndexPath:indexPath];
                     cell.frame = rowRect;
                     [usedCells setObject:cell forKey:indexPath];
+                    [cell layoutSubviews];
                 }
                 [rowPool drain];
             }
@@ -449,6 +461,10 @@ static NSString* const kUIStyleKey = @"UIStyle";
         tableFooterFrame.size.width = boundsSize.width;
         _tableFooterView.frame = tableFooterFrame;
         _tableFooterView.hidden = !CGRectIntersectsRect(tableFooterFrame, visibleBounds);
+        
+        if (!_tableFooterView.hidden ) {
+            [_tableFooterView layoutSubviews];
+        }
     }
 }
 
@@ -903,6 +919,17 @@ static NSString* const kUIStyleKey = @"UIStyle";
     [self resignFirstResponder];
 }
 
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInView:self];
+    NSIndexPath *touchedRow = [self indexPathForRowAtPoint:location];
+
+    if ([_selectedRows containsObject:touchedRow]) {
+        [self deselectRowAtIndexPath:touchedRow animated:NO];
+    } 
+    [self resignFirstResponder];
+}
 
 - (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessages animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition {	
     if (!self.allowsMultipleSelection) {
