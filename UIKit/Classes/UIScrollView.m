@@ -143,6 +143,7 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
     _horizontalScroller = [[UIScroller alloc] init];
     _horizontalScroller.delegate = self;
     [self addSubview:_horizontalScroller];
+    self.clipsToBounds = YES;
 }
 
 - (id)initWithFrame:(CGRect)frame
