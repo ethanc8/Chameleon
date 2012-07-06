@@ -381,7 +381,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
         tableHeight += tableHeaderFrame.size.height;
         
         if(!_tableHeaderView.hidden) {
-            [_tableHeaderView layoutSubviews];
+            [_tableHeaderView setNeedsLayout];
         }
     }
     
@@ -416,7 +416,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
                     UITableViewCell* cell = [self _ensureCellExistsAtIndexPath:indexPath];
                     cell.frame = rowRect;
                     [usedCells setObject:cell forKey:indexPath];
-                    [cell layoutSubviews];
+                    [cell setNeedsLayout];
                 }
                 [rowPool drain];
             }
@@ -463,7 +463,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
         _tableFooterView.hidden = !CGRectIntersectsRect(tableFooterFrame, visibleBounds);
         
         if (!_tableFooterView.hidden ) {
-            [_tableFooterView layoutSubviews];
+            [_tableFooterView setNeedsLayout];
         }
     }
 }
