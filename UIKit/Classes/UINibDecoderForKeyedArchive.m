@@ -89,15 +89,15 @@ static Class kClassForUIImageNibPlaceholder;
     if (class == kClassForUIProxyObject) {
         NSString* proxiedObjectIdentifier = [object proxiedObjectIdentifier];
         if ([proxiedObjectIdentifier isEqualToString:kIBFilesOwnerKey]) {
-            return _owner; 
+            return [_owner retain];
         } else if ([proxiedObjectIdentifier isEqualToString:kIBFirstResponderKey]) {
-            return [NSNull null];
+            return [[NSNull null] retain];
         } else {
-            return [_externalObjects objectForKey:proxiedObjectIdentifier];
+            return [[_externalObjects objectForKey:proxiedObjectIdentifier] retain];
         }
     } else if (class == kClassForUIImageNibPlaceholder) {
         NSString* resourceName = [object resourceName];
-        return [UIImage imageWithContentsOfFile:[_bundle pathForResource:resourceName ofType:nil]];
+        return [[UIImage imageWithContentsOfFile:[_bundle pathForResource:resourceName ofType:nil]] retain];
     }
     return nil;
 }
