@@ -105,7 +105,10 @@
 
     clipView.parentLayer = self;
     clipView.behaviorDelegate = self;
-
+    
+    //deal with 10.8 geometry differences.
+    self.geometryFlipped = [[[[containerView window].screen UIKitView] layer] isGeometryFlipped];
+    
     [[[containerView window].screen UIKitView] addSubview:clipView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScrollViewContentOffset) name:NSViewBoundsDidChangeNotification object:clipView];
