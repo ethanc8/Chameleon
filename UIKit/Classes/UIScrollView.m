@@ -555,7 +555,7 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
 
 - (void)_beginDragging
 {
-    if (!_dragging) {
+    if (self.scrollEnabled && !_dragging) {
         _dragging = YES;
 
         _horizontalScroller.alwaysVisible = YES;
@@ -684,7 +684,9 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
         if (_scrollWheelGestureRecognizer.state == UIGestureRecognizerStateRecognized) {
             const CGPoint delta = [_scrollWheelGestureRecognizer translationInView:self];
 
-            if (_decelerating) {
+            if(!self.scrollEnabled) {
+                //ignore gesture
+            } else if (_decelerating) {
                 // note that we might be "decelerating" but actually just snapping to a page boundary in paging mode,
                 // so we need to verify if we can actually send this message to the current animation or not.
                 // if we can't, then we'll just eat the scroll event and let the animation finish instead.
