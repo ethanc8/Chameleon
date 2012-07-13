@@ -102,7 +102,7 @@ enum {
 - (void)setImage:(UIImage *)image forSegmentAtIndex:(NSUInteger)segment;
 - (UIImage *)imageForSegmentAtIndex:(NSUInteger)segment;
 
-//- (void)setWidth:(CGFloat)width forSegmentAtIndex:(NSUInteger)segment;
+- (void)setWidth:(CGFloat)width forSegmentAtIndex:(NSUInteger)segment; //todo
 //- (CGFloat)widthForSegmentAtIndex:(NSUInteger)segment;
 
 //- (void)setContentOffset:(CGSize)offset forSegmentAtIndex:(NSUInteger)segment;

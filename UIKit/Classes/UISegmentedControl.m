@@ -422,6 +422,9 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
     [self setNeedsDisplay];
 }
 
+- (void)setWidth:(CGFloat)width forSegmentAtIndex:(NSUInteger)segment {
+    
+}
 
 - (void)setTitle:(NSString *)title forSegmentAtIndex:(NSUInteger)segment
 {
