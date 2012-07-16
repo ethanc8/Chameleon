@@ -664,8 +664,6 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 
 - (void)_textDidEndEditing
 {
-	_placeholderTextLayer.hidden = _textLayer.text.length > 0;
-	
     _editing = NO;
     [self setNeedsDisplay];
     [self setNeedsLayout];
@@ -685,6 +683,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 
 - (void)_textDidChange
 {
+    _placeholderTextLayer.hidden = _textLayer.text.length > 0;
     [[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self];
 }
 
