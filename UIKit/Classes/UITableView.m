@@ -826,7 +826,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
     } else if (indexPath.row >0){
         rect = [self rectForRowAtIndexPath:indexPath];
     } else {
-        //scrool to the top of the section and include the header
+        //scroll to the top of the section and include the header
         rect = [self rectForSection:indexPath.section];
     }
     
