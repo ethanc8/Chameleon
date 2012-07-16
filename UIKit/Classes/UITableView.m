@@ -823,9 +823,13 @@ static NSString* const kUIStyleKey = @"UIStyle";
     CGRect rect;
     if (indexPath.row == 0 && indexPath.section == 0) {
         rect = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height);
-    } else {
+    } else if (indexPath.row >0){
         rect = [self rectForRowAtIndexPath:indexPath];
+    } else {
+        //scrool to the top of the section and include the header
+        rect = [self rectForSection:indexPath.section];
     }
+    
     [self _scrollRectToVisible:rect atScrollPosition:scrollPosition animated:animated];
 }
 
