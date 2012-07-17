@@ -496,6 +496,7 @@ static UITableViewCellLayoutManager* kValue1;
     return backgroundRect;
 }
 
+
 - (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell
 {
     CGRect seperatorRect = {
@@ -511,61 +512,6 @@ static UITableViewCellLayoutManager* kValue1;
     return seperatorRect;
 }
 
-- (CGRect) imageViewRectForCell:(UITableViewCell*)cell
-{
-    UIImageView* imageView = cell.imageView;
-    UIImage* image = imageView.image;
-    if (nil == imageView || nil == imageView.image) {
-        return CGRectZero;
-    }
-    
-    // Allows a maximum height of (cell.bounds.height - 1) pixels. 
-    // If the image size is less, apply a padding that + image height = cell.bounds.height px 
-    // THE IMAGE HEIGHT IS NEVER CONSTRAINED (tested in iOS)
-    CGSize imageSize = image.size;
-    CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
-    CGFloat maxHeight = cellBounds.size.height - seperatorRect.size.height;
-    
-    if (imageSize.height < maxHeight) {
-        // Image is not as tall as the cell
-        CGFloat padding = floor((maxHeight - imageSize.height) / 2.0);
-        CGRect imageViewRect = {
-            .origin = {
-                .x = padding < 0 ? 0 : padding,
-                .y = padding
-            },
-            .size = imageSize
-        };
-        return imageViewRect;
-    }
-    else if (imageSize.height == maxHeight) {
-        // Image height == cell height
-        CGRect imageViewRect = {
-            .origin = {
-                .x = 0,
-                .y = 0
-            },
-            .size = imageSize,
-        };
-        return imageViewRect;
-    }
-    else {
-        // Image is taller than the cell
-        CGFloat differencePercent = (maxHeight / imageSize.height);
-        CGRect imageViewRect = {
-            .origin = {
-                .x = 0,
-                .y = 0
-            },
-            .size = {
-                .width = round(imageSize.width * differencePercent),
-                .height = round(imageSize.height * differencePercent),
-            }
-        };
-        return imageViewRect;
-    }
-}
 
 - (CGSize) _combinedLabelsSizeForCell:(UITableViewCell*)cell
 {
@@ -601,38 +547,25 @@ static UITableViewCellLayoutManager* kValue1;
     
     // RULES
     // =======
-    // 10 pixel padding from the image rect or if no image rect, 10 pixel in
+    // 10 pixel in
     // origin.x, unlike default, has no max, but is inf if past the accessory view frame edge
     
     // size.height always == original height
     // origin.y always == (cv.height - (tv.height + dv.height)) / 2
     
     // The allowable width is always from the right side of the content rect - 10 (padding)
-    // to the greater of the end of the content rect OR the final bounds of the image view - 10 (padding)
+    // to the end of the content rect
     
     CGSize originalSize = [textLabel.text sizeWithFont:textLabel.font];
     CGSize combinedSize = [self _combinedLabelsSizeForCell:cell];
     
     CGRect contentRect = [self contentViewRectForCell:cell];
-    CGRect imageRect = [self imageViewRectForCell:cell];
     
-    CGFloat originX = 0.0;
-    CGFloat width = 0.0;
+    CGFloat originX = 10.0;
+    CGFloat width = MIN(originalSize.width, contentRect.size.width - originX - 10.0);
     
     //CGFloat maxXOrigin = contentRect.size.width - 10.0;
-    CGFloat imageRectLastX = imageRect.origin.x + imageRect.size.width + 20.0;
-    
-    if (imageRectLastX > contentRect.size.width) {
-        originX = INFINITY; 
-        width = 0.0;
-    }
-    else {
-        originX = imageRectLastX - 10.0;
-        
-        CGFloat maxWidth = contentRect.size.width - originX - 10.0;
-        width = maxWidth <= originalSize.width ? maxWidth : originalSize.width;
-    }
-    
+   
     CGRect textLabelRect = {
         .origin = {
             .x = originX,
@@ -656,37 +589,22 @@ static UITableViewCellLayoutManager* kValue1;
     
     // RULES
     // =======
-    // 10 pixel padding from the image rect or if no image rect, 10 pixel in
+    // 10 pixel in from the accessory view
     // origin.x, unlike default, has no max, but is inf if past the accessory view frame edge
     
     // size.height always == original height
     // origin.y always == (cv.height - (tv.height + dv.height)) / 2
     
     // The allowable width is always from the right side of the content rect - 10 (padding)
-    // to the greater of the end of the content rect OR the final bounds of the image view - 10 (padding)
+    // to the end of the content rect
     
     CGSize originalSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font];
     CGSize combinedSize = [self _combinedLabelsSizeForCell:cell];
     
     CGRect contentRect = [self contentViewRectForCell:cell];
-    CGRect imageRect = [self imageViewRectForCell:cell];
     
-    CGFloat originX = 0.0;
-    CGFloat width = 0.0;
-    
-    //CGFloat maxXOrigin = contentRect.size.width - 10.0;
-    CGFloat imageRectLastX = imageRect.origin.x + imageRect.size.width + 20.0;
-    
-    if (imageRectLastX > contentRect.size.width) {
-        originX = INFINITY; 
-        width = 0.0;
-    }
-    else {
-        originX = imageRectLastX - 10.0;
-        
-        CGFloat maxWidth = contentRect.size.width - originX - 10.0;
-        width = maxWidth <= originalSize.width ? maxWidth : originalSize.width;
-    }
+    CGFloat originX = contentRect.size.width - originalSize.width - 10;
+    CGFloat width = contentRect.size.width - originX - 10;
     
     CGRect textLabelRect = {
         .origin = {

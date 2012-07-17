@@ -188,6 +188,7 @@ static Class kUIButtonClass;
         _textLabel.textColor = [UIColor blackColor];
         _textLabel.highlightedTextColor = [UIColor whiteColor];
         _textLabel.font = [UIFont boldSystemFontOfSize:17];
+        _textLabel.frame = [_layoutManager textLabelRectForCell:self];
         [self.contentView addSubview:_textLabel];
     }
     return _textLabel;
@@ -195,12 +196,18 @@ static Class kUIButtonClass;
 
 - (UILabel*) detailTextLabel
 {
-    if (!_detailTextLabel && _style == UITableViewCellStyleSubtitle) {
+    if (!_detailTextLabel && (_style == UITableViewCellStyleSubtitle || _style == UITableViewCellStyleValue1)) {
         _detailTextLabel = [[UILabel alloc] init];
         _detailTextLabel.backgroundColor = [UIColor clearColor];
-        _detailTextLabel.textColor = [UIColor grayColor];
         _detailTextLabel.highlightedTextColor = [UIColor whiteColor];
-        _detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
+        if (_style == UITableViewCellStyleSubtitle) {
+            _detailTextLabel.textColor = [UIColor grayColor];
+            _detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
+        } else {
+            _detailTextLabel.textColor = [UIColor colorWithRed:81.0/256 green:102.0/265 blue:145.0/256 alpha:1.0];;
+            _detailTextLabel.font = [UIFont systemFontOfSize:16];
+        }
+        _detailTextLabel.frame = [_layoutManager detailTextLabelRectForCell:self];
         [self.contentView addSubview:_detailTextLabel];
     }
     return _detailTextLabel;
