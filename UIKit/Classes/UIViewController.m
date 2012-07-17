@@ -73,6 +73,10 @@
 
 @implementation UIViewController 
 
+#define kModalPresentationFormSheetWidth 540
+#define kModalPresentationFormSheetHeight 620
+#define kDimViewTag 2999
+
 @dynamic wantsFullScreenLayout;
 @dynamic hidesBottomBarWhenPushed;
 @dynamic editing;
@@ -360,16 +364,31 @@
         UIView *newView = _modalViewController.view;
 
         newView.autoresizingMask = selfView.autoresizingMask;
-        newView.frame = _flags.wantsFullScreenLayout? window.screen.bounds : window.screen.applicationFrame;
-
+        BOOL fullScreen = NO;
+        
+        if (_flags.wantsFullScreenLayout || _modalViewController.wantsFullScreenLayout || _modalViewController.modalPresentationStyle == UIModalPresentationFullScreen) {
+            newView.frame = window.screen.bounds;
+            fullScreen = YES;
+        } else {
+            UIView *dimView = [[[UIView alloc] initWithFrame:window.screen.bounds] autorelease];
+            dimView.backgroundColor = [UIColor blackColor];
+            dimView.alpha = 0.5;
+            dimView.tag = kDimViewTag;
+            [window addSubview:dimView];
+            
+            newView.frame = CGRectMake(0, 0, kModalPresentationFormSheetWidth, kModalPresentationFormSheetHeight);
+            newView.center = CGPointMake(window.screen.applicationFrame.size.width/2,window.screen.applicationFrame.size.height/2);
+        }
+        
         [window addSubview:newView];
         [_modalViewController viewWillAppear:animated];
 
-        [self viewWillDisappear:animated];
-        selfView.hidden = YES;		// I think the real one may actually remove it, which would mean needing to remember the superview, I guess? Not sure...
-        [self viewDidDisappear:animated];
-
-
+        if (fullScreen) {
+            [self viewWillDisappear:animated];
+            selfView.hidden = YES;		// I think the real one may actually remove it, which would mean needing to remember the superview, I guess? Not sure...
+            [self viewDidDisappear:animated];
+        }
+        
         [_modalViewController viewDidAppear:animated];
     }
 }
@@ -389,15 +408,29 @@
             [_modalViewController dismissModalViewControllerAnimated:animated];
         }
         
-        self.view.hidden = NO;
-        [self viewWillAppear:animated];
+        BOOL wasFullScreen = NO;
+        if(_flags.wantsFullScreenLayout || _modalViewController.wantsFullScreenLayout || _modalViewController.modalPresentationStyle == UIModalPresentationFullScreen) {
+            self.view.hidden = NO;
+            [self viewWillAppear:animated];
+            wasFullScreen = YES;
+        }
         
         [_modalViewController.view removeFromSuperview];
         [_modalViewController _setParentViewController:nil];
         [_modalViewController autorelease];
         _modalViewController = nil;
 
-        [self viewDidAppear:animated];
+        if (!wasFullScreen) {
+            UIView *v = [self.view.window.subviews lastObject];
+            if (v.tag == kDimViewTag) {
+                [v removeFromSuperview];
+            }
+        }
+        
+        if (wasFullScreen) {
+             [self viewDidAppear:animated];
+        }
+       
     } else {
         [self.parentViewController dismissModalViewControllerAnimated:animated];
     }
