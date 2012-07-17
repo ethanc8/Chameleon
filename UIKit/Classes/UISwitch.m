@@ -78,6 +78,10 @@
     CGContextRestoreGState(context);
 }
 
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    return self.frame.size;
+}
 
 #pragma mark UIResponder
 
