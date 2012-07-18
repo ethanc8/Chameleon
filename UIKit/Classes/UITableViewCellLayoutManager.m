@@ -562,7 +562,7 @@ static UITableViewCellLayoutManager* kValue1;
     CGRect contentRect = [self contentViewRectForCell:cell];
     
     CGFloat originX = 10.0;
-    CGFloat width = MIN(originalSize.width, contentRect.size.width - originX - 10.0);
+    CGFloat width = MIN(originalSize.width, contentRect.size.width - originX - 10.0 - (combinedSize.width - originalSize.width));
     
     //CGFloat maxXOrigin = contentRect.size.width - 10.0;
    
@@ -603,8 +603,8 @@ static UITableViewCellLayoutManager* kValue1;
     
     CGRect contentRect = [self contentViewRectForCell:cell];
     
-    CGFloat originX = contentRect.size.width - originalSize.width - 10;
-    CGFloat width = contentRect.size.width - originX - 10;
+    CGFloat originX = MAX(contentRect.size.width - originalSize.width - 10, (combinedSize.width - originalSize.width) + 10.0);
+    CGFloat width = MIN(originalSize.width, contentRect.size.width - (combinedSize.width - originalSize.width) - 10.0);
     
     CGRect textLabelRect = {
         .origin = {
