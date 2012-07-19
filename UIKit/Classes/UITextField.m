@@ -489,6 +489,13 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 	}
 }
 
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    NSLog(@"hidden:%d, %@ - %f",_placeholderTextLayer.hidden, _placeholderTextLayer.text,[_placeholderTextLayer.text sizeWithFont:_placeholderTextLayer.font constrainedToSize:size].height);
+   CGSize textSize = _placeholderTextLayer.hidden ? [_textLayer.text sizeWithFont:_textLayer.font constrainedToSize:size] : [_placeholderTextLayer.text sizeWithFont:_placeholderTextLayer.font constrainedToSize:size];
+    NSLog(@" six %f",textSize.height);
+    return CGSizeMake(size.width, textSize.height);
+}
 
 - (UITextAutocapitalizationType)autocapitalizationType
 {
@@ -665,6 +672,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 - (void)_textDidEndEditing
 {
     _editing = NO;
+    _placeholderTextLayer.hidden = _textLayer.text.length > 0;
     [self setNeedsDisplay];
     [self setNeedsLayout];
 	
@@ -683,7 +691,6 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 
 - (void)_textDidChange
 {
-    _placeholderTextLayer.hidden = _textLayer.text.length > 0;
     [[NSNotificationCenter defaultCenter] postNotificationName:UITextFieldTextDidChangeNotification object:self];
 }
 
