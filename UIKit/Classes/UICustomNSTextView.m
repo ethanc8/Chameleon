@@ -71,7 +71,8 @@ static const CGFloat LargeNumberForText = 1.0e7; // Any larger dimensions and th
             [self setHorizontallyResizable:NO];
             [self setVerticallyResizable:YES];
             [self setAutoresizingMask:NSViewWidthSizable];
-            [self setTextContainerInset:NSMakeSize(4, 9)];
+            //Commented this inset as this screws up the placeholder text.
+            //[self setTextContainerInset:NSMakeSize(4, 9)];
         }
 
         [self setMaxSize:maxSize];
