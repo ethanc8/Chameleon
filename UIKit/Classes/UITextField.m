@@ -492,7 +492,6 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 - (CGSize)sizeThatFits:(CGSize)size
 {
     CGSize textSize = _placeholderTextLayer.hidden ? [_textLayer.text sizeWithFont:_textLayer.font constrainedToSize:size] : [_placeholderTextLayer.text sizeWithFont:_placeholderTextLayer.font constrainedToSize:size];
-    NSLog(@" six %f",textSize.height);
     return CGSizeMake(size.width, textSize.height);
 }
 
