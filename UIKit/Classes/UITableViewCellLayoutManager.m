@@ -422,12 +422,15 @@ static UITableViewCellLayoutManager* kValue1;
             return CGRectZero;
         }
         else {
-            CGSize accessorySize = [accessoryView sizeThatFits:cellBounds.size];
+            CGFloat tbr_padding = [self _accessoryViewPaddingForCell:cell];
+            
+            CGSize maxAccSize = CGSizeMake(cell.bounds.size.width - [cell.textLabel.text sizeWithFont:cell.textLabel.font].width - 20 - tbr_padding, cell.bounds.size.height);
+            CGSize accessorySize = [accessoryView sizeThatFits:maxAccSize];
             
             // Provide a rect from the right-hand side of the cell,
             // with the frame centered in the cell
             
-            CGFloat tbr_padding = [self _accessoryViewPaddingForCell:cell];
+        
             CGRect accessoryRect = {
                 .origin = {
                     .x = cellBounds.size.width - accessorySize.width - tbr_padding,
