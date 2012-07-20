@@ -67,7 +67,7 @@ typedef enum {
     UIBarMetricsLandscapePhone, // iPhoneOS 5.0
 } UIBarMetrics;
 
-@class UIView, UIImage;
+@class UIView, UIImage, UIToolbarItem;
 
 @interface UIBarButtonItem : UIBarItem {
 @package
@@ -78,6 +78,8 @@ typedef enum {
     BOOL _isSystemItem;
     UIBarButtonSystemItem _systemItem;
     UIBarButtonItemStyle _style;
+    
+    UIToolbarItem *_toolbarItem;
 }
 
 - (id)initWithBarButtonSystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action;

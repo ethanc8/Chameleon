@@ -42,9 +42,12 @@
 @interface UIToolbarItem : NSObject {
     UIBarButtonItem *item;
     UIView *view;
+    UIToolbar *_toolbar;
 }
 
 - (id)initWithBarButtonItem:(UIBarButtonItem *)anItem;
+- (void)_setToolbar:(UIToolbar*) toolbar;
+- (UIToolbar*)_getToolbar;
 
 @property (nonatomic, readonly) UIView *view;
 @property (nonatomic, readonly) UIBarButtonItem *item;
@@ -68,6 +71,8 @@
             view = [[UIToolbarButton alloc] initWithBarButtonItem:item];
         }
     }
+    [item _setToolbarItem:self];
+    [(UIToolbarButton*) view _setToolbarItem:self];
     return self;
 }
 
@@ -87,6 +92,16 @@
     } else {
         return -1;
     }
+}
+
+- (void)_setToolbar:(UIToolbar*) toolbar
+{
+    _toolbar = toolbar;
+}
+
+- (UIToolbar*) _getToolbar
+{
+    return _toolbar;
 }
 
 @end
@@ -244,6 +259,7 @@
         
         for (UIBarButtonItem *item in newItems) {
             UIToolbarItem *toolbarItem = [[UIToolbarItem alloc] initWithBarButtonItem:item];
+            [toolbarItem _setToolbar:self];
             [_toolbarItems addObject:toolbarItem];
 
             UIView* view = toolbarItem.view;

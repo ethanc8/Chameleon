@@ -30,6 +30,7 @@
 #import "UIBarButtonItem.h"
 #import "UIBarButtonItem+UIPrivate.h"
 #import "UIImage+UIPrivate.h"
+#import "UIToolbar.h"
 
 @implementation UIBarButtonItem 
 @synthesize width = _width;
@@ -191,6 +192,17 @@
 - (UIView *)customView
 {
     return _isSystemItem? nil : _customView;
+}
+
+
+- (void) _setToolbarItem:(UIToolbarItem*) item
+{
+    _toolbarItem = item;
+}
+
+- (UIToolbarItem*) _getToolbarItem
+{
+    return _toolbarItem;
 }
 
 @end

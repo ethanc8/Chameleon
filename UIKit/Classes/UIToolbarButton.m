@@ -177,4 +177,14 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
     return fitSize;
 }
 
+- (UIToolbarItem*) _getToolbarItem
+{
+    return _toolbarItem;
+}
+
+- (void) _setToolbarItem:(UIToolbarItem*) item
+{
+    _toolbarItem = item;
+}
+
 @end

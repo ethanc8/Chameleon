@@ -39,6 +39,7 @@
 #import "UIPopoverNSWindow.h"
 #import "UIPopoverOverlayNSView.h"
 #import "UIImage+UIPrivate.h"
+#import "UIBarButtonItem+UIPrivate.h"
 #include <tgmath.h>
 
 
@@ -394,6 +395,8 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
 
 - (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated
 {
+    UIToolbarItem *barItem = [item _getToolbarItem];
+    [self presentPopoverFromRect:[[barItem view] frame] inView:[barItem performSelector:@selector(_getToolbar)] permittedArrowDirections:arrowDirections animated:animated makeKey:YES];
 }
 
 - (BOOL)isPopoverVisible

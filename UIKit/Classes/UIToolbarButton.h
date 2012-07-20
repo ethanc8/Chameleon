@@ -29,11 +29,14 @@
 
 #import "UIButton.h"
 
-@class UIBarButtonItem;
+@class UIBarButtonItem, UIToolbarItem;
 
 @interface UIToolbarButton : UIButton {
+    UIToolbarItem *_toolbarItem;
 }
 
 - (id)initWithBarButtonItem:(UIBarButtonItem *)item;
+- (UIToolbarItem*) _getToolbarItem;
+- (void) _setToolbarItem:(UIToolbarItem*) item;
 
 @end
