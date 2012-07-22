@@ -60,7 +60,7 @@ static UITableViewCellLayoutManager* kValue1;
     return CGRectZero;
 }
 
-- (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell
+- (CGRect) separatorViewRectForCell:(UITableViewCell*)cell
 {
     return CGRectZero;
 }
@@ -103,7 +103,7 @@ static UITableViewCellLayoutManager* kValue1;
 {
     // Collect pertinent information
     CGRect accessoryRect = [self accessoryViewRectForCell:cell];
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGFloat accessoryPadding = [self _accessoryViewPaddingForCell:cell];
     
     // Width will be 
@@ -132,7 +132,7 @@ static UITableViewCellLayoutManager* kValue1;
     // never changes, even though the origin might.
     CGSize accessorySize = cell.accessoryView.bounds.size;
     CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     
     // Padding is ALWAYS 10 px on the left, but is the LESSER 
     // (including negative numbers) of 10.0 or the height difference,
@@ -145,7 +145,7 @@ static UITableViewCellLayoutManager* kValue1;
 - (CGRect) accessoryViewRectForCell:(UITableViewCell*)cell
 {
     UIView* accessoryView = cell.accessoryView;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect cellBounds = {
         .origin = cell.bounds.origin,
         .size = {
@@ -220,7 +220,7 @@ static UITableViewCellLayoutManager* kValue1;
 
 - (CGRect) backgroundViewRectForCell:(UITableViewCell*)cell
 {
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect backgroundRect = {
         .origin = {
             .x = 0,
@@ -234,7 +234,7 @@ static UITableViewCellLayoutManager* kValue1;
     return backgroundRect;
 }
 
-- (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell
+- (CGRect) separatorViewRectForCell:(UITableViewCell*)cell
 {
     CGRect seperatorRect = {
         .origin = {
@@ -262,7 +262,7 @@ static UITableViewCellLayoutManager* kValue1;
     // THE IMAGE HEIGHT IS NEVER CONSTRAINED (tested in iOS)
     CGSize imageSize = image.size;
     CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGFloat maxHeight = cellBounds.size.height - seperatorRect.size.height;
     
     if (imageSize.height < maxHeight) {
@@ -365,7 +365,7 @@ static UITableViewCellLayoutManager* kValue1;
 {
     // Collect pertinent information
     CGRect accessoryRect = [self accessoryViewRectForCell:cell];
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGFloat accessoryPadding = [self _accessoryViewPaddingForCell:cell];
     
     // Width will be 
@@ -394,7 +394,7 @@ static UITableViewCellLayoutManager* kValue1;
     // never changes, even though the origin might.
     CGSize accessorySize = cell.accessoryView.bounds.size;
     CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     
     // Padding is ALWAYS 10 px on the left, but is the LESSER 
     // (including negative numbers) of 10.0 or the height difference,
@@ -407,7 +407,7 @@ static UITableViewCellLayoutManager* kValue1;
 - (CGRect) accessoryViewRectForCell:(UITableViewCell*)cell
 {
     UIView* accessoryView = cell.accessoryView;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect cellBounds = {
         .origin = cell.bounds.origin,
         .size = {
@@ -485,7 +485,7 @@ static UITableViewCellLayoutManager* kValue1;
 
 - (CGRect) backgroundViewRectForCell:(UITableViewCell*)cell
 {
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect backgroundRect = {
         .origin = {
             .x = 0,
@@ -500,7 +500,7 @@ static UITableViewCellLayoutManager* kValue1;
 }
 
 
-- (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell
+- (CGRect) separatorViewRectForCell:(UITableViewCell*)cell
 {
     CGRect seperatorRect = {
         .origin = {
@@ -648,7 +648,7 @@ static UITableViewCellLayoutManager* kValue1;
 {
     // Collect pertinent information
     CGRect accessoryRect = [self accessoryViewRectForCell:cell];
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGFloat accessoryPadding = [self _accessoryViewPaddingForCell:cell];
     
     // Width will be 
@@ -677,7 +677,7 @@ static UITableViewCellLayoutManager* kValue1;
     // never changes, even though the origin might.
     CGSize accessorySize = cell.accessoryView.bounds.size;
     CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     
     // Padding is ALWAYS 10 px on the left, but is the LESSER 
     // (including negative numbers) of 10.0 or the height difference,
@@ -690,7 +690,7 @@ static UITableViewCellLayoutManager* kValue1;
 - (CGRect) accessoryViewRectForCell:(UITableViewCell*)cell
 {
     UIView* accessoryView = cell.accessoryView;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect cellBounds = {
         .origin = cell.bounds.origin,
         .size = {
@@ -765,7 +765,7 @@ static UITableViewCellLayoutManager* kValue1;
 
 - (CGRect) backgroundViewRectForCell:(UITableViewCell*)cell
 {
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGRect backgroundRect = {
         .origin = {
             .x = 0,
@@ -779,7 +779,7 @@ static UITableViewCellLayoutManager* kValue1;
     return backgroundRect;
 }
 
-- (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell
+- (CGRect) separatorViewRectForCell:(UITableViewCell*)cell
 {
     CGRect seperatorRect = {
         .origin = {
@@ -807,7 +807,7 @@ static UITableViewCellLayoutManager* kValue1;
     // THE IMAGE HEIGHT IS NEVER CONSTRAINED (tested in iOS)
     CGSize imageSize = image.size;
     CGRect cellBounds = cell.bounds;
-    CGRect seperatorRect = [self seperatorViewRectForCell:cell];
+    CGRect seperatorRect = [self separatorViewRectForCell:cell];
     CGFloat maxHeight = cellBounds.size.height - seperatorRect.size.height;
     
     if (imageSize.height < maxHeight) {

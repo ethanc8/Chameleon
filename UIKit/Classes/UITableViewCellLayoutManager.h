@@ -7,7 +7,7 @@
 - (CGRect) contentViewRectForCell:(UITableViewCell*)cell;
 - (CGRect) accessoryViewRectForCell:(UITableViewCell*)cell;
 - (CGRect) backgroundViewRectForCell:(UITableViewCell*)cell;
-- (CGRect) seperatorViewRectForCell:(UITableViewCell*)cell;
+- (CGRect) separatorViewRectForCell:(UITableViewCell*)cell;
 - (CGRect) imageViewRectForCell:(UITableViewCell*)cell;
 - (CGRect) textLabelRectForCell:(UITableViewCell*)cell;
 - (CGRect) detailTextLabelRectForCell:(UITableViewCell*)cell;

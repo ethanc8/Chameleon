@@ -398,7 +398,7 @@ static Class kUIButtonClass;
         _contentView.frame = [_layoutManager contentViewRectForCell:self];
 	}
 	if (_separatorView) {
-		_separatorView.frame = [_layoutManager seperatorViewRectForCell:self];
+		_separatorView.frame = [_layoutManager separatorViewRectForCell:self];
 	}
     if (_imageView) {
         _imageView.frame = [_layoutManager imageViewRectForCell:self];
