@@ -153,6 +153,7 @@
     // this is for backward compatibility - UIBarStyleBlackTranslucent is deprecated 
     if (_barStyle == UIBarStyleBlackTranslucent) {
         self.translucent = YES;
+        self.alpha = 0.80;
     }
 }
 
@@ -301,7 +302,7 @@
     [color setFill];
     UIRectFill(bounds);
     
-    [[UIColor blackColor] setFill];
+    self.translucent ? [[UIColor colorWithRed:112/255.f green:112/255.f blue:112/255.f alpha:0.8] setFill] : [[UIColor blackColor] setFill];
     UIRectFill(CGRectMake(0,0,bounds.size.width,1));
 }
 
