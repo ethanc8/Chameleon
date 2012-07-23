@@ -35,7 +35,7 @@
 
 static const NSTimeInterval kAnimationDuration = 0.33;
 static const CGFloat NavBarHeight = 44;
-static const CGFloat ToolbarHeight = 28;
+static const CGFloat ToolbarHeight = 44;
 
 @interface UINavigationController (UIPrivate)
 - (void) transitionFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration direction:(NSInteger)direction animations:(void (^)(void))animations completion:(void (^)(BOOL))completion;
@@ -109,7 +109,7 @@ static const CGFloat ToolbarHeight = 28;
 
 - (CGRect)_toolbarFrame
 {
-	CGRect toolbarRect = self.view.bounds;
+	CGRect toolbarRect = _containerView.bounds;
 	toolbarRect.origin.y = toolbarRect.origin.y + toolbarRect.size.height - ToolbarHeight;
 	toolbarRect.size.height = ToolbarHeight;
 	return toolbarRect;
@@ -125,12 +125,7 @@ static const CGFloat ToolbarHeight = 28;
 		controllerFrame.size.height -= NavBarHeight;
 	}
     
-	// adjust for toolbar (if there is one)
-	if (!self.toolbarHidden) {
-		controllerFrame.size.height -= ToolbarHeight;
-	}
-    
-	return controllerFrame;
+    return controllerFrame;
 }
 
 - (void)loadView
@@ -146,14 +141,13 @@ static const CGFloat ToolbarHeight = 28;
 	_toolbar.frame = [self _toolbarFrame];
 	_toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 	_toolbar.hidden = self.toolbarHidden;
-	[self.view addSubview:_toolbar];
 }
 - (void)_updateToolbar:(BOOL)animated
 {
 	UIViewController *topController = self.topViewController;
 	[_toolbar setItems:topController.toolbarItems animated:animated];
 	_toolbar.hidden = self.toolbarHidden;
-	_containerView.frame = [self _controllerFrame];
+    _toolbar.frame = [self _toolbarFrame];
 }
 
 - (void)setViewControllers:(NSArray *)newViewControllers animated:(BOOL)animated
@@ -264,6 +258,7 @@ static const CGFloat ToolbarHeight = 28;
         [_delegate navigationController:self willShowViewController:toViewController animated:duration > 0];
     }
     
+    [_containerView addSubview:_toolbar];
     [self.view addSubview:_containerView];
     
     [UIView animateWithDuration:duration
