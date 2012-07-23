@@ -71,8 +71,13 @@
             view = [[UIToolbarButton alloc] initWithBarButtonItem:item];
         }
     }
-    [item _setToolbarItem:self];
-    [(UIToolbarButton*) view _setToolbarItem:self];
+    
+    if ([item respondsToSelector:@selector(_setToolbarItem:)]) {
+        [item _setToolbarItem:self];
+        if ([view respondsToSelector:@selector(_setToolbarItem:)]) {
+            [(UIToolbarButton*) view _setToolbarItem:self];
+        }
+    }
     return self;
 }
 
