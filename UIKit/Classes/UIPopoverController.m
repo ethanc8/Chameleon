@@ -472,7 +472,7 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
 - (void)_closePopoverWindowIfPossible
 {
     if (!_isDismissing && [self isPopoverVisible]) {
-        const BOOL shouldDismiss = _delegateHas.popoverControllerShouldDismissPopover? [_delegate popoverControllerShouldDismissPopover:self] : YES;
+        const BOOL shouldDismiss = _delegateHas.popoverControllerShouldDismissPopover? [_delegate popoverControllerShouldDismissPopover:self] : NO;
 
         if (shouldDismiss) {
             [self dismissPopoverAnimated:YES];
