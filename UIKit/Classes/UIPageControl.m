@@ -28,16 +28,78 @@
  */
 
 #import "UIPageControl.h"
+#import "UIFont.h"
+#import "UIStringDrawing.h"
+#import "UIColor.h"
+#import "UITouch.h"
+
+#define kDotWidth 15
 
 @implementation UIPageControl
 @synthesize currentPage = _currentPage;
 @synthesize numberOfPages = _numberOfPages;
+
+
+- (void)commonInit
+{
+    self.autoresizingMask = UIViewAutoresizingNone;
+}
+
+- (id)init
+{
+    if ((self=[super init])) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    if ((self=[super initWithFrame:frame])) {
+        [self commonInit];
+    }
+    return self;
+}
 
 - (void)setCurrentPage:(NSInteger)page
 {
     if (page != _currentPage) {
         _currentPage = MIN(MAX(0,page), self.numberOfPages-1);
         [self setNeedsDisplay];
+    }
+}
+
+- (void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+	[super touchesBegan:touches withEvent:event];
+    
+    UITouch* touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+	if ([self pointInside:point withEvent:event]) {
+        if(point.x < self.frame.size.width/2) {
+            [self setCurrentPage:_currentPage - 1];
+        } else {
+            [self setCurrentPage:_currentPage + 1];
+        }
+        [self sendActionsForControlEvents:UIControlEventValueChanged]; 
+    }
+}
+
+
+- (void)drawRect:(CGRect)frame {
+    int drawSize = kDotWidth*self.numberOfPages/2;
+    
+    UIColor *inactiveColor = [UIColor colorWithRed:135/255.f green:135/255.f blue:135/255.f alpha:0.7];
+    for(int i=0;i<self.numberOfPages;i++) {
+        if(i==_currentPage) {
+            [[UIColor whiteColor] set];
+        } else {
+            [inactiveColor set];
+        }
+        
+        [@"•" drawAtPoint:CGPointMake(frame.size.width/2 - drawSize + i*kDotWidth, frame.origin.y) forWidth:frame.size.width
+                 withFont:[UIFont boldSystemFontOfSize:12] minFontSize:12 actualFontSize:NULL
+            lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
     }
 }
 
