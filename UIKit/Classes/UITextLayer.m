@@ -141,7 +141,7 @@
 
 - (BOOL)shouldBeVisible
 {
-    return ([containerView window] && (self.superlayer == [containerView layer]) && !self.hidden && ![containerView isHidden]);
+    return (self.superlayer && [containerView window] && (self.superlayer == [containerView layer]) && !self.hidden && ![containerView isHidden]);
 }
 
 - (void)updateNSViews
