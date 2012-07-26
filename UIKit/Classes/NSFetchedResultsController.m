@@ -117,11 +117,11 @@
 
 - (void)managedObjectContextDidSave:(NSNotification *)notification
 {
-    //NSManagedObjectContext *managedObjectContext = [notification object];
+    NSManagedObjectContext *managedObjectContext = [notification object];
     
-    //if ([managedObjectContext isEqual:self.managedObjectContext]) {
-    //    [self performFetch:nil];
-    //}
+    if ([managedObjectContext isEqual:self.managedObjectContext]) {
+        [self performFetch:nil];
+    }
 }
 
 - (void)dealloc {
