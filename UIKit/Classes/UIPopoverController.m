@@ -438,10 +438,11 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
         
         [parentWindow release];
         [_overlayWindow close];
-        _overlayWindow = nil;
         
         i++;
     }
+    [_overlayWindows release];
+    _overlayWindows = nil;
     _isDismissing = NO;
 }
 
@@ -476,9 +477,10 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
                     [popoverView release];
                     [popoverWindow release];
                 }
-                [_overlayWindow release];
+                
                 i++;
             }
+            [_overlayWindows release];
             _overlayWindows = nil;
         };
         
