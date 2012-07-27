@@ -194,7 +194,7 @@
 
 - (UIView *)view
 {
-    if (!_flags.viewLoadedFromControllerNib) {
+    if (!_flags.viewLoadedFromControllerNib && !_view) {
         _flags.viewLoadedFromControllerNib = YES;
         [self loadView];
         [self viewDidLoad];
