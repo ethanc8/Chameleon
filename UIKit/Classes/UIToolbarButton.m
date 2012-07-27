@@ -33,6 +33,7 @@
 #import "UIImage+UIPrivate.h"
 #import "UILabel.h"
 #import "UIFont.h"
+#import "UIToolbarItem.h"
 
 // I don't like most of this... the real toolbar button lays things out different than a default button.
 // It also seems to have some padding built into it around the whole thing (even the background)
@@ -157,6 +158,29 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
         self.frame = frame;
     }
     return self;
+}
+
+#pragma mark NSKeyValueObserving
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"_toolbarItem.item.image"]) {
+        [self setImage:[_toolbarItem.item.image _toolbarImage] forState:UIControlStateNormal];
+        [self setNeedsDisplay];
+        return;
+    }
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    
+    if (newSuperview) {
+        [self addObserver:self forKeyPath:@"_toolbarItem.item.image" options:NSKeyValueObservingOptionNew context:nil];
+    } else {
+        [self removeObserver:self forKeyPath:@"_barButtonItem.image"];
+    }
 }
 
 - (CGRect)backgroundRectForBounds:(CGRect)bounds

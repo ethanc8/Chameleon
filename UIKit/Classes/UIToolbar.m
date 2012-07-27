@@ -28,95 +28,8 @@
  */
 
 #import "UIToolbar.h"
-#import "UIBarButtonItem.h"
-#import "UIBarButtonItem+UIPrivate.h"
-#import "UIToolbarButton.h"
-#import "UIColor.h"
+#import "UIToolbarItem.h"
 #import "UIGraphics.h"
-#include <tgmath.h>
-
-
-
-
-
-@interface UIToolbarItem : NSObject {
-    UIBarButtonItem *item;
-    UIView *view;
-    UIToolbar *_toolbar;
-}
-
-- (id)initWithBarButtonItem:(UIBarButtonItem *)anItem;
-- (void)_setToolbar:(UIToolbar*) toolbar;
-- (UIToolbar*)_getToolbar;
-
-@property (nonatomic, readonly) UIView *view;
-@property (nonatomic, readonly) UIBarButtonItem *item;
-@property (nonatomic, readonly) CGFloat width;
-
-@end
-
-@implementation UIToolbarItem 
-@synthesize item, view;
-
-- (id)initWithBarButtonItem:(UIBarButtonItem *)anItem
-{
-    if ((self=[super init])) {
-        NSAssert((anItem != nil), @"the bar button item must not be nil");
-        
-        item = [anItem retain];
-        
-        if (!item->_isSystemItem && item.customView) {
-            view = [item.customView retain];
-        } else if (!item->_isSystemItem || (item->_systemItem != UIBarButtonSystemItemFixedSpace && item->_systemItem != UIBarButtonSystemItemFlexibleSpace)) {
-            view = [[UIToolbarButton alloc] initWithBarButtonItem:item];
-        }
-    }
-    
-    if ([item respondsToSelector:@selector(_setToolbarItem:)]) {
-        [item _setToolbarItem:self];
-        if ([view respondsToSelector:@selector(_setToolbarItem:)]) {
-            [(UIToolbarButton*) view _setToolbarItem:self];
-        }
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [item release];
-    [view release];
-    [super dealloc];
-}
-
-- (CGFloat)width
-{
-    if (view) {
-        return view.frame.size.width;
-    } else if (item->_isSystemItem && item->_systemItem == UIBarButtonSystemItemFixedSpace) {
-        return item.width;
-    } else {
-        return -1;
-    }
-}
-
-- (void)_setToolbar:(UIToolbar*) toolbar
-{
-    _toolbar = toolbar;
-}
-
-- (UIToolbar*) _getToolbar
-{
-    return _toolbar;
-}
-
-@end
-
-
-
-
-
-
-
 
 @implementation UIToolbar 
 @synthesize barStyle = _barStyle;
@@ -251,13 +164,17 @@
         for (UIToolbarItem *toolbarItem in _toolbarItems) {
             UIView* view = toolbarItem.view;
             if (view) {
-                [UIView animateWithDuration:animated? 0.2 : 0
-                                 animations:^(void) {
-                                     view.alpha = 0;
-                                 }
-                                 completion:^(BOOL finished) {
-                                     [view removeFromSuperview];
-                                 }];
+                if (animated) {
+                    [UIView animateWithDuration: 0.2
+                                     animations:^(void) {
+                                         view.alpha = 0;
+                                     }
+                                     completion:^(BOOL finished) {
+                                         [view removeFromSuperview];
+                                     }];
+                } else {
+                    [view removeFromSuperview];
+                }
             }
         }
         
@@ -267,16 +184,21 @@
             UIToolbarItem *toolbarItem = [[UIToolbarItem alloc] initWithBarButtonItem:item];
             [toolbarItem _setToolbar:self];
             [_toolbarItems addObject:toolbarItem];
-
+            
             UIView* view = toolbarItem.view;
             if (view) {
-                view.alpha = 0.0;
-                [self addSubview:view];
-                [UIView animateWithDuration:!animated ? 0.0 : 0.2
-                    animations:^(void) {
-                        view.alpha = 1.0;
-                    }
-                ];
+                if (animated) {
+                    view.alpha = 0.0;
+                    [self addSubview:view];
+                    [UIView animateWithDuration:0.2
+                                     animations:^(void) {
+                                         view.alpha = 1.0;
+                                     }
+                     ];
+                    
+                } else {
+                    [self addSubview:view];
+                }
             }
             [toolbarItem release];
         }

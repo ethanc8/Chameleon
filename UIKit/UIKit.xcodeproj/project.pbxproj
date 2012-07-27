@@ -291,6 +291,8 @@
 		49CBCC5715457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5615457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png */; };
 		49CBCC5915457D8E003AFDD0 /* <UISegmentedControl> divider.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5815457D8E003AFDD0 /* <UISegmentedControl> divider.png */; };
 		49CBCC5B15457DA3003AFDD0 /* <UISwitch> on.png in Resources */ = {isa = PBXBuildFile; fileRef = 49CBCC5A15457DA3003AFDD0 /* <UISwitch> on.png */; };
+		49D83B3315C2B5F0008BCF6E /* UIToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D83B3115C2B5F0008BCF6E /* UIToolbarItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		49D83B3415C2B5F0008BCF6E /* UIToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D83B3215C2B5F0008BCF6E /* UIToolbarItem.m */; };
 		537472D5133ADD4B00EBD5EA /* UIInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 537472D3133ADD4B00EBD5EA /* UIInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		537472D6133ADD4B00EBD5EA /* UIInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 537472D4133ADD4B00EBD5EA /* UIInterface.m */; };
 		66371E3913674EF1007B9873 /* <UIBarButtonSystemItem> add.png in Resources */ = {isa = PBXBuildFile; fileRef = 66371E3813674EF1007B9873 /* <UIBarButtonSystemItem> add.png */; };
@@ -370,7 +372,7 @@
 		F935331D13DF0733003C7D3A /* UINibDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = F935331B13DF0733003C7D3A /* UINibDecoder.h */; };
 		F935331E13DF0733003C7D3A /* UINibDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = F935331C13DF0733003C7D3A /* UINibDecoder.m */; };
 		F94CB9A413C7E5C4001DF656 /* <UITableViewCell> accessoryDisclosureIndicatorHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = F94CB9A313C7E5C4001DF656 /* <UITableViewCell> accessoryDisclosureIndicatorHighlighted.png */; };
-		F94CB9D613C8C0A9001DF656 /* UIBarButtonItem+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F94CB9D513C8C0A9001DF656 /* UIBarButtonItem+UIPrivate.h */; };
+		F94CB9D613C8C0A9001DF656 /* UIBarButtonItem+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F94CB9D513C8C0A9001DF656 /* UIBarButtonItem+UIPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F94CB9D913C8C242001DF656 /* UIButton+UIPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F94CB9D813C8C242001DF656 /* UIButton+UIPrivate.h */; };
 		F953D4FE13CD3BAC006B941C /* UITableViewCellUnhighlightedState.h in Headers */ = {isa = PBXBuildFile; fileRef = F953D4FC13CD3BAB006B941C /* UITableViewCellUnhighlightedState.h */; };
 		F953D4FF13CD3BAC006B941C /* UITableViewCellUnhighlightedState.m in Sources */ = {isa = PBXBuildFile; fileRef = F953D4FD13CD3BAB006B941C /* UITableViewCellUnhighlightedState.m */; };
@@ -695,6 +697,8 @@
 		49CBCC5615457D73003AFDD0 /* <UISegmentedControl> divider-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> divider-highlighted.png"; path = "Resources/<UISegmentedControl> divider-highlighted.png"; sourceTree = "<group>"; };
 		49CBCC5815457D8E003AFDD0 /* <UISegmentedControl> divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISegmentedControl> divider.png"; path = "Resources/<UISegmentedControl> divider.png"; sourceTree = "<group>"; };
 		49CBCC5A15457DA3003AFDD0 /* <UISwitch> on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UISwitch> on.png"; path = "Resources/<UISwitch> on.png"; sourceTree = "<group>"; };
+		49D83B3115C2B5F0008BCF6E /* UIToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIToolbarItem.h; sourceTree = "<group>"; };
+		49D83B3215C2B5F0008BCF6E /* UIToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIToolbarItem.m; sourceTree = "<group>"; };
 		537472D3133ADD4B00EBD5EA /* UIInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIInterface.h; sourceTree = "<group>"; };
 		537472D4133ADD4B00EBD5EA /* UIInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIInterface.m; sourceTree = "<group>"; };
 		66371E3813674EF1007B9873 /* <UIBarButtonSystemItem> add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "<UIBarButtonSystemItem> add.png"; path = "Resources/<UIBarButtonSystemItem> add.png"; sourceTree = "<group>"; };
@@ -1213,6 +1217,8 @@
 				14FA8C5B121DA4A000C4264B /* UIViewLayoutManager.h */,
 				14FA8C5C121DA4A000C4264B /* UIViewLayoutManager.m */,
 				493095541595193B00B56483 /* UIColor+UIPrivate.h */,
+				49D83B3115C2B5F0008BCF6E /* UIToolbarItem.h */,
+				49D83B3215C2B5F0008BCF6E /* UIToolbarItem.m */,
 			);
 			name = "Private Classes";
 			path = Classes;
@@ -1498,6 +1504,7 @@
 				493095561595193B00B56483 /* UIColor+UIPrivate.h in Headers */,
 				49309560159520E700B56483 /* UIImageRep.h in Headers */,
 				494741AF159525F900BD9BDD /* UIColorRep.h in Headers */,
+				49D83B3315C2B5F0008BCF6E /* UIToolbarItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1783,6 +1790,7 @@
 				4930955F159520E700B56483 /* UIImageAppKitIntegration.m in Sources */,
 				49309561159520E700B56483 /* UIImageRep.m in Sources */,
 				494741B0159525F900BD9BDD /* UIColorRep.m in Sources */,
+				49D83B3415C2B5F0008BCF6E /* UIToolbarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
