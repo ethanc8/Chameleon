@@ -172,17 +172,6 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
-{
-    [super willMoveToSuperview:newSuperview];
-    
-    if (newSuperview) {
-        [self addObserver:self forKeyPath:@"_toolbarItem.item.image" options:NSKeyValueObservingOptionNew context:nil];
-    } else {
-        [self removeObserver:self forKeyPath:@"_barButtonItem.image"];
-    }
-}
-
 - (CGRect)backgroundRectForBounds:(CGRect)bounds
 {
     return UIEdgeInsetsInsetRect(bounds, UIToolbarButtonInset);
@@ -208,7 +197,20 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
 
 - (void) _setToolbarItem:(UIToolbarItem*) item
 {
-    _toolbarItem = item;
+    if(_toolbarItem) {
+        [self removeObserver:self forKeyPath:@"_toolbarItem.item.image"];
+        [item release];
+    }
+    _toolbarItem = [item retain];
+    [self addObserver:self forKeyPath:@"_toolbarItem.item.image" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void) dealloc {
+    [super dealloc];
+    if(_toolbarItem) {
+        [self removeObserver:self forKeyPath:@"_toolbarItem.item.image"];
+    }
+    [_toolbarItem release];
 }
 
 @end
