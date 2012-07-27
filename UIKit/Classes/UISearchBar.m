@@ -152,6 +152,17 @@
 	return [_searchField resignFirstResponder];
 }
 
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    return CGSizeMake(768, 44);
+}
+
+- (void)sizeToFit
+{
+    [super sizeToFit];
+    _searchField.frame = self.frame;
+}
+
 #pragma mark UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -175,6 +186,30 @@
 
 - (void)sendTextDidChange {
 	[self.delegate searchBar:self textDidChange:_searchField.text];
+}
+
+#pragma mark  UISearchLayerTextDelegate
+- (BOOL)_textShouldBeginEditing {
+    return _delegateHas.shouldBeginEditing? [_delegate searchBarShouldBeginEditing:self] : YES;
+}
+
+- (void)_textDidBeginEditing {
+    if(_delegateHas.didBeginEditing)
+        [_delegate searchBarTextDidBeginEditing:self];
+}
+
+
+- (BOOL)_textShouldEndEditing {
+     return _delegateHas.shouldEndEditing? [_delegate searchBarShouldEndEditing:self] : YES;
+}
+
+- (void)_textDidEndEditing {
+     if(_delegateHas.didEndEditing)
+         [_delegate searchBarTextDidEndEditing:self];
+}
+
+- (BOOL)_textShouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    return [self textField:_searchField shouldChangeCharactersInRange:range replacementString:text];
 }
 
 @end

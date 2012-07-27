@@ -38,4 +38,11 @@
 
 @implementation UISearchField
 
+- (CGRect)leftViewRectForBounds:(CGRect)bounds
+{
+    CGRect rect = [super leftViewRectForBounds:bounds];
+    return CGRectOffset(rect, 10.0f, 0.0f);
+}
+ 
+
 @end
