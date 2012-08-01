@@ -212,8 +212,10 @@ static const CGFloat ToolbarHeight = 44;
     
     UIView* oldContainerView = _containerView;
     UIView* newContainerView = [[UIView alloc] init];
-#ifndef NDEBUG
+#ifdef NDEBUG
     newContainerView.backgroundColor = [UIColor redColor];
+#else
+    newContainerView.backgroundColor = fromViewController.view.backgroundColor?fromViewController.view.backgroundColor: [UIColor lightGrayColor];
 #endif
     newContainerView.layer.anchorPoint = CGPointZero;
     newContainerView.frame = a;
