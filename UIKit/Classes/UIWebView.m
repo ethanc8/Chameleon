@@ -53,6 +53,8 @@
         _webViewAdapter.NSView = _webView;
         _webViewAdapter.scrollEnabled = NO;		// WebView does its own scrolling :/
         
+        //impersonate an iPad.
+        _webView.customUserAgent = @"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25";
         [self addSubview:_webViewAdapter];
     }
     return self;
@@ -79,6 +81,7 @@
     _delegate = newDelegate;
     _delegateHas.shouldStartLoadWithRequest = [_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)];
     _delegateHas.didFailLoadWithError = [_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)];
+    _delegateHas.didStartLoad = [_delegate respondsToSelector:@selector(webViewDidStartLoad:)];
     _delegateHas.didFinishLoad = [_delegate respondsToSelector:@selector(webViewDidFinishLoad:)];
 }
 
@@ -192,6 +195,13 @@
 
 #pragma mark -
 #pragma mark WebView Frame Load Delegate
+
+- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
+{
+    if (_delegateHas.didStartLoad) {
+        [_delegate webViewDidStartLoad:self];
+    }
+}
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
