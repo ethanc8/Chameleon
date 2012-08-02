@@ -28,7 +28,7 @@
  */
 
 #import "UIViewAdapter.h"
-#import "UINSClipView.h"
+#import "UICustomNSClipView.h"
 #import "UIWindow.h"
 #import "UIKitView.h"
 #import "UIScrollView+UIPrivate.h"
@@ -52,7 +52,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     if ((self=[super initWithFrame:frame])) {
-        _clipView = [[UINSClipView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height) parentView:self];
+        _clipView = [[UICustomNSClipView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_hierarchyMayHaveChangedNotification:) name:UIViewHiddenDidChangeNotification object:nil];
     }
     return self;

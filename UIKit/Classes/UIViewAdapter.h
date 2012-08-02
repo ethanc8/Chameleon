@@ -29,11 +29,11 @@
 
 #import "UIScrollView.h"
 
-@class NSView, UINSClipView;
+@class NSView, UICustomNSClipView;
 
 @interface UIViewAdapter : UIScrollView {
 @private
-    UINSClipView *_clipView;
+    UICustomNSClipView *_clipView;
     NSView *_view;
 }
 
