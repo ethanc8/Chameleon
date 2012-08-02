@@ -102,9 +102,13 @@ static const CGFloat ToolbarHeight = 44;
 
 - (CGRect)_navigationBarFrame
 {
-	CGRect navBarFrame = self.view.bounds;
-	navBarFrame.size.height = NavBarHeight;
-	return navBarFrame;
+    if (self.navigationBarHidden) {
+        return CGRectZero;
+    } else {
+        CGRect navBarFrame = self.view.bounds;
+        navBarFrame.size.height = NavBarHeight;
+        return navBarFrame;
+    }
 }
 
 - (CGRect)_toolbarFrame
