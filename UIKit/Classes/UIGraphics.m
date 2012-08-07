@@ -161,6 +161,7 @@ void UIGraphicsBeginPDFPage(void)
     if (pdfPageStarted) {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGPDFContextEndPage(ctx);
+        pdfPageStarted = FALSE;
     } 
     pdfPageStarted = TRUE;
     CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),nil);
@@ -173,6 +174,7 @@ void UIGraphicsEndPDFContext(void)
     
     if (pdfPageStarted) {
         CGPDFContextEndPage(ctx);
+        pdfPageStarted = FALSE;
     }
     
     CGPDFContextClose(ctx);
