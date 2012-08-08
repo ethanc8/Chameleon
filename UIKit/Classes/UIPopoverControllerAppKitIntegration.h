@@ -1,9 +1,6 @@
 #import "UIPopoverController.h"
 
-typedef enum {
-    UIPopoverThemeDefault,
-    UIPopoverThemeLion
-} UIPopoverTheme;
+
 
 @interface UIPopoverController (AppKitIntegration)
 @property (assign, nonatomic) UIPopoverTheme theme;

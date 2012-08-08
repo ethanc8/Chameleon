@@ -50,6 +50,7 @@
     UIView *_leftView;
     UIView *_centerView;
     UIView *_rightView;
+    UIBarStyle barStyle;
     
     struct {
         unsigned shouldPushItem : 1;

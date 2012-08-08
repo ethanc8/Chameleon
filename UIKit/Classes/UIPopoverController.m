@@ -172,27 +172,8 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
 - (void)_destroyPopover;
 @end
 
-@implementation UIPopoverController {
-    UIPopoverView *_popoverView;
-    UIPopoverNSWindow *_popoverWindow;
-    NSMutableArray *_overlayWindows;
-    UIPopoverTheme _theme;
-    
-    UIViewController *_contentViewController;
-    NSArray *_passthroughViews;
-    UIPopoverArrowDirection _popoverArrowDirection;
-    
-    CGSize _popoverContentSize;
-    
-    BOOL _isDismissing;
-    __unsafe_unretained id _delegate;
-    
-    struct {
-        unsigned popoverControllerDidDismissPopover : 1;
-        unsigned popoverControllerShouldDismissPopover : 1;
-    } _delegateHas;	
-}
- 
+@implementation UIPopoverController
+
 @synthesize delegate = _delegate;
 @synthesize contentViewController = _contentViewController;
 @synthesize passthroughViews = _passthroughViews;

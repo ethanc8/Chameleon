@@ -52,6 +52,7 @@
     NSArray *_viewControllers;
     NSDictionary *_viewControllerByTabBarItem;
     id<UITabBarControllerDelegate> _delegate;
+    NSUInteger _selectedIndex;
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;

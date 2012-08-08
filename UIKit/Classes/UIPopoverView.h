@@ -38,6 +38,8 @@
     UIView *_contentView;
     UIView *_contentContainerView;
 	UIPopoverController *_popoverController;
+    
+    UIPopoverTheme _theme;
 }
 
 - (id)initWithContentView:(UIView *)aView size:(CGSize)aSize popoverController:(UIPopoverController *)controller;

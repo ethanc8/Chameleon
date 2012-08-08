@@ -35,9 +35,17 @@
 
 #import "UIControl.h"
 
-@class UIImageView, UIImage;
+@class UIImageView, UIImage, UIButton;
 
-@interface UISlider : UIControl
+@interface UISlider : UIControl {
+    float _value;
+    float _minimumValue;
+    float _maximumValue;
+    BOOL _continuous;
+    UIImageView* _minimumTrackView;
+    UIImageView* _maximumTrackView;
+    UIButton* _thumbView;
+}
 
 @property (nonatomic) float value;
 @property (nonatomic) float minimumValue;

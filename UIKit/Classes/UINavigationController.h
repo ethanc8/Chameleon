@@ -29,7 +29,7 @@
 
 #import "UIViewController.h"
 
-@class UINavigationBar, UIToolbar, UIViewController;
+@class UINavigationBar, UIToolbar, UIViewController, UIView;
 
 @protocol UINavigationControllerDelegate <NSObject>
 @optional
@@ -40,6 +40,18 @@
 @interface UINavigationController : UIViewController {
 @private
     BOOL shouldPop;
+    UIView *_containerView;
+    NSMutableArray *_viewControllers;
+    UINavigationBar *_navigationBar;
+    UIToolbar *_toolbar;
+    id<UINavigationControllerDelegate> _delegate;
+    BOOL _navigationBarHidden;
+    BOOL _toolbarHidden;
+    struct {
+        BOOL didShowViewController : 1;
+        BOOL willShowViewController : 1;
+    } _delegateHas;
+
 }
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController;

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define NS_BUILD_32_LIKE_64 1
+
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
 #endif

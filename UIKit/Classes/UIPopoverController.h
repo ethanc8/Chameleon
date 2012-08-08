@@ -49,7 +49,32 @@ typedef NSUInteger UIPopoverArrowDirection;
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController;
 @end
 
-@interface UIPopoverController : NSObject 
+typedef enum {
+    UIPopoverThemeDefault,
+    UIPopoverThemeLion
+} UIPopoverTheme;
+
+@interface UIPopoverController : NSObject {
+    id <UIPopoverControllerDelegate> _delegate;
+    UIViewController *_contentViewController;
+    BOOL popoverVisible;
+    NSArray *_passthroughViews;
+    UIPopoverArrowDirection _popoverArrowDirection;
+    
+    CGSize _popoverContentSize;
+    
+    UIPopoverView *_popoverView;
+    UIPopoverNSWindow *_popoverWindow;
+    NSMutableArray *_overlayWindows;
+    
+    BOOL _isDismissing;
+    UIPopoverTheme _theme;
+
+    struct {
+        unsigned popoverControllerDidDismissPopover : 1;
+        unsigned popoverControllerShouldDismissPopover : 1;
+    } _delegateHas;
+}
 
 - (id)initWithContentViewController:(UIViewController *)viewController;
 

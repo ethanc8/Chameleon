@@ -40,9 +40,7 @@ static NSString* const kUIMinValueKey = @"UIMinValue";
 static NSString* const kUIMaxValueKey = @"UIMaxValue";
 
 @implementation UISlider {
-    UIImageView* _minimumTrackView;
-    UIImageView* _maximumTrackView;
-    UIButton* _thumbView;
+   
 }
 @synthesize value = _value;
 @synthesize minimumValue = _minimumValue;

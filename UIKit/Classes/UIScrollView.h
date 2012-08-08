@@ -101,6 +101,7 @@ extern const float UIScrollViewDecelerationRateFast;
   // should be flag struct
   BOOL _alwaysBounceHorizontal;
   BOOL _alwaysBounceVertical;
+  BOOL _scrollEnabled;
 }
 
 - (void)scrollRectToVisible:(CGRect)rect animated:(BOOL)animated;

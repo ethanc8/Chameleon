@@ -81,6 +81,10 @@
     
     NSString *identifier;
     
+    UISearchLayer *_searchLayer;
+    UIButton *_cancelButton;
+    BOOL showsScopeBar;
+    
 	struct {
         BOOL shouldBeginEditing : 1;
         BOOL didBeginEditing : 1;
