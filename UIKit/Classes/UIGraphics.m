@@ -164,7 +164,13 @@ void UIGraphicsBeginPDFPage(void)
         pdfPageStarted = FALSE;
     } 
     pdfPageStarted = TRUE;
-    CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),nil);
+    
+    //this is needed because CGPDFContextBeginPage likea to reset our context
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextSaveGState(ctx);
+    CGPDFContextBeginPage(ctx,nil);
+    CGContextRestoreGState(ctx);
 }
 
 void UIGraphicsEndPDFContext(void)
@@ -198,7 +204,12 @@ void UIGraphicsBeginPDFPageWithInfo(CGRect bounds, NSDictionary *pageInfo)
         CFRelease(mediaBox);
     }
     
+    //this is needed because CGPDFContextBeginPage likea to reset our context
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextSaveGState(ctx);
     CGPDFContextBeginPage(UIGraphicsGetCurrentContext(),(CFMutableDictionaryRef)pageInfo);
+    CGContextRestoreGState(ctx);
 }
 
 void UIGraphicsBeginPDFContextToData(NSMutableData *data, CGRect bounds, NSDictionary *documentInfo) 
@@ -206,7 +217,9 @@ void UIGraphicsBeginPDFContextToData(NSMutableData *data, CGRect bounds, NSDicti
     CGDataConsumerRef dataConsumer = CGDataConsumerCreateWithCFData((CFMutableDataRef)data);
     
     CGContextRef ctx = CGPDFContextCreate(dataConsumer, &bounds, (CFMutableDictionaryRef)documentInfo);
+    //change coordinates system to be like on iOS
+    CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, bounds.size.height));
     UIGraphicsPushContext(ctx);
     CGContextRelease(ctx);
-    CFRelease(dataConsumer);
+    CGDataConsumerRelease(dataConsumer);
 }
