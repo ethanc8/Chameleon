@@ -99,9 +99,9 @@
         
         NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
         [defaultNotificationCenter addObserver:self
-                                      selector:@selector(managedObjectContextDidSave:)
-                                          name:NSManagedObjectContextDidSaveNotification
-                                        object:nil];
+                                      selector:@selector(managedObjectContextDidChange:)
+                                          name:NSManagedObjectContextObjectsDidChangeNotification
+                                        object:_managedObjectContext];
         
         if (_sectionNameKeyPath) {
             /*NSMutableArray *sorting = [[_fetchRequest sortDescriptors] mutableCopy];
@@ -115,13 +115,9 @@
     return self;
 }
 
-- (void)managedObjectContextDidSave:(NSNotification *)notification
+- (void)managedObjectContextDidChange:(NSNotification *)notification
 {
-    NSManagedObjectContext *managedObjectContext = [notification object];
-    
-    if ([managedObjectContext isEqual:self.managedObjectContext]) {
-        [self performFetch:nil];
-    }
+    [self performFetch:nil];
 }
 
 - (void)dealloc {
