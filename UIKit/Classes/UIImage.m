@@ -36,39 +36,60 @@
 
 @implementation UIImage
 
-+ (UIImage *)_imageNamed:(NSString *)name
++ (id) imageNamed:(NSString*)name
 {
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSString *path = [[bundle resourcePath] stringByAppendingPathComponent:name];
-    UIImage *img = [self imageWithContentsOfFile:path];
-    
-    if (!img) {
-        // if nothing is found, try again after replacing any underscores in the name with dashes.
-        // I don't know why, but UIKit does something similar. it probably has a good reason and it might not be this simplistic, but
-        // for now this little hack makes Ramp Champ work. :)
-        path = [[[bundle resourcePath] stringByAppendingPathComponent:[[name stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"_" withString:@"-"]] stringByAppendingPathExtension:[name pathExtension]];
-        img = [self imageWithContentsOfFile:path];
+    if (!name) {
+        return nil;
     }
     
-    return img;
-}
-
-+ (id)imageNamed:(NSString *)name
-{
-    UIImage *img = [self _cachedImageForName:name];
-    
-    if (!img) {
-        // as per the iOS docs, if it fails to find a match with the bare name, it re-tries by appending a png file extension
-        img = [self _imageNamed:name] ?: [self _imageNamed:[name stringByAppendingPathExtension:@"png"]];
-        [self _cacheImage:img forName:name];
+    UIImage* image = [self _cachedImageForName:name];
+    if (!image) {
+        NSBundle* bundle = [NSBundle mainBundle];
+        NSString* type = [name pathExtension];
+        NSString* resource = [type length]? [name stringByDeletingPathExtension] : name;
+        NSString* resourceForMac = [resource stringByAppendingString:@"~mac"];
+        
+        NSString* pathToFileWithMultipleResolutions = nil;
+        
+        //Always try to see if we have a tiff file as Xcode will try to combine images
+        pathToFileWithMultipleResolutions = [bundle pathForResource:resourceForMac ofType:@"tiff"];
+        if (!pathToFileWithMultipleResolutions) {
+            pathToFileWithMultipleResolutions = [bundle pathForResource:resource ofType:@"tiff"];
+            if (!pathToFileWithMultipleResolutions) {
+                type = @"png";
+            }
+        }
+        
+        if (pathToFileWithMultipleResolutions) {
+            image = [[self alloc] _initWithRepresentations:[UIImageRep imageRepsWithContentsOfFile:pathToFileWithMultipleResolutions]];
+        } else {
+            NSString* resourceForMacAt2x = [resource stringByAppendingString:@"@2x~mac"];
+            NSString* pathToFileAt2x = [bundle pathForResource:resourceForMacAt2x ofType:type];
+            NSString* pathToFileAt1x = [bundle pathForResource:resourceForMac ofType:type];
+            if (!pathToFileAt2x && !pathToFileAt1x) {
+                NSString* resourceAt2x = [resource stringByAppendingString:@"@2x"];
+                pathToFileAt2x = [bundle pathForResource:resourceAt2x ofType:type];
+                pathToFileAt1x = [bundle pathForResource:resource ofType:type];
+            }
+            if (pathToFileAt2x) {
+                image = [[self alloc] _initWithRepresentations:[UIImageRep imageRepsWithContentsOfFile:pathToFileAt1x and2xVariant:pathToFileAt2x]];
+            } else if (pathToFileAt1x) {
+                image = [[self alloc] _initWithRepresentations:[UIImageRep imageRepsWithContentsOfFile:pathToFileAt1x]];
+            }
+        }
+        
+        if (image) {
+            [self _cacheImage:image forName:name];
+            [image autorelease];
+        }
     }
     
-    return img;
+    return image;
 }
 
 - (id)initWithContentsOfFile:(NSString *)imagePath
 {
-    return [self _initWithRepresentations:[UIImageRep imageRepsWithContentsOfFile:imagePath]];
+    return imagePath? [self _initWithRepresentations:[UIImageRep imageRepsWithContentsOfFile:imagePath]] : nil;
 }
 
 - (id)initWithData:(NSData *)data
@@ -78,7 +99,7 @@
 
 - (id)initWithCGImage:(CGImageRef)imageRef
 {
-    return [self initWithCGImage:imageRef scale:1 orientation:UIImageOrientationUp];
+    return [self initWithCGImage:imageRef scale:1.0 orientation:UIImageOrientationUp];
 }
 
 - (id)initWithCGImage:(CGImageRef)imageRef scale:(CGFloat)scale orientation:(UIImageOrientation)orientation
@@ -94,12 +115,12 @@
 
 + (UIImage *)imageWithData:(NSData *)data
 {
-    return [[[self alloc] initWithData:data] autorelease];
+    return data? [[[self alloc] initWithData:data] autorelease] : nil;
 }
 
 + (UIImage *)imageWithContentsOfFile:(NSString *)path
 {
-    return [[[self alloc] initWithContentsOfFile:path] autorelease];
+    return path? [[[self alloc] initWithContentsOfFile:path] autorelease] : nil;
 }
 
 + (UIImage *)imageWithCGImage:(CGImageRef)imageRef
@@ -127,15 +148,15 @@
     }
 }
 
-- (CGSize)size
+- (CGSize) size
 {
-    CGSize size = CGSizeZero;
-    UIImageRep *rep = [_representations lastObject];
+    UIImageRep* rep = [_representations lastObject];
     const CGSize repSize = rep.imageSize;
     const CGFloat scale = rep.scale;
-    size.width = repSize.width / scale;
-    size.height = repSize.height / scale;
-    return size;
+    return (CGSize) {
+        .width = repSize.width / scale,
+        .height = repSize.height / scale,
+    };
 }
 
 - (NSInteger)leftCapWidth
@@ -190,19 +211,6 @@
     if (rect.size.height > 0 && rect.size.width > 0) {
         [self _drawRepresentation:[self _bestRepresentationForProposedScale:_UIGraphicsGetContextScaleFactor(UIGraphicsGetCurrentContext())] inRect:rect];
     }
-}
-
-- (id) initWithCoder:(NSCoder*)coder
-{
-    if (nil != (self = [super init])) {
-        /* XXX: Implement Me */
-    }
-    return self;
-}
-
-- (void) encodeWithCoder:(NSCoder*)coder
-{
-    [self doesNotRecognizeSelector:_cmd];
 }
 
 @end
