@@ -36,6 +36,7 @@
 static const NSTimeInterval kAnimationDuration = 0.33;
 static const CGFloat NavBarHeight = 44;
 static const CGFloat ToolbarHeight = 44;
+static const CGFloat TabBarHeight = 35;
 
 @interface UINavigationController (UIPrivate)
 - (void) transitionFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController duration:(NSTimeInterval)duration direction:(NSInteger)direction animations:(void (^)(void))animations completion:(void (^)(BOOL))completion;
@@ -122,6 +123,10 @@ static const CGFloat ToolbarHeight = 44;
 		controllerFrame.size.height -= NavBarHeight;
 	}
     
+    //adjust for tabbar
+    if (self.tabBarController) {
+         controllerFrame.size.height -= TabBarHeight;
+    }
     return controllerFrame;
 }
 
@@ -145,6 +150,16 @@ static const CGFloat ToolbarHeight = 44;
 	[_toolbar setItems:topController.toolbarItems animated:animated];
 	_toolbar.hidden = self.toolbarHidden;
     _toolbar.frame = [self _toolbarFrame];
+}
+
+- (void)_setTabBarController:(UITabBarController *)tabBarController
+{
+    [super _setTabBarController:tabBarController];
+    [self transitionFromViewController:nil toViewController:self.topViewController duration:0 direction:1 animations:nil completion:^(BOOL finished){
+        for (UIViewController *controller in _viewControllers) {
+            [controller didMoveToParentViewController:self];
+        }
+    }];
 }
 
 - (void)setViewControllers:(NSArray *)newViewControllers animated:(BOOL)animated
