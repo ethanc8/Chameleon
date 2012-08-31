@@ -569,6 +569,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 {
     if ([super becomeFirstResponder]) {
 		_placeholderTextLayer.hidden = YES;
+        _textLayer.hidden = NO;
         return [_textLayer becomeFirstResponder];
     } else {
         return NO;
@@ -626,6 +627,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     _textLayer.text = newText;
 	
 	_placeholderTextLayer.hidden = _textLayer.text.length > 0 || _editing;
+    _textLayer.hidden = !_placeholderTextLayer.hidden;
 }
 
 - (BOOL)_textShouldBeginEditing
@@ -649,6 +651,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     }
 	
 	_placeholderTextLayer.hidden = YES;
+    _textLayer.hidden = NO;
     
     _editing = YES;
     [self setNeedsDisplay];
@@ -671,6 +674,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 {
     _editing = NO;
     _placeholderTextLayer.hidden = _textLayer.text.length > 0;
+    _textLayer.hidden = !_placeholderTextLayer.hidden;
+    
     [self setNeedsDisplay];
     [self setNeedsLayout];
 	
