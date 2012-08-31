@@ -246,7 +246,18 @@ static NSString* const kUIStyleKey = @"UIStyle";
             
             // make a default section footer view if there's a title for it and no overriding view
             if (!sectionRecord.footerView && sectionRecord.footerTitle) {
-                sectionRecord.footerView = [UITableViewSectionLabel sectionLabelWithTitle:sectionRecord.footerTitle];
+                
+                if (self.style == UITableViewStylePlain) {
+                    sectionRecord.footerView = [UITableViewSectionLabel sectionLabelWithTitle:sectionRecord.footerTitle];
+                } else {
+                    UILabel *footerLabel = [[[UILabel alloc] init] autorelease];
+                    footerLabel.text = sectionRecord.footerTitle;
+                    footerLabel.backgroundColor = self.backgroundColor;
+                    footerLabel.textColor = [UIColor grayColor];
+                    footerLabel.textAlignment = UITextAlignmentCenter;
+                    footerLabel.numberOfLines = 2;
+                    sectionRecord.footerView = footerLabel;
+                }
             }
             
             // if there's a view, then we need to set the height, otherwise it's going to be zero
@@ -259,7 +270,11 @@ static NSString* const kUIStyleKey = @"UIStyle";
             
             if (sectionRecord.footerView) {
                 [self addSubview:sectionRecord.footerView];
-                sectionRecord.footerHeight = _delegateHas.heightForFooterInSection? [self.delegate tableView:self heightForFooterInSection:section] : _sectionFooterHeight;
+                
+                CGFloat _defaultSectionFooterHeight = self.style == UITableViewStylePlain ? _sectionFooterHeight: [sectionRecord.footerView sizeThatFits:CGSizeZero].height;
+               
+                sectionRecord.footerHeight = _delegateHas.heightForFooterInSection? [self.delegate tableView:self heightForFooterInSection:section] : _defaultSectionFooterHeight;
+               
             } else {
                 sectionRecord.footerHeight = 0;
             }
