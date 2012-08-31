@@ -418,6 +418,11 @@ inline static NSNumber* _keyForState(NSInteger state)
         rect.size.width -= CGRectGetMaxX(rect) - CGRectGetMaxX(contentRect);
     }
     
+    //clamp height
+    if (CGRectGetMaxY(rect) > CGRectGetMaxY(contentRect)) {
+        rect.size.height -= CGRectGetMaxY(rect) - CGRectGetMaxY(contentRect);
+    }
+    
     switch (self.contentHorizontalAlignment) {
         case UIControlContentHorizontalAlignmentCenter:
             rect.origin.x += floor((contentRect.size.width/2.f) - (rect.size.width/2.f));
