@@ -212,7 +212,7 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
     CGSize size = frame.size;
     CGFloat segmentWidth = round((size.width - count - 1) / (CGFloat)count);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+        
     for (NSInteger i = 0; i < count; i++) {
         CGContextSaveGState(context);
         
@@ -271,7 +271,12 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
                                         backgroundRect.size.width + capWidth + capWidth, backgroundRect.size.height);
         }
         
-        [backgroundImage drawInRect:backgroundRect];
+        //HACK: this is a hack because tintColor is just a stub
+        if(_tintColor && _momentary) {
+            [_highlightedButtonImage drawInRect:backgroundRect];
+        } else {
+            [backgroundImage drawInRect:backgroundRect];
+        }
         
         // Strings
         if ([item isKindOfClass:[NSString class]]) {
