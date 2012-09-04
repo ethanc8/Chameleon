@@ -32,7 +32,7 @@
 
 static NSString *UIFontSystemFontName = nil;
 static NSString *UIFontBoldSystemFontName = nil;
-static NSString *UIFontItalicSystemFontName = nil;
+static NSString *UIFontItalicSystemFontName = @"Lucida Sans Demibold Italic";
 
 static NSString* const kUIFontNameKey = @"UIFontName";
 static NSString* const kUIFontPointSizeKey = @"UIFontPointSize";
