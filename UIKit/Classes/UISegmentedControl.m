@@ -272,7 +272,7 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
         }
         
         //HACK: this is a hack because tintColor is just a stub
-        if(_tintColor && _momentary) {
+        if(_tintColor && _momentary && count == 1) {
             [_highlightedButtonImage drawInRect:backgroundRect];
         } else {
             [backgroundImage drawInRect:backgroundRect];
