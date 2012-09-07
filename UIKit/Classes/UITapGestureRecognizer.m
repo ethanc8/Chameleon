@@ -70,33 +70,20 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    if (touch.tapCount >= self.numberOfTapsRequired) {
-        if (self.state == UIGestureRecognizerStatePossible) {
-            self.state = UIGestureRecognizerStateBegan;
-        } else if (self.state == UIGestureRecognizerStateBegan) {
-            self.state = UIGestureRecognizerStateChanged;
-        }
+    if (touch.tapCount < self.numberOfTapsRequired) {
+        self.state = UIGestureRecognizerStateFailed;
     }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (self.state == UIGestureRecognizerStateBegan || self.state == UIGestureRecognizerStateChanged) {
-        self.state = UIGestureRecognizerStateCancelled;
-    }
+    self.state = UIGestureRecognizerStateFailed;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (self.state == UIGestureRecognizerStateBegan || self.state == UIGestureRecognizerStateChanged) {
+    if (self.state == UIGestureRecognizerStatePossible) {
         self.state = UIGestureRecognizerStateEnded;
-    }
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if (self.state == UIGestureRecognizerStateBegan || self.state == UIGestureRecognizerStateChanged) {
-        self.state = UIGestureRecognizerStateCancelled;
     }
 }
 
