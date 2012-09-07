@@ -356,13 +356,13 @@ typedef enum {
     UINavigationItem *previousItem = self.topItem;
     
     if (previousItem) {
-        BOOL shouldPop = YES;
+        BOOL shouldPopItem = YES;
         
         if (_delegateHas.shouldPopItem) {
-            shouldPop = [_delegate navigationBar:self shouldPopItem:previousItem];
+            shouldPopItem = [_delegate navigationBar:self shouldPopItem:previousItem];
         }
         
-        if (shouldPop) {
+        if (shouldPopItem) {
             [previousItem retain];
             [_navStack removeObject:previousItem];
             [self _setViewsWithTransition:_UINavigationBarTransitionPop animated:animated];

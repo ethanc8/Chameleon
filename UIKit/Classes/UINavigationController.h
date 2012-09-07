@@ -40,6 +40,8 @@
 @interface UINavigationController : UIViewController {
 @private
     BOOL shouldPop;
+    BOOL shoulPopItem;
+    
     UIView *_containerView;
     NSMutableArray *_viewControllers;
     UINavigationBar *_navigationBar;

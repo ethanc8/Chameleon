@@ -298,6 +298,7 @@ static const CGFloat TabBarHeight = 35;
 	assert(![_viewControllers containsObject:viewController]);
     
     shouldPop = YES;
+    shoulPopItem = YES;
     
     UIViewController *oldViewController = self.topViewController;
 	[_viewControllers addObject:viewController];
@@ -322,6 +323,7 @@ static const CGFloat TabBarHeight = 35;
     if ([_viewControllers count] < 2) {
         return nil;
     }
+    shouldPop = NO;
     
     UIViewController* oldViewController = [self.topViewController retain];
     [_viewControllers removeLastObject];
@@ -340,6 +342,8 @@ static const CGFloat TabBarHeight = 35;
                                 [viewController didMoveToParentViewController:nil];
                             }
      ];
+    
+    shouldPop = YES;
     
     return [oldViewController autorelease];
 }
@@ -427,13 +431,16 @@ static const CGFloat TabBarHeight = 35;
 }
 
 - (void)navigationBar:(UINavigationBar *)navigationBar didPopItem:(UINavigationItem *)item {
-    shouldPop = NO;
-    [self popViewControllerAnimated:YES];
-    shouldPop = YES;
+    if (shouldPop) {
+        shoulPopItem = NO;
+        [self popViewControllerAnimated:YES];
+        shoulPopItem = YES;
+    }
 }
+    
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item; {
-    return shouldPop;
+    return shoulPopItem;
 }
 
 
