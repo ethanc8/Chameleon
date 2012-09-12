@@ -126,6 +126,7 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
                 default:
                     break;
             }
+            //item.width = image.size.width;
         } else {
             image = [item.image _toolbarImage];
             title = item.title;
