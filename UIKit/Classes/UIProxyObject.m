@@ -20,4 +20,9 @@ static NSString* const kUIProxiedObjectIdentifierKey = @"UIProxiedObjectIdentifi
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void) dealloc {
+    [_proxiedObjectIdentifier release];
+    
+    [super dealloc];
+}
 @end

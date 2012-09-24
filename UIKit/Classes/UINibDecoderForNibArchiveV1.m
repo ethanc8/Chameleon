@@ -136,12 +136,13 @@ static inline double decodeFloat64(void const** pp);
     if (objects) {
         free(objects);
     }
-    if (keys) {
-        free(keys);
-    }
+    
+    [keys release];
+    
     if (values) {
         free(values);
     }
+    
     if (classes) {
         free(classes);
     }
@@ -399,7 +400,13 @@ static Class kClassForUIImageNibPlaceholder;
     [bundle_ release];
     [owner_ release];
     [externalObjects_ release];
+    
+    for (id object in objects_) {
+        [object release];
+    }
+    
     [objects_ release];
+    
     [super dealloc];
 }
 
@@ -756,6 +763,7 @@ static Class kClassForUIImageNibPlaceholder;
                         id object = [self _extractObjectFromValue:value++];
                         [array addObject:object];
                     }
+                    [object release];
                     object = array;
                 } else if (class == kClassForNSSet || class == kClassForNSMutableSet) {
                     assert(value->indexOfKey == archiveData_->keyForInlinedValue);
@@ -766,6 +774,7 @@ static Class kClassForUIImageNibPlaceholder;
                         id object = [self _extractObjectFromValue:value++];
                         [set addObject:object];
                     }
+                    [object release];
                     object = set;
                 } else if (class == kClassForNSDictionary || class == kClassForNSDMutableDictionary) {
                     assert(value->indexOfKey == archiveData_->keyForInlinedValue);
@@ -781,6 +790,7 @@ static Class kClassForUIImageNibPlaceholder;
                         id v = [self _extractObjectFromValue:value++];
                         [dict setObject:v forKey:k];
                     }
+                    [object release];
                     object = dict;
                 } else if (class == kClassForNSNumber) {
                     return [self _extractObjectFromValue:value];
@@ -793,6 +803,7 @@ static Class kClassForUIImageNibPlaceholder;
                     nextGenericValue_ = value;
                     lastValue_ = lastValue;
                     
+                    [object release];
                     object = [[class alloc] initWithCoder:self];
                     
                     objectEntry_ = myObjectEntry;

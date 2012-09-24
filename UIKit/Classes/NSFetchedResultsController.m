@@ -68,6 +68,14 @@
 @implementation NSFetchedResultsSection
 @synthesize name=_name, indexTitle=_indexTitle, objects=_objects;
 
+-(void) dealloc {
+    [_name release];
+    [_indexTitle release];
+    [_objects release];
+    
+    [super dealloc];
+}
+
 - (NSUInteger)numberOfObjects {
     return [self.objects count];
 }
@@ -128,6 +136,8 @@
     [_fetchRequest release];
     [_managedObjectContext release];
     [_fetchedObjects release];
+    [_sectionNameKeyPath release];
+    
     self.cacheName = nil;
     self.sections = nil;
     
@@ -141,7 +151,7 @@
     }
     
     [_fetchedObjects release];
-    _fetchedObjects = [[_managedObjectContext executeFetchRequest:_fetchRequest error:error] retain];
+    _fetchedObjects = [[_managedObjectContext executeFetchRequest:_fetchRequest error:error] copy];
     
     if (!self.sectionNameKeyPath) {
         

@@ -149,6 +149,9 @@
     [_nibName release];
     [_nibBundle release];
     [_tabBarItem release];
+    [_toolbarItems release];
+    [_tabBarController release];
+    [_searchDisplayController release];
     [super dealloc];
 }
 

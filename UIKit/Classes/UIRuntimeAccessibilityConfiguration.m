@@ -38,6 +38,7 @@
     [accessibilityConfigurationLabel release];
     [accessibilityConfigurationHint release];
     [accessibilityConfigurationTraits release];
+    [isAccessibilityConfigurationElement release];
     
     [super dealloc];
 }

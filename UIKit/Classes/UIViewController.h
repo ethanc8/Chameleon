@@ -204,7 +204,7 @@ typedef enum {
 @property (nonatomic, readonly) UIViewController *parentViewController;
 @property (nonatomic, readonly, retain) UINavigationController *navigationController;
 @property (nonatomic, readonly, retain) UISplitViewController *splitViewController;
-@property (nonatomic, readonly, retain) UISearchDisplayController *searchDisplayController; // stub
+@property (nonatomic, readonly, retain) UISearchDisplayController *searchDisplayController;
 
 @property (nonatomic, readonly) NSArray *childViewControllers;
 
