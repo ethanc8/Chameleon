@@ -44,14 +44,16 @@
 
 - (UIColor *)_defaultTitleColor
 {
-    return [UIColor blackColor];
+    return [UIColor whiteColor];
+
 }
 
 // Implemented using drawRect: since it seems the real rounded rect button is done that way, too since it still allows
 // you to define background images on the button itself which then render on top of the rounded rect. So.... whatever :)
 - (void)drawRect:(CGRect)rect
 {
-    [(self.highlighted? [UIImage _highlightedRoundedRectButtonImage] : [UIImage _roundedRectButtonImage]) drawInRect:self.bounds];
+    //[(self.highlighted? [UIImage _highlightedRoundedRectButtonImage] : [UIImage _roundedRectButtonImage]) drawInRect:self.bounds];
+    [(self.highlighted? [UIImage _segmentedControlHighlightedButtonImage] : [UIImage _segmentedControlButtonImage]) drawInRect:self.bounds];
 }
 
 @end
