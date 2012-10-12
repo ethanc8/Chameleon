@@ -53,8 +53,6 @@
         _webViewAdapter.NSView = _webView;
         _webViewAdapter.scrollEnabled = NO;		// WebView does its own scrolling :/
         
-        //impersonate an iPad.
-        //_webView.customUserAgent = @"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25";
         NSBundle *mainBundle = [NSBundle mainBundle];
         
         _webView.applicationNameForUserAgent =  [NSString stringWithFormat:@"%@/%@ (%@/%@)", [mainBundle objectForInfoDictionaryKey:@"CFBundleName"], [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"], [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
@@ -86,6 +84,11 @@
     _delegateHas.didFailLoadWithError = [_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)];
     _delegateHas.didStartLoad = [_delegate respondsToSelector:@selector(webViewDidStartLoad:)];
     _delegateHas.didFinishLoad = [_delegate respondsToSelector:@selector(webViewDidFinishLoad:)];
+}
+
+//this is an extension so you can customize the user agent. This is *NOT* part of the standard UIWebView
+- (void)setCustomUserAgent:(NSString *) customUserAgentString {
+    _webView.customUserAgent = customUserAgentString;
 }
 
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL

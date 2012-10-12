@@ -79,6 +79,9 @@ typedef NSUInteger UIWebViewNavigationType;
 
 - (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script;
 
+//this is an extension so you can customize the user agent. This is *NOT* part of the standard UIWebView
+- (void)setCustomUserAgent:(NSString *) customUserAgentString;
+    
 @property (nonatomic, assign) id<UIWebViewDelegate> delegate;
 @property (nonatomic, readonly, getter=isLoading) BOOL loading;
 @property (nonatomic, readonly, getter=canGoBack) BOOL canGoBack;
