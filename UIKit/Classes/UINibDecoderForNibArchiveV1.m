@@ -401,10 +401,6 @@ static Class kClassForUIImageNibPlaceholder;
     [owner_ release];
     [externalObjects_ release];
     
-    for (id object in objects_) {
-        [object release];
-    }
-    
     [objects_ release];
     
     [super dealloc];
@@ -763,7 +759,6 @@ static Class kClassForUIImageNibPlaceholder;
                         id object = [self _extractObjectFromValue:value++];
                         [array addObject:object];
                     }
-                    [object release];
                     object = array;
                 } else if (class == kClassForNSSet || class == kClassForNSMutableSet) {
                     assert(value->indexOfKey == archiveData_->keyForInlinedValue);
@@ -774,7 +769,6 @@ static Class kClassForUIImageNibPlaceholder;
                         id object = [self _extractObjectFromValue:value++];
                         [set addObject:object];
                     }
-                    [object release];
                     object = set;
                 } else if (class == kClassForNSDictionary || class == kClassForNSDMutableDictionary) {
                     assert(value->indexOfKey == archiveData_->keyForInlinedValue);
@@ -790,7 +784,6 @@ static Class kClassForUIImageNibPlaceholder;
                         id v = [self _extractObjectFromValue:value++];
                         [dict setObject:v forKey:k];
                     }
-                    [object release];
                     object = dict;
                 } else if (class == kClassForNSNumber) {
                     return [self _extractObjectFromValue:value];
@@ -802,8 +795,7 @@ static Class kClassForUIImageNibPlaceholder;
                     objectEntry_ = objectEntry;
                     nextGenericValue_ = value;
                     lastValue_ = lastValue;
-                    
-                    [object release];
+        
                     object = [[class alloc] initWithCoder:self];
                     
                     objectEntry_ = myObjectEntry;
@@ -831,8 +823,10 @@ static Class kClassForUIImageNibPlaceholder;
                 }
 
                 [objects_ replacePointerAtIndex:indexOfObject withPointer:object];
+            } else {
+                [object retain];
             }
-            return object;
+            return [object autorelease];
         }
             
         case kValueTypeByte: {
