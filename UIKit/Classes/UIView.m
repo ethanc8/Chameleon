@@ -714,44 +714,44 @@ static IMP defaultImplementationOfDisplayLayer;
          */
 
         if (hasAutoresizingFor(UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin)) {
-            frame.origin.y = floor(frame.origin.y + (frame.origin.y / oldSize.height * delta.height));
-            frame.size.height = floor(frame.size.height + (frame.size.height / oldSize.height * delta.height));
+            frame.origin.y = (frame.origin.y + (frame.origin.y / oldSize.height * delta.height));
+            frame.size.height = (frame.size.height + (frame.size.height / oldSize.height * delta.height));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight)) {
             const CGFloat t = frame.origin.y + frame.size.height;
-            frame.origin.y = floor(frame.origin.y + (frame.origin.y / t * delta.height));
-            frame.size.height = floor(frame.size.height + (frame.size.height / t * delta.height));
+            frame.origin.y = (frame.origin.y + (frame.origin.y / t * delta.height));
+            frame.size.height = (frame.size.height + (frame.size.height / t * delta.height));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight)) {
-            frame.size.height = floor(frame.size.height + (frame.size.height / (oldSize.height - frame.origin.y) * delta.height));
+            frame.size.height = (frame.size.height + (frame.size.height / (oldSize.height - frame.origin.y) * delta.height));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin)) {
-            frame.origin.y = floor(frame.origin.y + (delta.height / 2.f));
+            frame.origin.y = (frame.origin.y + (delta.height / 2.f));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleHeight)) {
-            frame.size.height = floor(frame.size.height + delta.height);
+            frame.size.height = (frame.size.height + delta.height);
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleTopMargin)) {
-            frame.origin.y = floor(frame.origin.y + delta.height);
+            frame.origin.y = (frame.origin.y + delta.height);
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleBottomMargin)) {
-            frame.origin.y = floor(frame.origin.y);
+            frame.origin.y = (frame.origin.y);
         }
 
         if (hasAutoresizingFor(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin)) {
-            frame.origin.x = floor(frame.origin.x + (frame.origin.x / oldSize.width * delta.width));
-            frame.size.width = floor(frame.size.width + (frame.size.width / oldSize.width * delta.width));
+            frame.origin.x = (frame.origin.x + (frame.origin.x / oldSize.width * delta.width));
+            frame.size.width = (frame.size.width + (frame.size.width / oldSize.width * delta.width));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth)) {
             const CGFloat t = frame.origin.x + frame.size.width;
-            frame.origin.x = floor(frame.origin.x + (frame.origin.x / t * delta.width));
-            frame.size.width = floor(frame.size.width + (frame.size.width / t * delta.width));
+            frame.origin.x = (frame.origin.x + (frame.origin.x / t * delta.width));
+            frame.size.width = (frame.size.width + (frame.size.width / t * delta.width));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth)) {
-            frame.size.width = floor(frame.size.width + (frame.size.width / (oldSize.width - frame.origin.x) * delta.width));
+            frame.size.width = (frame.size.width + (frame.size.width / (oldSize.width - frame.origin.x) * delta.width));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin)) {
-            frame.origin.x = floor(frame.origin.x + (delta.width / 2.f));
+            frame.origin.x = (frame.origin.x + (delta.width / 2.f));
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleWidth)) {
-            frame.size.width = floor(frame.size.width + delta.width);
+            frame.size.width = (frame.size.width + delta.width);
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleLeftMargin)) {
-            frame.origin.x = floor(frame.origin.x + delta.width);
+            frame.origin.x = (frame.origin.x + delta.width);
         } else if (hasAutoresizingFor(UIViewAutoresizingFlexibleRightMargin)) {
-            frame.origin.x = floor(frame.origin.x);
+            frame.origin.x = (frame.origin.x);
         }
 
-        self.frame = frame;
+        self.frame = CGRectIntegral(frame);
     }
 }
 
