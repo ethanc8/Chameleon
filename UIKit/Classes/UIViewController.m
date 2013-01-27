@@ -377,6 +377,8 @@
             dimView.backgroundColor = [UIColor blackColor];
             dimView.alpha = 0.5;
             dimView.tag = kDimViewTag;
+            dimView.autoresizingMask = window.autoresizingMask;
+            
             [window addSubview:dimView];
             
             newView.frame = CGRectMake(0, 0, kModalPresentationFormSheetWidth, kModalPresentationFormSheetHeight);
