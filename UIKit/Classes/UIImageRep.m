@@ -135,7 +135,11 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
     if (source) {
         self = [self initWithCGImageSource:source imageIndex:0 scale:scale];
         CFRelease(source);
+    } else {
+        [self release];
+        self = nil;
     }
+    
     return self;
 }
 
