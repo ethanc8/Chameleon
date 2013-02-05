@@ -122,6 +122,17 @@
         _selectedViewController = selectedViewController;
         [[_selectedViewController view] setHidden:NO];
         [_tabBar setSelectedItem:[_selectedViewController tabBarItem]];
+        
+        CGRect controllerFrame = [[self view] frame];
+        CGRect viewFrame = [_selectedViewController view].frame;
+        
+        //TODO: This is a hack to make the view above the tab buttons resize properly
+        viewFrame.size.height = CGRectGetHeight(controllerFrame) - 20;
+        viewFrame.size.width = CGRectGetWidth(controllerFrame);
+
+        
+        [[_selectedViewController view] setFrame:viewFrame];
+        [[_selectedViewController view] setAutoresizingMask: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     }
 }
 
