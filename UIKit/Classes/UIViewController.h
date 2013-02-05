@@ -56,7 +56,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import <AppKit/NSWindow.h>
 
 #import "UIResponder.h"
 #import "UIApplication.h"
@@ -106,6 +106,8 @@ typedef enum {
     NSMutableArray *_childViewControllers;
     NSBundle *_nibBundle;
     NSString *_nibName;
+    NSUInteger _savedWindowMask;
+    NSWindowCollectionBehavior _savedWindowBehavior;
     
     struct {
         BOOL wantsFullScreenLayout : 1;

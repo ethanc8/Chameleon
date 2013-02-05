@@ -60,6 +60,8 @@
 #import "UIViewController+UIPrivate.h"
 #import "UIView+UIPrivate.h"
 #import "UIScreen.h"
+#import "UIScreenAppKitIntegration.h"
+#import "UIKitView.h"
 #import "UIWindow.h"
 #import "UIScreen.h"
 #import "UINavigationItem.h"
@@ -395,7 +397,15 @@
         }
         
         [_modalViewController viewDidAppear:animated];
-    }
+        
+        NSWindow *nsWindow = [[[UIScreen mainScreen] UIKitView] window];
+        _savedWindowMask = nsWindow.styleMask;
+        _savedWindowBehavior = nsWindow.collectionBehavior;
+        
+        [nsWindow setStyleMask: _savedWindowMask & ~NSResizableWindowMask];
+        [nsWindow setCollectionBehavior: _savedWindowBehavior & ~ NSWindowCollectionBehaviorFullScreenPrimary];
+        
+        }
 }
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated
@@ -436,6 +446,10 @@
              [self viewDidAppear:animated];
         }
        
+        NSWindow *nsWindow = [[[UIScreen mainScreen] UIKitView] window];
+        [nsWindow setStyleMask: _savedWindowMask];
+        [nsWindow setCollectionBehavior: _savedWindowBehavior];
+        
     } else {
         [self.parentViewController dismissModalViewControllerAnimated:animated];
     }
