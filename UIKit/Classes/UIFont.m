@@ -160,7 +160,7 @@ static NSArray *_getFontCollectionNames(CTFontCollectionRef collection, CFString
 + (UIFont *)systemFontOfSize:(CGFloat)fontSize
 {
     NSFont *systemFont = UIFontSystemFontName? [NSFont fontWithName:UIFontSystemFontName size:fontSize] : [NSFont systemFontOfSize:fontSize];
-    return [self fontWithNSFont:systemFont];
+    return (systemFont ? [self fontWithNSFont:systemFont] : [self fontWithNSFont:[NSFont systemFontOfSize: fontSize]]);
 }
 
 + (UIFont *)boldSystemFontOfSize:(CGFloat)fontSize
@@ -168,14 +168,15 @@ static NSArray *_getFontCollectionNames(CTFontCollectionRef collection, CFString
     NSFont *systemFont = UIFontBoldSystemFontName
                 ? [NSFont fontWithName:UIFontBoldSystemFontName size:fontSize] 
                 : [NSFont boldSystemFontOfSize:fontSize];
-    return [self fontWithNSFont:systemFont];
+    return (systemFont ? [self fontWithNSFont:systemFont] :[self fontWithNSFont:[NSFont boldSystemFontOfSize: fontSize]]);
 }
 
 + (UIFont *)italicSystemFontOfSize:(CGFloat)fontSize {
     NSFont *systemFont = UIFontItalicSystemFontName
                                 ? [NSFont fontWithName:UIFontItalicSystemFontName size:fontSize] 
                                 : [NSFont systemFontOfSize:fontSize];
-    return [self fontWithNSFont:systemFont];
+    
+    return (systemFont ? [self fontWithNSFont:systemFont] : [self fontWithNSFont:[NSFont boldSystemFontOfSize: fontSize]]);
 }
 
 - (void)dealloc
