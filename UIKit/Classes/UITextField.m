@@ -72,7 +72,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 - (BOOL)textField:(UITextField *)textField doCommandBySelector:(SEL)selector;
 @end
 
-@implementation UITextField 
+@implementation UITextField
 @synthesize delegate = _delegate;
 @synthesize background = _background;
 @synthesize disabledBackground = _disabledBackground;
@@ -209,8 +209,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 - (BOOL)_isRightViewVisible
 {
     return _rightView && (_rightViewMode == UITextFieldViewModeAlways
-                         || (_editing && _rightViewMode == UITextFieldViewModeWhileEditing)
-                         || (!_editing && _rightViewMode == UITextFieldViewModeUnlessEditing));
+                          || (_editing && _rightViewMode == UITextFieldViewModeWhileEditing)
+                          || (!_editing && _rightViewMode == UITextFieldViewModeUnlessEditing));
 }
 
 - (void)layoutSubviews
@@ -219,14 +219,14 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     const CGRect bounds = self.bounds;
     _textLayer.frame = [self textRectForBounds:bounds];
 	_placeholderTextLayer.frame = [self textRectForBounds:bounds];
-
+    
     if ([self _isLeftViewVisible]) {
         _leftView.hidden = NO;
         _leftView.frame = [self leftViewRectForBounds:bounds];
     } else {
         _leftView.hidden = YES;
     }
-
+    
     if ([self _isRightViewVisible]) {
         _rightView.hidden = NO;
         _rightView.frame = [self rightViewRectForBounds:bounds];
@@ -321,8 +321,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 	if(self.borderStyle == UITextBorderStyleRoundedRect) {
 		UIImage *image = [UIImage _textFieldRoundedRectBackground];
 		borderRect = CGRectMake(4.0f, self.bounds.size.height/2 - image.size.height/2, self.bounds.size.width - 8.0f, image.size.height);
-	}
-	
+    }
+    
     return CGRectIntegral(borderRect);
 }
 
@@ -390,8 +390,8 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 		} else if(self.borderStyle == UITextBorderStyleBezel) {
 			textRect = CGRectOffset(CGRectInset(textRect, 2.0f, 2.0f), 2.0f, 3.0f);
 		} else if(self.borderStyle == UITextBorderStyleLine) {
-//			textRect = CGRectOffset(CGRectInset(textRect, 2.0f, 2.0f), 2.0f, 3.0f);
-		}
+            //			textRect = CGRectOffset(CGRectInset(textRect, 2.0f, 2.0f), 2.0f, 3.0f);
+        }
 	}
     
     // Going to go ahead and assume that the left view is on the left, the right view is on the right, and there's space between..
@@ -432,14 +432,14 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 		currentBackgroundImage = [UIImage _textFieldRoundedRectBackground];
 	} else {
 		currentBackgroundImage = self.enabled? _background : _disabledBackground;
-	}
-	
+    }
+    
 	CGRect borderFrame = [self borderRectForBounds:self.bounds];
 	if(currentBackgroundImage != nil) {
 		[currentBackgroundImage drawInRect:borderFrame];
 	} else {
 		CGContextRef context = UIGraphicsGetCurrentContext();
-		
+        
 		// TODO: draw the appropriate background for the borderStyle
 		
 		if(self.borderStyle == UITextBorderStyleBezel) {
@@ -469,11 +469,11 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 			CFRelease(gradient);
 			
 			CGContextRestoreGState(context);
-						
+            
 			// top inner shadow
 			CGRect shadowFrame = CGRectMake(1, 2, borderFrame.size.width-2.0, 10.0);
 			[[UIColor colorWithWhite:0.88 alpha:1.0] set];
-			[[UIBezierPath bezierPathWithRoundedRect:shadowFrame cornerRadius:2.9] fill];	
+			[[UIBezierPath bezierPathWithRoundedRect:shadowFrame cornerRadius:2.9] fill];
 			
 			// main white area
 			CGRect whiteFrame = CGRectMake(1, 3, borderFrame.size.width-2.0, borderFrame.size.height-5.0);
@@ -638,25 +638,25 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
 - (void)_textDidBeginEditing
 {
     BOOL shouldClear = _clearsOnBeginEditing;
-
+    
     if (shouldClear && _delegateHas.shouldClear) {
         shouldClear = [_delegate textFieldShouldClear:self];
     }
-
+    
     if (shouldClear) {
         // this doesn't work - it can cause an exception to trigger. hrm...
         // so... rather than worry too much about it right now, just gonna delay it :P
         //self.text = @"";
         [self performSelector:@selector(setText:) withObject:@"" afterDelay:0];
     }
-	
+    
 	_placeholderTextLayer.hidden = YES;
     _textLayer.hidden = NO;
     
     _editing = YES;
     [self setNeedsDisplay];
     [self setNeedsLayout];
-
+    
     if (_delegateHas.didBeginEditing) {
         [_delegate textFieldDidBeginEditing:self];
     }
@@ -678,7 +678,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     
     [self setNeedsDisplay];
     [self setNeedsLayout];
-	
+    
     if (_delegateHas.didEndEditing) {
         [_delegate textFieldDidEndEditing:self];
     }

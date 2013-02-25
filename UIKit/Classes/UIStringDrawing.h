@@ -50,6 +50,11 @@ typedef enum {
     UIBaselineAdjustmentNone,
 } UIBaselineAdjustment;
 
+extern NSString *const UITextAttributeFont;
+extern NSString *const UITextAttributeTextColor;
+extern NSString *const UITextAttributeTextShadowColor;
+extern NSString *const UITextAttributeTextShadowOffset;
+
 @class UIFont;
 
 @interface NSString (UIStringDrawing)

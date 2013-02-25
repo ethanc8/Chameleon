@@ -63,7 +63,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
 - (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessage animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition;
 @end
 
-@implementation UITableView 
+@implementation UITableView
 @synthesize style = _style;
 @synthesize dataSource = _dataSource;
 @synthesize rowHeight = _rowHeight;
@@ -83,6 +83,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
 
 - (void) dealloc
 {
+    [_backgroundView release];
     [_selectedRows release];
     [_tableFooterView release];
     [_tableHeaderView release];
@@ -91,11 +92,6 @@ static NSString* const kUIStyleKey = @"UIStyle";
     [_reusableCells release];
     [_separatorColor release];
     [super dealloc];
-}
-
-//bitrzr
-- (UIView *)backgroundView {
-    return self;
 }
 
 - (void) _commonInitForUITableView
@@ -112,6 +108,8 @@ static NSString* const kUIStyleKey = @"UIStyle";
     self.allowsSelectionDuringEditing = NO;
     self.sectionHeaderHeight = self.sectionFooterHeight = 22;
     self.alwaysBounceVertical = YES;
+    
+    self.backgroundView = [[[UIView alloc] initWithFrame:self.frame] autorelease];
     
     if (_style == UITableViewStylePlain && !self.backgroundColor) {
         self.backgroundColor = [UIColor whiteColor];
@@ -272,9 +270,9 @@ static NSString* const kUIStyleKey = @"UIStyle";
                 [self addSubview:sectionRecord.footerView];
                 
                 CGFloat _defaultSectionFooterHeight = self.style == UITableViewStylePlain ? _sectionFooterHeight: [sectionRecord.footerView sizeThatFits:CGSizeZero].height;
-               
+                
                 sectionRecord.footerHeight = _delegateHas.heightForFooterInSection? [self.delegate tableView:self heightForFooterInSection:section] : _defaultSectionFooterHeight;
-               
+                
             } else {
                 sectionRecord.footerHeight = 0;
             }
@@ -284,15 +282,15 @@ static NSString* const kUIStyleKey = @"UIStyle";
             
             for (NSInteger row=0; row<numberOfRowsInSection; row++) {
                 const CGFloat rowHeight = _delegateHas.heightForRowAtIndexPath? [self.delegate tableView:self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]] : defaultRowHeight;
-				rowHeights[row] = rowHeight;
+                rowHeights[row] = rowHeight;
                 totalRowsHeight += rowHeight;
             }
             
             sectionRecord.rowsHeight = totalRowsHeight;
             [sectionRecord setNumberOfRows:numberOfRowsInSection withHeights:rowHeights];
-           
+            
             free(rowHeights);
-    
+            
             [_sections addObject:sectionRecord];
             [sectionRecord release];
         }
@@ -331,7 +329,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
     
     // We subtract 1 here to cut off the last separator line, this should
     // probably be done a better way but this works for now
-    self.contentSize = CGSizeMake(0,height - 1);		
+    self.contentSize = CGSizeMake(0,height - 1);
 }
 
 - (UITableViewCell*) _ensureCellExistsAtIndexPath:(NSIndexPath*)indexPath
@@ -409,16 +407,16 @@ static NSString* const kUIStyleKey = @"UIStyle";
         CGRect sectionRect = [self rectForSection:section];
         tableHeight += sectionRect.size.height;
 		UITableViewSection *sectionRecord = [_sections objectAtIndex:section];
-		const CGRect headerRect = [self rectForHeaderInSection:section];
-		const CGRect footerRect = [self rectForFooterInSection:section];
+        const CGRect headerRect = [self rectForHeaderInSection:section];
+        const CGRect footerRect = [self rectForFooterInSection:section];
         
-		if (sectionRecord.headerView) {
-			sectionRecord.headerView.frame = headerRect;
-		}
+        if (sectionRecord.headerView) {
+            sectionRecord.headerView.frame = headerRect;
+        }
         
-		if (sectionRecord.footerView) {
-			sectionRecord.footerView.frame = footerRect;
-		}
+        if (sectionRecord.footerView) {
+            sectionRecord.footerView.frame = footerRect;
+        }
         
         if (CGRectIntersectsRect(sectionRect, visibleBounds)) {
             const NSInteger numberOfRows = sectionRecord.numberOfRows;
@@ -547,7 +545,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
     return CGRectZero;
 }
 
-- (void)beginUpdates
+- (void) beginUpdates
 {
 	[UIView beginAnimations:NSStringFromSelector(_cmd) context:NULL];
 }
@@ -669,6 +667,16 @@ static NSString* const kUIStyleKey = @"UIStyle";
     }
 }
 
+- (void)setBackgroundView:(UIView *)backgroundView
+{
+    if (_backgroundView != backgroundView) {
+        [_backgroundView removeFromSuperview];
+        [_backgroundView release];
+        _backgroundView = [backgroundView retain];
+        [self insertSubview:_backgroundView atIndex:0];
+    }
+}
+
 - (NSInteger)numberOfSections
 {
     if (_dataSourceHas.numberOfSectionsInTableView) {
@@ -722,6 +730,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
 
 - (void)layoutSubviews
 {
+    _backgroundView.frame = self.bounds;
     [self _reloadDataIfNeeded];
     [self _layoutTableView];
     [super layoutSubviews];
@@ -943,14 +952,14 @@ static NSString* const kUIStyleKey = @"UIStyle";
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self];
     NSIndexPath *touchedRow = [self indexPathForRowAtPoint:location];
-
+    
     if ([_selectedRows containsObject:touchedRow]) {
         [self deselectRowAtIndexPath:touchedRow animated:NO];
-    } 
+    }
     [self resignFirstResponder];
 }
 
-- (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessages animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition {	
+- (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessages animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition {
     if (!self.allowsMultipleSelection) {
         exclusively = YES;
     }

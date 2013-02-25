@@ -31,7 +31,7 @@
 #import "UIViewAdapter.h"
 #import <WebKit/WebKit.h>
 
-@implementation UIWebView 
+@implementation UIWebView
 @synthesize request = _request;
 @synthesize delegate = _delegate;
 @synthesize dataDetectorTypes = _dataDetectorTypes;

@@ -103,6 +103,7 @@ typedef enum {
     UITableViewCellSeparatorStyle _separatorStyle;
     UIView *_tableHeaderView;
     UIView *_tableFooterView;
+    UIView *_backgroundView;
     BOOL _allowsSelection;
     BOOL _allowsSelectionDuringEditing;
     BOOL _editing;
@@ -186,13 +187,11 @@ typedef enum {
 @property (nonatomic, retain) UIColor *separatorColor;
 @property (nonatomic, retain) UIView *tableHeaderView;
 @property (nonatomic, retain) UIView *tableFooterView;
+@property (nonatomic, retain) UIView *backgroundView;
 @property (nonatomic) BOOL allowsSelection;
 @property (nonatomic) BOOL allowsSelectionDuringEditing;	// not implemented
 @property (nonatomic, getter=isEditing) BOOL editing;
 @property (nonatomic) CGFloat sectionHeaderHeight;
 @property (nonatomic) CGFloat sectionFooterHeight;
-
-//bitrzr
-@property (nonatomic, readonly) UIView *backgroundView;
 
 @end

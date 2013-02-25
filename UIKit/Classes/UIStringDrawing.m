@@ -34,6 +34,12 @@
 #import "UIGraphics.h"
 #include <tgmath.h>
 
+
+NSString *const UITextAttributeFont = @"UITextAttributeFont";
+NSString *const UITextAttributeTextColor = @"UITextAttributeTextColor";
+NSString *const UITextAttributeTextShadowColor = @"UITextAttributeTextShadowColor";
+NSString *const UITextAttributeTextShadowOffset = @"UITextAttributeTextShadowOffset";
+
 static CGFloat CalculateCTFontLineHeight(CTFontRef font) {
 	return ceil(CTFontGetAscent(font)) - floor(-CTFontGetDescent(font)) + ceil(CTFontGetLeading(font));
 }
@@ -45,20 +51,20 @@ static CTFontRef GetPrimaryFontForAttributedString(NSAttributedString *string) {
 
 static CFArrayRef CreateCTLinesForAttributedString(NSAttributedString *attributedString, CGSize constrainedToSize, UILineBreakMode lineBreakMode, CGSize *renderSize)
 {
-	CFMutableArrayRef lines = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+    CFMutableArrayRef lines = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
     CGSize drawSize = CGSizeZero;
-	
+
 	if(attributedString.length < 1) {
 		if (renderSize) {
 			*renderSize = drawSize;
 		}
-		
+        
 		return lines;
 	}
-	
+        
 	NSDictionary *attributes = [attributedString attributesAtIndex:0 effectiveRange:NULL];
 	CTFontRef font = (CTFontRef) [attributes objectForKey:(id) kCTFontAttributeName];
-	
+        
     if (font) {        
         CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString((CFAttributedStringRef) attributedString);
         

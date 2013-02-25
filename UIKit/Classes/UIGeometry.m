@@ -154,25 +154,41 @@ NSString *NSStringFromUIOffset(UIOffset offset)
 
 @implementation NSCoder (NSCoderUIGeometryExtensions)
 
-- (void) encodeCGPoint:(CGPoint)point forKey:(NSString *)key
+- (void)encodeCGPoint:(CGPoint)point forKey:(NSString *)key
 {
     [self encodePoint:NSPointFromCGPoint(point) forKey:key];
 }
 
-- (CGPoint) decodeCGPointForKey:(NSString *)key
+- (CGPoint)decodeCGPointForKey:(NSString *)key
 {
     return NSPointToCGPoint([self decodePointForKey:key]);
 }
 
-- (CGRect) decodeCGRectForKey:(NSString*)key
+- (void)encodeCGRect:(CGRect)rect forKey:(NSString *)key
+{
+    [self encodeRect:NSRectFromCGRect(rect) forKey:key];
+}
+
+- (CGRect)decodeCGRectForKey:(NSString *)key
 {
     return NSRectToCGRect([self decodeRectForKey:key]);
+}
+
+- (void)encodeCGSize:(CGSize)size forKey:(NSString *)key
+{
+    [self encodeSize:NSSizeFromCGSize(size) forKey:key];
 }
 
 - (CGSize) decodeCGSizeForKey:(NSString*)key
 {
     return NSSizeToCGSize([self decodeSizeForKey:key]);
 }
+
+- (void)encodeUIEdgeInsets:(UIEdgeInsets)insets forKey:(NSString *)key
+{
+    [self encodeObject:NSStringFromUIEdgeInsets(insets) forKey:key];
+}
+
 
 - (UIEdgeInsets) decodeUIEdgeInsetsForKey:(NSString*)key;
 {

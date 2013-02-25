@@ -42,6 +42,7 @@ UIAccessibilityTraits UIAccessibilityTraitSummaryElement = 128;
 UIAccessibilityTraits UIAccessibilityTraitNotEnabled = 256;
 UIAccessibilityTraits UIAccessibilityTraitUpdatesFrequently = 512;
 UIAccessibilityTraits UIAccessibilityTraitSearchField = 1024;
+UIAccessibilityTraits UIAccessibilityTraitHeader = 2048;
 
 UIAccessibilityNotifications UIAccessibilityScreenChangedNotification = 1000;
 UIAccessibilityNotifications UIAccessibilityLayoutChangedNotification = 1001;
@@ -56,6 +57,7 @@ static NSString * const kUIAccessibilityAccessibilityHint = @"____kUIAccessibili
 static NSString * const kUIAccessibilityAccessibilityValue = @"____kUIAccessibilityAccessibilityValue";
 
 @implementation NSObject (UIAccessibility)
+
 - (BOOL)isAccessibilityElement
 {
     NSNumber *boolval = objc_getAssociatedObject(self,  &kUIAccessibilityIsAccessibilityElement);
@@ -85,7 +87,7 @@ static NSString * const kUIAccessibilityAccessibilityValue = @"____kUIAccessibil
     NSNumber *val = objc_getAssociatedObject(self,  &kUIAccessibilityTraits);
     if (val) 
         return (UIAccessibilityTraits)[val unsignedLongLongValue];
-    
+
     return UIAccessibilityTraitNone; 
 }
 
@@ -103,18 +105,69 @@ static NSString * const kUIAccessibilityAccessibilityValue = @"____kUIAccessibil
 - (NSString *)accessibilityValue {
     return objc_getAssociatedObject(self,  &kUIAccessibilityAccessibilityValue);
 }
-- (void)setAccessibilityValue:(NSString *)value {
-    objc_setAssociatedObject(self, &kUIAccessibilityAccessibilityValue, value, OBJC_ASSOCIATION_COPY);
+
+- (BOOL)accessibilityViewIsModal
+{
+    return NO;
 }
 
+- (void)setAccessibilityViewIsModal:(BOOL)isModal
+{
+}
+
+- (BOOL)accessibilityElementsHidden
+{
+    return NO;
+}
+
+- (void)setAccessibilityElementsHidden:(BOOL)accessibilityElementsHidden
+{
+}
 
 - (CGRect)accessibilityFrame {
     return CGRectZero;//  objc_getAssociatedObject(self,  &kUIAccessibilityAccessibilityFrame);
 }
+
 - (void)setAccessibilityFrame:(CGRect)frame {
     //objc_setAssociatedObject(self, &kUIAccessibilityAccessibilityValue, value, OBJC_ASSOCIATION_COPY);
 }
 
+- (void)setAccessibilityValue:(NSString *)value {
+    objc_setAssociatedObject(self, &kUIAccessibilityAccessibilityValue, value, OBJC_ASSOCIATION_COPY);
+}
+@end
+
+
+@implementation NSObject (UIAccessibilityContainer)
+- (NSInteger)accessibilityElementCount
+{
+    return 0;
+}
+
+- (id)accessibilityElementAtIndex:(NSInteger)index
+{
+    return nil;
+}
+
+- (NSInteger)indexOfAccessibilityElement:(id)element
+{
+    return NSNotFound;
+}
+@end
+
+@implementation NSObject (UIAccessibilityFocus)
+- (void)accessibilityElementDidBecomeFocused
+{
+}
+
+- (void)accessibilityElementDidLoseFocus
+{
+}
+
+- (BOOL)accessibilityElementIsFocused
+{
+    return NO;
+}
 @end
 
 void UIAccessibilityPostNotification(UIAccessibilityNotifications notification, id argument)
