@@ -78,6 +78,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
 @synthesize allowsSelectionDuringEditing = _allowsSelectionDuringEditing;
 @synthesize allowsMultipleSelection = _allowsMultipleSelection;
 @synthesize selectedRows = _selectedRows;
+@synthesize backgroundView = _backgroundView;
 
 @dynamic delegate;
 
@@ -108,8 +109,6 @@ static NSString* const kUIStyleKey = @"UIStyle";
     self.allowsSelectionDuringEditing = NO;
     self.sectionHeaderHeight = self.sectionFooterHeight = 22;
     self.alwaysBounceVertical = YES;
-    
-    self.backgroundView = [[[UIView alloc] initWithFrame:self.frame] autorelease];
     
     if (_style == UITableViewStylePlain && !self.backgroundColor) {
         self.backgroundColor = [UIColor whiteColor];
@@ -675,6 +674,15 @@ static NSString* const kUIStyleKey = @"UIStyle";
         _backgroundView = [backgroundView retain];
         [self insertSubview:_backgroundView atIndex:0];
     }
+}
+
+- (UIView *)backgroundView
+{
+    if (_backgroundView) {
+        return _backgroundView;
+    }
+    
+    return self;
 }
 
 - (NSInteger)numberOfSections
