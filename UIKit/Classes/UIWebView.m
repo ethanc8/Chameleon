@@ -223,6 +223,12 @@
     }
 }
 
+- (void)webView:(WebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WebFrame *)frame {
+    if (_delegateHas.didFailLoadWithError) {
+        [_delegate webView:self didFailLoadWithError:error];
+    }
+}
+
 #pragma mark -
 #pragma mark WebView UI Delegate
 
