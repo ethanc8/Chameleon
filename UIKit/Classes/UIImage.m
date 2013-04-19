@@ -34,6 +34,8 @@
 #import "UIPhotosAlbum.h"
 #import "UIImageRep.h"
 
+#import "UIScreen.h"
+
 @implementation UIImage
 
 + (id) imageNamed:(NSString*)name
@@ -150,7 +152,7 @@
 
 - (CGSize) size
 {
-    UIImageRep* rep = [_representations lastObject];
+    UIImageRep* rep = [self _bestRepresentationForProposedScale:[UIScreen mainScreen].scale];
     const CGSize repSize = rep.imageSize;
     const CGFloat scale = rep.scale;
     return (CGSize) {
@@ -171,7 +173,7 @@
 
 - (CGImageRef)CGImage
 {
-    return [self _bestRepresentationForProposedScale:2].CGImage;
+    return [self _bestRepresentationForProposedScale:[UIScreen mainScreen].scale].CGImage;
 }
 
 - (UIImageOrientation)imageOrientation
@@ -181,7 +183,7 @@
 
 - (CGFloat)scale
 {
-    return [self _bestRepresentationForProposedScale:2].scale;
+    return [self _bestRepresentationForProposedScale:[UIScreen mainScreen].scale].scale;
 }
 
 - (void)drawAtPoint:(CGPoint)point blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
@@ -209,7 +211,7 @@
 - (void)drawInRect:(CGRect)rect
 {
     if (rect.size.height > 0 && rect.size.width > 0) {
-        [self _drawRepresentation:[self _bestRepresentationForProposedScale:_UIGraphicsGetContextScaleFactor(UIGraphicsGetCurrentContext())] inRect:rect];
+        [self _drawRepresentation:[self _bestRepresentationForProposedScale:[UIScreen mainScreen].scale] inRect:rect];
     }
 }
 

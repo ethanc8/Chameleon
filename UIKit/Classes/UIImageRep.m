@@ -97,6 +97,22 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
                 [reps addObject:rep];
                 [rep release];
             }
+            
+            NSString* type = [file pathExtension];
+            NSString* resource = [type length]? [file stringByDeletingPathExtension] : file;
+            NSString* resourceAt2x = [resource stringByAppendingString:@"@2x"];
+            NSString* pathToFileAt2x = [resourceAt2x stringByAppendingPathExtension:type];
+            
+            CGImageSourceRef sourceAt2x = CreateCGImageSourceWithFile(pathToFileAt2x);
+            
+            if (sourceAt2x) {
+                UIImageRep* repAt2x = [[UIImageRep alloc] initWithCGImageSource:sourceAt2x imageIndex:0 scale:2.0];
+                if (repAt2x) {
+                    [reps addObject:repAt2x];
+                    [repAt2x release];
+                }
+                CFRelease(sourceAt2x);
+            }
         }
         
         CFRelease(source);

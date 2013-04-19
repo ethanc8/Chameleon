@@ -335,10 +335,11 @@ NSMutableDictionary *imageCache = nil;
     UIImageRep *bestRep = nil;
     
     for (UIImageRep *rep in [self _representations]) {
-        if (rep.scale > scale) {
-            break;
-        } else {
+        if (rep.scale <= scale) {
             bestRep = rep;
+            if (rep.scale == scale) {
+                break;
+            }
         }
     }
     
