@@ -70,6 +70,12 @@
 - (void)setFill;
 - (void)setStroke;
 
+- (CGFloat)whiteComponent;
+- (BOOL)getWhite:(CGFloat *)white alpha:(CGFloat *)alpha;
+
+- (CGFloat)redComponent;
+- (void)getRed:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha;
+
 @property (nonatomic, readonly) CGColorRef CGColor;
 
 @end

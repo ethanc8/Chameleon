@@ -284,4 +284,22 @@ static UIColor *ClearColor = nil;
     return CGColorEqualToColor(self.CGColor, color.CGColor);
 }
 
+
+- (CGFloat)whiteComponent {
+    return [[NSColor colorWithCGColor:self.CGColor] whiteComponent];
+}
+
+- (BOOL)getWhite:(CGFloat *)white alpha:(CGFloat *)alpha {
+    [[NSColor colorWithCGColor:self.CGColor] getWhite:white alpha:alpha];
+    return YES;
+}
+
+- (CGFloat)redComponent {
+    return [[NSColor colorWithCGColor:self.CGColor] redComponent];
+}
+
+- (void)getRed:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha {
+     [[NSColor colorWithCGColor:self.CGColor] getRed:red green:green blue:blue alpha:alpha];
+}
+
 @end
