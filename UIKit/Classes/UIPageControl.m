@@ -89,10 +89,11 @@
 - (void)drawRect:(CGRect)frame {
     int drawSize = kDotWidth*self.numberOfPages/2;
     
-    UIColor *inactiveColor = [UIColor colorWithRed:135/255.f green:135/255.f blue:135/255.f alpha:0.7];
+    UIColor *inactiveColor = self.pageIndicatorTintColor? : [UIColor colorWithRed:135/255.f green:135/255.f blue:135/255.f alpha:0.7];
+    
     for(int i=0;i<self.numberOfPages;i++) {
         if(i==_currentPage) {
-            [[UIColor whiteColor] set];
+            [(self.currentPageIndicatorTintColor ? : [UIColor whiteColor]) set];
         } else {
             [inactiveColor set];
         }
