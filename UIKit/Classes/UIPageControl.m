@@ -38,7 +38,8 @@
 @implementation UIPageControl
 @synthesize currentPage = _currentPage;
 @synthesize numberOfPages = _numberOfPages;
-
+@synthesize currentPageIndicatorTintColor = _currentPageIndicatorTintColor;
+@synthesize pageIndicatorTintColor = _pageIndicatorTintColor;
 
 - (void)commonInit
 {
