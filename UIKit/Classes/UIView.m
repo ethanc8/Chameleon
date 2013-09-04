@@ -57,6 +57,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UIView+UIPrivate.h"
 #import "UIViewController+UIPrivate.h"
 #import "UIViewAppKitIntegration.h"
@@ -142,7 +144,7 @@ static IMP defaultImplementationOfDisplayLayer;
 {
     _flags.overridesDisplayLayer = defaultImplementationOfDisplayLayer != [[self class] instanceMethodForSelector:displayLayerSelector];
 
-    _implementsDrawRect = [isa _instanceImplementsDrawRect];
+    _implementsDrawRect = [object_getClass(self) _instanceImplementsDrawRect];
     
     _flags.clearsContextBeforeDrawing = YES;
     //_flags.autoresizesSubviews = YES;
@@ -151,7 +153,7 @@ static IMP defaultImplementationOfDisplayLayer;
     _subviews = [[NSMutableSet alloc] init];
     _gestureRecognizers = [[NSMutableSet alloc] init];
     
-    _layer = [[[isa layerClass] alloc] init];
+    _layer = [[[object_getClass(self) layerClass] alloc] init];
     _layer.delegate = self;
     _layer.layoutManager = [UIViewLayoutManager layoutManager];
     

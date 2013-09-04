@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UILongPressGestureRecognizer.h"
 #import "UIGestureRecognizerSubclass.h"
 #import "UITouch+UIPrivate.h"
@@ -84,7 +86,7 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
 {
     if (_waiting) {
         _waiting = NO;
-        [isa cancelPreviousPerformRequestsWithTarget:self selector:@selector(_beginGesture) object:nil];
+        [object_getClass(self) cancelPreviousPerformRequestsWithTarget:self selector:@selector(_beginGesture) object:nil];
     }
 }
 

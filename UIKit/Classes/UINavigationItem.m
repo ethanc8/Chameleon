@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UINavigationItem.h"
 #import "UIBarButtonItem.h"
 #import "UINavigationItem+UIPrivate.h"
@@ -95,13 +97,13 @@ static void * const UINavigationItemContext = "UINavigationItemContext";
     
     if (_navigationBar != nil && navigationBar == nil) {
         // remove observation
-        for (NSString * keyPath in [isa _keyPathsTriggeringUIUpdates]) {
+        for (NSString * keyPath in [object_getClass(self) _keyPathsTriggeringUIUpdates]) {
             [self removeObserver:self forKeyPath:keyPath];
         }
     }
     else if (navigationBar != nil) {
         // observe property changes to notify UI element
-        for (NSString * keyPath in [isa _keyPathsTriggeringUIUpdates]) {
+        for (NSString * keyPath in [object_getClass(self) _keyPathsTriggeringUIUpdates]) {
             [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:UINavigationItemContext];
         }
     }

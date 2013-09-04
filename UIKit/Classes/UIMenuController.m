@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UIMenuController.h"
 #import "UIApplication+UIPrivate.h"
 #import "UIWindow+UIPrivate.h"
@@ -195,7 +197,7 @@ NSString *const UIMenuControllerMenuFrameDidChangeNotification = @"UIMenuControl
 {
     UIApplication *app = [UIApplication sharedApplication];
     UIResponder *firstResponder = [app.keyWindow _firstResponder];
-    NSArray *allItems = [[isa _defaultMenuItems] arrayByAddingObjectsFromArray:_menuItems];
+    NSArray *allItems = [[object_getClass(self) _defaultMenuItems] arrayByAddingObjectsFromArray:_menuItems];
 
     [_enabledMenuItems removeAllObjects];
 

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UIAction.h"
 
 @implementation UIAction
@@ -36,7 +38,7 @@
 {
     if (object == self) {
         return YES;
-    } else if ([object isKindOfClass:[isa class]]) {
+    } else if ([object isKindOfClass:[object_getClass(self) class]]) {
         return ([object target] == self.target && [object action] == self.action);
     } else {
         return NO;

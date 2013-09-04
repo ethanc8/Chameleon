@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UIResponder.h"
 #import "UIWindow+UIPrivate.h"
 
@@ -99,7 +101,7 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    if ([isa instancesRespondToSelector:action]) {
+    if ([object_getClass(self) instancesRespondToSelector:action]) {
         return YES;
     } else {
         return [[self nextResponder] canPerformAction:action withSender:sender];

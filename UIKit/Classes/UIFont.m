@@ -29,6 +29,7 @@
 
 #import "UIFont.h"
 #import <Cocoa/Cocoa.h>
+#import <objc/runtime.h>
 
 static NSString *UIFontSystemFontName = nil;
 static NSString *UIFontBoldSystemFontName = nil;
@@ -233,7 +234,7 @@ static NSArray *_getFontCollectionNames(CTFontCollectionRef collection, CFString
 {
     CTFontRef newFont = CTFontCreateCopyWithAttributes(_font, fontSize, NULL, NULL);
     if (newFont) {
-        UIFont *theFont = [isa _fontWithCTFont:newFont];
+        UIFont *theFont = [object_getClass(self) _fontWithCTFont:newFont];
         CFRelease(newFont);
         return theFont;
     } else {

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <objc/runtime.h>
+
 #import "UINavigationBar.h"
 #import "UINavigationBar+UIPrivate.h"
 #import "UIGraphics.h"
@@ -217,9 +219,9 @@ typedef enum {
         CGRect rightFrame = CGRectZero;
         
         if (backItem) {
-            _leftView = [isa _backButtonWithBarButtonItem:backItem.backBarButtonItem];
+            _leftView = [object_getClass(self) _backButtonWithBarButtonItem:backItem.backBarButtonItem];
         } else {
-            _leftView = [isa _viewWithBarButtonItem:topItem.leftBarButtonItem];
+            _leftView = [object_getClass(self) _viewWithBarButtonItem:topItem.leftBarButtonItem];
         }
         
         if (_leftView) {
@@ -229,7 +231,7 @@ typedef enum {
             [self addSubview:_leftView];
         }
         
-        _rightView = [isa _viewWithBarButtonItem:topItem.rightBarButtonItem];
+        _rightView = [object_getClass(self) _viewWithBarButtonItem:topItem.rightBarButtonItem];
         
         if (_rightView) {
             _rightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
