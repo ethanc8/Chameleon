@@ -100,6 +100,13 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
 
 - (void)dealloc
 {
+    _horizontalScroller.delegate = nil;
+    _verticalScroller.delegate = nil;
+    
+    [_panGestureRecognizer removeTarget:self
+                                      action:@selector(_gestureDidChange:)];
+    [_scrollWheelGestureRecognizer removeTarget:self
+                                 action:@selector(_gestureDidChange:)];
     [_scrollAnimation release];
     [_verticalScroller release];
     [_horizontalScroller release];
