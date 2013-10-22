@@ -492,6 +492,7 @@ static BOOL TouchIsActive(UITouch *touch)
 
 - (void)_windowDidBecomeVisible:(UIWindow *)theWindow
 {
+    [self _setKeyWindow:theWindow];
     [_visibleWindows addObject:[NSValue valueWithNonretainedObject:theWindow]];
 }
 
