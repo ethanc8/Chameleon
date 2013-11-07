@@ -604,9 +604,12 @@ static BOOL TouchIsActive(UITouch *touch)
     }
     
     UIKey *key = [[[UIKey alloc] initWithNSEvent:theNSEvent] autorelease];
-    if (key.type == UIKeyTypeEnter || (key.commandKeyPressed && key.type == UIKeyTypeReturn)) {
+    if (key.type == UIKeyTypeEnter || key.type == UIKeyTypeReturn || (key.commandKeyPressed && key.type == UIKeyTypeReturn)) {
         if ([self _firstResponderCanPerformAction:@selector(commit:) withSender:key fromScreen:theScreen]) {
             return [self _sendActionToFirstResponder:@selector(commit:) withSender:key fromScreen:theScreen];
+        } else {
+            [self _sendActionToFirstResponder:@selector(resignFirstResponder) withSender:self fromScreen:theScreen];
+            return [self _sendActionToFirstResponder:@selector(becomeFirstResponder) withSender:self fromScreen:theScreen];
         }
     }
     
