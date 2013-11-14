@@ -188,7 +188,7 @@ static NSArray *_getFontCollectionNames(CTFontCollectionRef collection, CFString
 
 - (NSString *)fontName
 {
-	return [(id)CTFontCopyFullName(_font) autorelease];
+	return [(id)CTFontCopyPostScriptName(_font) autorelease];
 }
 
 - (CGFloat)ascender
