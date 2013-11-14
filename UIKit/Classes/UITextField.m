@@ -194,6 +194,12 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
     return self;
 }
 
+- (void)setHidden:(BOOL)hidden
+{
+    [super setHidden:hidden];
+    [_textLayer setHidden:hidden];
+}
+
 - (void) encodeWithCoder:(NSCoder*)coder
 {
     [self doesNotRecognizeSelector:_cmd];
