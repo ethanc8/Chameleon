@@ -420,7 +420,11 @@ static Class kClassForUIImageNibPlaceholder;
         nextGenericValue_ = archiveData_->values + objectEntry_->indexOfFirstValue;
         lastValue_ = nextGenericValue_ + (objectEntry_->numberOfValues - 1);
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         objects_ = [[NSPointerArray pointerArrayWithStrongObjects] retain];
+#pragma clang diagnostic pop
+        
         [objects_ setCount:archiveData_->numberOfObjects];
     }
     return self;
