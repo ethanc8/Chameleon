@@ -3,7 +3,7 @@
 
 static NSString* const kUIClassNameKey = @"UIClassName";
 static NSString* const kUIOriginalClassNameKey = @"UIOriginalClassName";
-
+#pragma unused (kUIOriginalClassNameKey)
 
 @implementation UIClassSwapper
 

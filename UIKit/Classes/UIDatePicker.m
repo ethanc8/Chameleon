@@ -47,7 +47,7 @@ static NSString* const kUILocale = @"UILocale";
 static NSString* const kUITimeZone = @"UITimeZone";
 static NSString* const kUIMinimumDate = @"UIMinimumDate";
 static NSString* const kUIMaximumDate = @"UIMaximumDate";
-static NSString* const kUIMinuteInterval = @"UIMinuteInterval";
+//static NSString* const kUIMinuteInterval = @"UIMinuteInterval";
 static NSString* const kUICountDownDuration = @"UICountDownDuration";
 
 - (void)setDate:(NSDate *)date animated:(BOOL)animated {

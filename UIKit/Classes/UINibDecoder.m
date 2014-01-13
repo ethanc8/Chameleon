@@ -7,11 +7,16 @@
 
 
 static NSString* const kUINibAccessibilityConfigurationsKey = @"UINibAccessibilityConfigurationsKey";
+#pragma unused (kUINibAccessibilityConfigurationsKey)
+
 static NSString* const kUINibConnectionsKey = @"UINibConnectionsKey";
 static NSString* const kUINibKeyValuePairsKey = @"UINibKeyValuePairsKey";
+#pragma unused (kUINibKeyValuePairsKey)
+
 static NSString* const kUINibObjectsKey = @"UINibObjectsKey";
 static NSString* const kUINibTopLevelObjectsKey = @"UINibTopLevelObjectsKey";
 static NSString* const kUINibVisibleWindowsKey = @"UINibVisibleWindowsKey";
+#pragma unused (kUINibVisibleWindowsKey)
 
 
 @implementation UINibDecoder

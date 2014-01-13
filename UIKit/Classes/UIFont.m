@@ -37,9 +37,11 @@ static NSString *UIFontItalicSystemFontName = @"Optima Bold Italic";
 
 static NSString* const kUIFontNameKey = @"UIFontName";
 static NSString* const kUIFontPointSizeKey = @"UIFontPointSize";
-static NSString* const kUIFontTraitsKey = @"UIFontTraits";
-static NSString* const kUISystemFontKey = @"UISystemFont";
 
+static NSString* const kUIFontTraitsKey = @"UIFontTraits";
+#pragma unused (kUIFontTraitsKey)
+static NSString* const kUISystemFontKey = @"UISystemFont";
+#pragma unused (kUISystemFontKey)
 
 @implementation UIFont 
 

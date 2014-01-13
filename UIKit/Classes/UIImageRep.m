@@ -33,7 +33,8 @@
 static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
 {
     NSString *macPath = [[[imagePath stringByDeletingPathExtension] stringByAppendingString:@"~mac"] stringByAppendingPathExtension:[imagePath pathExtension]];
-    return CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:macPath], NULL) ?: CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:imagePath], NULL);
+    CGImageSourceRef ref = CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:macPath], NULL);
+    return ref ? ref : CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:imagePath], NULL);
 }
 
 @implementation UIImageRep
