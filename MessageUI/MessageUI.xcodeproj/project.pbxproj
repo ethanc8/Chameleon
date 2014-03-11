@@ -170,7 +170,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "MessageUI" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -286,7 +286,6 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -302,7 +301,6 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = NS_BLOCK_ASSERTIONS;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -317,7 +315,6 @@
 		49E7DFD81612417D0086B95F /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = NS_BLOCK_ASSERTIONS;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
