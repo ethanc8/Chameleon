@@ -46,7 +46,7 @@ static NSString* const kUIEditableKey = @"UIEditable";
 @interface UITextView () <UITextLayerTextDelegate>
 @end
 
-@interface NSObject (UITextViewDelegate)
+@protocol UITextViewDelegateInternal <UITextViewDelegate>
 - (BOOL) textView:(UITextView*)textView doCommandBySelector:(SEL)selector;
 @end
 
@@ -334,7 +334,7 @@ static NSString* const kUIEditableKey = @"UIEditable";
 - (BOOL)_textShouldDoCommandBySelector:(SEL)selector
 {
     if (_delegateHas.doCommandBySelector) {
-        return [(id)self.delegate textView:self doCommandBySelector:selector];
+        return [(id<UITextViewDelegateInternal>)self.delegate textView:self doCommandBySelector:selector];
     } else {
         return NO;
     }

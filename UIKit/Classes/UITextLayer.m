@@ -107,9 +107,9 @@
     clipView.behaviorDelegate = self;
     
     //deal with 10.8 geometry differences.
-    self.geometryFlipped = [[[[containerView window].screen UIKitView] layer] isGeometryFlipped];
+    self.geometryFlipped = [[[[(UIView *)containerView window].screen UIKitView] layer] isGeometryFlipped];
     
-    [[[containerView window].screen UIKitView] addSubview:clipView];
+    [[[(UIView *)containerView window].screen UIKitView] addSubview:clipView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScrollViewContentOffset) name:NSViewBoundsDidChangeNotification object:clipView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hierarchyDidChangeNotification:) name:UIViewFrameDidChangeNotification object:nil];
@@ -151,7 +151,7 @@
             [self addNSView];
         }
         
-        UIWindow *window = [containerView window];
+        UIWindow *window = [(UIView *)containerView window];
         const CGRect windowRect = [window convertRect:self.frame fromView:containerView];
         const CGRect screenRect = [window convertRect:windowRect toWindow:nil];
         NSRect desiredFrame = NSRectFromCGRect(screenRect);
@@ -302,13 +302,13 @@
 // be less than ideal. This makes it ideal. Awesome.
 - (BOOL)hitTestForClipViewPoint:(NSPoint)point
 {
-    UIScreen *screen = [containerView window].screen;
+    UIScreen *screen = [(UIView *)containerView window].screen;
     
     if (screen) {
         if (![[screen UIKitView] isFlipped]) {
             point.y = screen.bounds.size.height - point.y - 1;
         }
-        return (containerView == [[containerView window].screen _hitTest:NSPointToCGPoint(point) event:nil]);
+        return (containerView == [[(UIView *)containerView window].screen _hitTest:NSPointToCGPoint(point) event:nil]);
     }
 
     return NO;
@@ -383,7 +383,7 @@
     }
 }
 
-- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
+- (BOOL)textView:(UITextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
 	if(textDelegateHas.doCommandBySelector) {
 		return [containerView _textShouldDoCommandBySelector:aSelector];
@@ -436,7 +436,7 @@
 - (BOOL)resignFirstResponder
 {
     changingResponderStatus = YES;
-    const BOOL result = [[textView window] makeFirstResponder:[[containerView window].screen UIKitView]];
+    const BOOL result = [[textView window] makeFirstResponder:[[(UIView *)containerView window].screen UIKitView]];
     changingResponderStatus = NO;
     return result;
 }
@@ -444,7 +444,7 @@
 
 - (BOOL)textView:(UICustomNSTextView *)aTextView shouldAcceptKeyDown:(NSEvent *)event
 {
-    return ![[UIApplication sharedApplication] _sendGlobalKeyboardNSEvent:event fromScreen:[[containerView window] screen]];
+    return ![[UIApplication sharedApplication] _sendGlobalKeyboardNSEvent:event fromScreen:[[(UIView *)containerView window] screen]];
 }
 
 @end
