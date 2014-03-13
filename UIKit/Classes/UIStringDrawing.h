@@ -30,6 +30,21 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
+/* Values for NSTextAlignment */
+enum {
+    NSTextAlignmentLeft      = 0,    // Visually left aligned
+#if TARGET_OS_IPHONE
+    NSTextAlignmentCenter    = 1,    // Visually centered
+    NSTextAlignmentRight     = 2,    // Visually right aligned
+#else /* !TARGET_OS_IPHONE */
+    NSTextAlignmentRight     = 1,    // Visually right aligned
+    NSTextAlignmentCenter    = 2,    // Visually centered
+#endif
+    NSTextAlignmentJustified = 3,    // Fully-justified. The last line in a paragraph is natural-aligned.
+    NSTextAlignmentNatural   = 4,    // Indicates the default alignment for script
+};
+typedef NSUInteger NSTextAlignment;
+
 typedef enum {
     UILineBreakModeWordWrap = 0,
     UILineBreakModeCharacterWrap,
@@ -60,32 +75,22 @@ extern NSString *const UITextAttributeTextShadowOffset;
 
 @interface NSString (UIStringDrawing)
 - (CGSize)sizeWithFont:(UIFont *)font;
-- (CGSize)sizeWithFont:(UIFont *)font forWidth:(CGFloat)width lineBreakMode:(UILineBreakMode)lineBreakMode;
+- (CGSize)sizeWithFont:(UIFont *)font forWidth:(CGFloat)width lineBreakMode:(NSLineBreakMode)lineBreakMode;
 - (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
-- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(UILineBreakMode)lineBreakMode;
+- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode;
 - (CGSize)drawAtPoint:(CGPoint)point withFont:(UIFont *)font;
-- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font lineBreakMode:(UILineBreakMode)lineBreakMode;
-- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font fontSize:(CGFloat)fontSize lineBreakMode:(UILineBreakMode)lineBreakMode baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment;
+- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font fontSize:(CGFloat)fontSize lineBreakMode:(NSLineBreakMode)lineBreakMode baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment;
 - (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font;
-- (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(UILineBreakMode)lineBreakMode;
-- (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(UILineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment;
+- (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment;
 
 // not yet implemented
-- (CGSize)sizeWithFont:(UIFont *)font minFontSize:(CGFloat)minFontSize actualFontSize:(CGFloat *)actualFontSize forWidth:(CGFloat)width lineBreakMode:(UILineBreakMode)lineBreakMode;
-- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font minFontSize:(CGFloat)minFontSize actualFontSize:(CGFloat *)actualFontSize lineBreakMode:(UILineBreakMode)lineBreakMode baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment;
+- (CGSize)sizeWithFont:(UIFont *)font minFontSize:(CGFloat)minFontSize actualFontSize:(CGFloat *)actualFontSize forWidth:(CGFloat)width lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font minFontSize:(CGFloat)minFontSize actualFontSize:(CGFloat *)actualFontSize lineBreakMode:(NSLineBreakMode)lineBreakMode baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment;
 @end
 
 
 @interface NSAttributedString (UIStringDrawing)
-//- (CGSize)size;
-//- (CGSize)sizeForWidth:(CGFloat)width lineBreakMode:(UILineBreakMode)lineBreakMode;
-//- (CGSize)sizeConstrainedToSize:(CGSize)size;
-//- (CGSize)sizeConstrainedToSize:(CGSize)size lineBreakMode:(UILineBreakMode)lineBreakMode;
-//
-//- (CGSize)drawAtPoint:(CGPoint)point;
-//- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width lineBreakMode:(UILineBreakMode)lineBreakMode;
-//- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width lineBreakMode:(UILineBreakMode)lineBreakMode baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment;
-//- (CGSize)drawInRect:(CGRect)rect;
-//- (CGSize)drawInRect:(CGRect)rect lineBreakMode:(UILineBreakMode)lineBreakMode;
-//- (CGSize)drawInRect:(CGRect)rect lineBreakMode:(UILineBreakMode)lineBreakMode alignment:(UITextAlignment)alignment;
+
 @end
