@@ -187,10 +187,10 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
             self.indicatorStyle = [coder decodeIntegerForKey:kUIIndicatorStyleKey];
         }
         if ([coder containsValueForKey:kUIMaximumZoomScaleKey]) {
-            self.maximumZoomScale = [coder decodeIntegerForKey:kUIMaximumZoomScaleKey];
+            self.maximumZoomScale = [coder decodeFloatForKey:kUIMaximumZoomScaleKey];
         }
         if ([coder containsValueForKey:kUIMinimumZoomScaleKey]) {
-            self.minimumZoomScale = [coder decodeIntegerForKey:kUIMinimumZoomScaleKey];
+            self.minimumZoomScale = [coder decodeFloatForKey:kUIMinimumZoomScaleKey];
         }
         if ([coder containsValueForKey:kUIPagingEnabledKey]) {
             self.pagingEnabled = [coder decodeBoolForKey:kUIPagingEnabledKey];
