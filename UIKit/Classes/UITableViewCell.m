@@ -373,12 +373,12 @@ static Class kUIButtonClass;
 
 - (UIColor*) backgroundColor
 {
-    return self.backgroundView.backgroundColor;
+    return self.backgroundView ? self.backgroundView.backgroundColor : [super backgroundColor];
 }
 
 - (void) setBackgroundColor:(UIColor*)backgroundColor
 {
-    self.backgroundView.backgroundColor = backgroundColor;
+    self.backgroundView ? self.backgroundView.backgroundColor = backgroundColor : [super setBackgroundColor:backgroundColor];
 }
 
 - (void) layoutSubviews
