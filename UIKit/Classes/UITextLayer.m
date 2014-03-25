@@ -37,6 +37,7 @@
 #import "UIApplication+UIPrivate.h"
 #import "AppKitIntegration.h"
 #import "UIView+UIPrivate.h"
+#import "UIKey+UIPrivate.h"
 #import "UIKitView.h"
 #import <AppKit/NSLayoutManager.h>
 #import <AppKit/NSWindow.h>
@@ -444,7 +445,16 @@
 
 - (BOOL)textView:(UICustomNSTextView *)aTextView shouldAcceptKeyDown:(NSEvent *)event
 {
-    return ![[UIApplication sharedApplication] _sendGlobalKeyboardNSEvent:event fromScreen:[[(UIView *)containerView window] screen]];
+    if (self.shouldAcceptReturn) {
+        UIKey *key = [[[UIKey alloc] initWithNSEvent:event] autorelease];
+        if(key.type == UIKeyTypeEnter || key.type == UIKeyTypeReturn || (key.commandKeyPressed && key.type == UIKeyTypeReturn)) {
+        return YES;
+        } else {
+            return ![[UIApplication sharedApplication] _sendGlobalKeyboardNSEvent:event fromScreen:[[(UIView *)containerView window] screen]];
+        }
+    } else {
+        return ![[UIApplication sharedApplication] _sendGlobalKeyboardNSEvent:event fromScreen:[[(UIView *)containerView window] screen]];
+    }
 }
 
 @end

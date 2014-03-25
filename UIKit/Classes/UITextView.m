@@ -69,6 +69,7 @@ static NSString* const kUIEditableKey = @"UIEditable";
 - (void) _commonInitForUITextView
 {
     _textLayer = [[UITextLayer alloc] initWithContainer:self isField:NO];
+    _textLayer.shouldAcceptReturn = YES;
     [self.layer insertSublayer:_textLayer atIndex:0];
     
     self.textColor = [UIColor blackColor];
