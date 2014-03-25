@@ -160,7 +160,7 @@ static CFArrayRef CreateCTLinesForString(NSString *string, CGSize constrainedToS
 
 - (CGSize)sizeWithFont:(UIFont *)font
 {
-    return [self sizeWithFont:font constrainedToSize:CGSizeMake(CGFLOAT_MAX,font.lineHeight)];
+    return [self sizeWithFont:font constrainedToSize:CGSizeMake(CGFLOAT_MAX,CGFLOAT_MAX)];
 }
 
 - (CGSize)sizeWithFont:(UIFont *)font forWidth:(CGFloat)width lineBreakMode:(NSLineBreakMode)lineBreakMode

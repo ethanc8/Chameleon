@@ -528,7 +528,7 @@ static UITableViewCellLayoutManager* kValue1;
     CGSize tvSize = CGSizeZero;
     CGSize dvSize = CGSizeZero;
     if (nil != textLabel && ![@"" isEqualToString:textLabel.text]) {
-        tvSize = [textLabel.text sizeWithFont:textLabel.font];
+        tvSize = [textLabel.text sizeWithFont:textLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
     }
     if (nil != detailTextLabel && ![@"" isEqualToString:detailTextLabel.text]) {
         dvSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font];
@@ -559,7 +559,8 @@ static UITableViewCellLayoutManager* kValue1;
     // The allowable width is always from the right side of the content rect - 10 (padding)
     // to the end of the content rect
     
-    CGSize originalSize = [textLabel.text sizeWithFont:textLabel.font];
+    CGSize originalSize = [textLabel.text sizeWithFont:textLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
+
     CGSize combinedSize = [self _combinedLabelsSizeForCell:cell];
     
     CGRect contentRect = [self contentViewRectForCell:cell];
@@ -862,10 +863,10 @@ static UITableViewCellLayoutManager* kValue1;
     CGSize tvSize = CGSizeZero;
     CGSize dvSize = CGSizeZero;
     if (nil != textLabel && ![@"" isEqualToString:textLabel.text]) {
-        tvSize = [textLabel.text sizeWithFont:textLabel.font];
+        tvSize = [textLabel.text sizeWithFont:textLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
     }
     if (nil != detailTextLabel && ![@"" isEqualToString:detailTextLabel.text]) {
-        dvSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font];
+        dvSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
     }
     
     CGSize combinedSizes = {
@@ -893,7 +894,7 @@ static UITableViewCellLayoutManager* kValue1;
     // The allowable width is always from the right side of the content rect - 10 (padding)
     // to the greater of the end of the content rect OR the final bounds of the image view - 10 (padding)
     
-    CGSize originalSize = [textLabel.text sizeWithFont:textLabel.font];
+    CGSize originalSize = [textLabel.text sizeWithFont:textLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
     CGSize combinedSize = [self _combinedLabelsSizeForCell:cell];
     
     CGRect contentRect = [self contentViewRectForCell:cell];
@@ -948,7 +949,8 @@ static UITableViewCellLayoutManager* kValue1;
     // The allowable width is always from the right side of the content rect - 10 (padding)
     // to the greater of the end of the content rect OR the final bounds of the image view - 10 (padding)
     
-    CGSize originalSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font];
+    CGSize originalSize = [detailTextLabel.text sizeWithFont:detailTextLabel.font forWidth:CGFLOAT_MAX lineBreakMode:NSLineBreakByWordWrapping];
+
     CGSize combinedSize = [self _combinedLabelsSizeForCell:cell];
     
     CGRect contentRect = [self contentViewRectForCell:cell];
