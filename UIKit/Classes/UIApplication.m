@@ -169,6 +169,10 @@ static BOOL TouchIsActive(UITouch *touch)
     [super dealloc];
 }
 
+- (BOOL)isProtectedDataAvailable {
+    return YES;
+}
+
 - (NSTimeInterval)statusBarOrientationAnimationDuration
 {
     return 0.3;

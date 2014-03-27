@@ -193,6 +193,7 @@ extern const NSTimeInterval UIMinimumKeepAliveTimeout;
 @property (nonatomic, readonly) NSTimeInterval backgroundTimeRemaining;     // always 0
 @property (nonatomic) NSInteger applicationIconBadgeNumber;                 // no effect, but does set/get the number correctly
 @property (nonatomic, copy) NSArray *scheduledLocalNotifications;           // no effect, returns nil
+@property(nonatomic,readonly,getter=isProtectedDataAvailable) BOOL protectedDataAvailable;
 
 @end
 
