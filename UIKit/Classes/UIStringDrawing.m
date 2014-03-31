@@ -232,9 +232,9 @@ static CFArrayRef CreateCTLinesForString(NSString *string, CGSize constrainedToS
             CTLineRef line = CFArrayGetValueAtIndex(lines, lineNumber);
             CGFloat flush;
             switch (alignment) {
-                case UITextAlignmentCenter:	flush = 0.5;	break;
-                case UITextAlignmentRight:	flush = 1;		break;
-                case UITextAlignmentLeft:
+                case NSTextAlignmentCenter:	flush = 0.5;	break;
+                case NSTextAlignmentRight:	flush = 1;		break;
+                case NSTextAlignmentLeft:
                 default:					flush = 0;		break;
             }
             
