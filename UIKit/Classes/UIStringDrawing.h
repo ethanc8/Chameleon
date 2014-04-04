@@ -56,8 +56,8 @@ typedef enum {
 
 typedef enum {
     UITextAlignmentLeft,
-    UITextAlignmentCenter,
     UITextAlignmentRight,
+    UITextAlignmentCenter
 } UITextAlignment;
 
 typedef enum {
