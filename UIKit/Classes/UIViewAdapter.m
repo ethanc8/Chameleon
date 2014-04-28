@@ -72,6 +72,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIViewHiddenDidChangeNotification object:nil];
+   
+    [self _removeNSView];
     [_view release];
     [_clipView release];
     [super dealloc];

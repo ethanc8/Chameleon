@@ -207,11 +207,11 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
 }
 
 - (void) dealloc {
-    [super dealloc];
     if(_toolbarItem) {
         [self removeObserver:self forKeyPath:@"_toolbarItem.item.image"];
     }
     [_toolbarItem release];
+    [super dealloc];
 }
 
 @end
