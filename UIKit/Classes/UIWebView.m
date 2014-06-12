@@ -254,6 +254,7 @@
 
 - (BOOL)resignFirstResponder
 {
+    [super resignFirstResponder];
     return [_webViewAdapter resignFirstResponder];
 }
 

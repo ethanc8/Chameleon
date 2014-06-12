@@ -149,6 +149,7 @@
 }
 
 - (BOOL)resignFirstResponder {
+    [super resignFirstResponder];
 	return [_searchField resignFirstResponder];
 }
 
