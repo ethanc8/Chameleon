@@ -130,7 +130,7 @@ static const CGFloat SplitterPadding = 3;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CGPoint point = [[touches anyObject] locationInView:self];
+    CGPoint point = [(UITouch*)[touches anyObject] locationInView:self];
 
     if (CGRectContainsPoint([self splitterHitRect], point)) {
         dragging = !fixedSize;
@@ -140,7 +140,7 @@ static const CGFloat SplitterPadding = 3;
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (dragging) {
-        CGFloat newWidth = [[touches anyObject] locationInView:self].x;
+        CGFloat newWidth = [(UITouch*)[touches anyObject] locationInView:self].x;
         
         newWidth = MAX(50, newWidth);
         newWidth = MIN(self.bounds.size.width-50, newWidth);
@@ -162,7 +162,7 @@ static const CGFloat SplitterPadding = 3;
 - (id)mouseCursorForEvent:(UIEvent *)event
 {
     CGRect splitterRect = [self splitterHitRect];
-    CGPoint point = [[[event allTouches] anyObject] locationInView:self];
+    CGPoint point = [(UITouch*)[[event allTouches] anyObject] locationInView:self];
 
     if (dragging && point.x < splitterRect.origin.x) {
         return [NSCursor resizeLeftCursor];

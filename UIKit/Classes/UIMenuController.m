@@ -108,7 +108,7 @@ NSString *const UIMenuControllerMenuFrameDidChangeNotification = @"UIMenuControl
 
         if ([_enabledMenuItems count] > 0) {
             _menu = [[NSMenu alloc] initWithTitle:@""];
-            [_menu setDelegate:self];
+            [(NSMenu*)_menu setDelegate:self];
             [_menu setAutoenablesItems:NO];
             [_menu setAllowsContextMenuPlugIns:NO];
             

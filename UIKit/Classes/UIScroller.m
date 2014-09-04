@@ -270,7 +270,7 @@ CGFloat UIScrollerWidthForBoundsSize(CGSize boundsSize)
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    _lastTouchLocation = [[touches anyObject] locationInView:self];
+    _lastTouchLocation = [(UITouch*)[touches anyObject] locationInView:self];
     const CGRect knobRect = [self knobRect];
 
     if (CGRectContainsPoint(knobRect,_lastTouchLocation)) {
@@ -298,7 +298,7 @@ CGFloat UIScrollerWidthForBoundsSize(CGSize boundsSize)
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    _lastTouchLocation = [[touches anyObject] locationInView:self];
+    _lastTouchLocation = [(UITouch*)[touches anyObject] locationInView:self];
 
     if (_draggingKnob) {
         [self setContentOffsetWithLastTouch];
