@@ -687,6 +687,7 @@ static BOOL TouchIsActive(UITouch *touch)
                 [touch _updatePhase:UITouchPhaseMoved screenLocation:screenLocation timestamp:timestamp];
                 [self sendEvent:_currentEvent];
                 break;
+            default: break;
         }
     } else if (TouchIsActiveGesture(touch)) {
         switch ([theNSEvent type]) {
@@ -716,6 +717,7 @@ static BOOL TouchIsActive(UITouch *touch)
                 [touch _updateGesture:_UITouchGestureSwipe screenLocation:screenLocation delta:ScrollDeltaFromNSEvent(theNSEvent) rotation:0 magnification:0 timestamp:timestamp];
                 [self sendEvent:_currentEvent];
                 break;
+            default: break;
         }
     } else if (![self isIgnoringInteractionEvents]) {
         switch ([theNSEvent type]) {
@@ -757,6 +759,7 @@ static BOOL TouchIsActive(UITouch *touch)
                 [self _setCurrentEventTouchedViewWithNSEvent:theNSEvent fromScreen:theScreen];
                 [self sendEvent:_currentEvent];
                 break;
+            default: break;
         }
     }
 }
