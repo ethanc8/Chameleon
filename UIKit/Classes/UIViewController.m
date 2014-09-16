@@ -572,12 +572,18 @@
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
 {
-    
+    [self dismissModalViewControllerAnimated:flag];
+    if (completion) {
+        completion();
+    }
 }
 
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
 {
-    
+    [self presentModalViewController:viewControllerToPresent animated:flag];
+    if (completion) {
+        completion();
+    }
 }
 
 - (NSArray *)childViewControllers
@@ -687,5 +693,8 @@
     return nil;
 }
 
+- (void)setPreferredContentSize:(CGSize)newSize {
+    [self setContentSizeForViewInPopover:newSize];
+}
 
 @end

@@ -177,7 +177,8 @@ typedef enum {
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion;
 
 - (UIView *)rotatingHeaderView;     
-- (UIView *)rotatingFooterView; 
+- (UIView *)rotatingFooterView;
+- (void)setPreferredContentSize:(CGSize)newSize;
 
 @property (nonatomic, readonly, copy) NSString *nibName;
 @property (nonatomic, readonly, retain) NSBundle *nibBundle;
