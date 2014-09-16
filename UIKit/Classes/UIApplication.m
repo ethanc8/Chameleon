@@ -253,6 +253,13 @@ static BOOL TouchIsActive(UITouch *touch)
 
 - (void)cancelAllLocalNotifications
 {
+    if (NSClassFromString(@"NSUserNotificationCenter")) {
+        NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+        
+        for (NSUserNotification *notification in [center scheduledNotifications]) {
+            [center removeScheduledNotification:notification];
+        }
+    }
 }
 
 - (void)cancelLocalNotification:(UILocalNotification *)notification
