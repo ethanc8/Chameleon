@@ -55,7 +55,7 @@
         
         NSBundle *mainBundle = [NSBundle mainBundle];
         
-        _webView.applicationNameForUserAgent =  [NSString stringWithFormat:@"%@/%@ (%@/%@)", [mainBundle objectForInfoDictionaryKey:@"CFBundleName"], [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"], [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+        _webView.applicationNameForUserAgent =  [NSString stringWithFormat:@"%@/%@ (%@/%@)", [mainBundle objectForInfoDictionaryKey:@"CFBundleName"], [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"], [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersion"]];
         [self addSubview:_webViewAdapter];
     }
     return self;
