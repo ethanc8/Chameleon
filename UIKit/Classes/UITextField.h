@@ -130,7 +130,7 @@ typedef enum {
 @property (nonatomic, retain) UIView *rightView;
 @property (nonatomic) UITextFieldViewMode rightViewMode;
 
-@property (nonatomic, readwrite, retain) UIView *inputAccessoryView;
-@property (nonatomic, readwrite, retain) UIView *inputView;
+@property (readwrite, retain) UIView *inputAccessoryView;
+@property (readwrite, retain) UIView *inputView;
 
 @end

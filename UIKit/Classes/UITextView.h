@@ -81,8 +81,8 @@ extern NSString *const UITextViewTextDidEndEditingNotification;
 @property (nonatomic) UIDataDetectorTypes dataDetectorTypes;
 @property (nonatomic, assign) id<UITextViewDelegate> delegate;
 
-@property (nonatomic, readwrite, retain) UIView *inputAccessoryView;
-@property (nonatomic, readwrite, retain) UIView *inputView;
+@property (readwrite, retain) UIView *inputAccessoryView;
+@property (readwrite, retain) UIView *inputView;
 
 - (BOOL)hasText;
 
