@@ -30,6 +30,10 @@
 #import "UIView.h"
 #import "UIDataDetectors.h"
 
+#import <WebKit/WebPolicyDelegate.h>
+#import <WebKit/WebFrameLoadDelegate.h>
+#import <WebKit/WebUIDelegate.h>
+
 enum {
     UIWebViewNavigationTypeLinkClicked,
     UIWebViewNavigationTypeFormSubmitted,
@@ -50,7 +54,7 @@ typedef NSUInteger UIWebViewNavigationType;
 - (void)webViewDidStartLoad:(UIWebView *)webView;
 @end
 
-@interface UIWebView : UIView {
+@interface UIWebView : UIView <WebPolicyDelegate, WebFrameLoadDelegate, WebUIDelegate>{
 @private
     id _delegate;
     NSURLRequest *_request;
