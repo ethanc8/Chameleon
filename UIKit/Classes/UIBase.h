@@ -54,8 +54,6 @@
 #define ASSIGNWEAK weak
 #else
 #define ASSIGNWEAK assign
-#define __unsafe_unretained
-#define __bridge
 //    #define __weak
 #endif
 

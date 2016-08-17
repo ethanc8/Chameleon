@@ -170,7 +170,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "MessageUI" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -255,6 +255,7 @@
 				GCC_PREFIX_HEADER = MessageUI_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chameleonproject.MessageUI;
 				PRODUCT_NAME = MessageUI;
 				SKIP_INSTALL = YES;
 				SYMROOT = ../build;
@@ -276,6 +277,7 @@
 				GCC_PREFIX_HEADER = MessageUI_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chameleonproject.MessageUI;
 				PRODUCT_NAME = MessageUI;
 				SKIP_INSTALL = YES;
 				SYMROOT = ../build;
@@ -340,6 +342,7 @@
 				GCC_PREFIX_HEADER = MessageUI_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.chameleonproject.MessageUI;
 				PRODUCT_NAME = MessageUI;
 				SKIP_INSTALL = YES;
 				SYMROOT = ../build;

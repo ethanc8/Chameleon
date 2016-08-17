@@ -30,7 +30,7 @@
 #import <Foundation/Foundation.h>
 
 @interface UIAction : NSObject {
-    __weak id _target;
+    __unsafe_unretained id _target;
     SEL _action;
 }
 
