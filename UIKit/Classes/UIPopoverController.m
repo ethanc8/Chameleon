@@ -40,8 +40,8 @@
 #import "UIPopoverOverlayNSView.h"
 #import "UIImage+UIPrivate.h"
 #import "UIBarButtonItem+UIPrivate.h"
+#import "UIToolbarItem.h"
 #include <tgmath.h>
-
 
 static BOOL SizeIsLessThanOrEqualSize(NSSize size1, NSSize size2)
 {
@@ -244,8 +244,6 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
     assert(!CGRectEqualToRect(rect,CGRectZero));
     assert([[view.window.screen UIKitView] window] != nil);
     
-    NSWindow *viewNSWindow = [[view.window.screen UIKitView] window];
-    
     // only create new stuff if the popover isn't already visible
     if (![self isPopoverVisible]) {
         assert(_overlayWindows == nil);
@@ -260,7 +258,7 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
         // from a popover window and the first popover window might be offset from the main window
         _overlayWindows = [[NSMutableArray alloc] init];
       
-        NSWindow *currentParent = viewNSWindow;
+        NSWindow *currentParent = [[view.window.screen UIKitView] window];;
         do {
             NSRect windowFrame =[currentParent frame]; //[[UIScreen mainScreen] applicationFrame];
             NSRect overlayContentRect = NSMakeRect(0,0,windowFrame.size.width,windowFrame.size.height);
@@ -306,7 +304,7 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
         [_popoverWindow setOpaque:NO];
         [(NSWindow *)_popoverWindow setBackgroundColor:[NSColor clearColor]];
         [_popoverWindow setContentView:hostingView];
-        [viewNSWindow addChildWindow:_popoverWindow ordered:NSWindowAbove];
+        [[_overlayWindows lastObject] addChildWindow:_popoverWindow ordered:NSWindowAbove];
         [_popoverWindow makeFirstResponder:hostingView];
         
         [hostingView release];
@@ -339,7 +337,7 @@ static NSPoint PopoverWindowOrigin(NSWindow *inWindow, NSRect fromRect, NSSize *
     
     // finally, let's show it!
     NSSize popoverSize = NSSizeFromCGSize(_popoverView.frame.size);
-    [_popoverWindow setFrameOrigin:PopoverWindowOrigin([_overlayWindows objectAtIndex:0], NSRectFromCGRect(desktopScreenRect), &popoverSize, arrowDirections, &pointTo, &_popoverArrowDirection)];
+    [_popoverWindow setFrameOrigin:PopoverWindowOrigin([_overlayWindows lastObject], NSRectFromCGRect(desktopScreenRect), &popoverSize, arrowDirections, &pointTo, &_popoverArrowDirection)];
     CGRect popoverFrame = _popoverView.frame;
     popoverFrame.size = popoverSize;
     _popoverView.frame = popoverFrame;
