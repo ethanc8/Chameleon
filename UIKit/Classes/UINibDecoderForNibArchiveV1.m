@@ -241,9 +241,9 @@ static inline double decodeFloat64(void const** pp);
                 return nil;
             }
             if (length == (sizeof(kNSInlinedValueKey)-1) && 0 == memcmp(kNSInlinedValueKey, kp, length)) {
-                keyForInlinedValue = i;
+                keyForInlinedValue = (uint32_t)i;
             } else if (length == (sizeof(kUINibEncoderEmptyKey)-1) && 0 == memcmp(kUINibEncoderEmptyKey, kp, length)) {
-                keyForEmpty = i;
+                keyForEmpty = (uint32_t) i;
             }
             [keys addObject:key];
             [key release];
@@ -601,7 +601,7 @@ static Class kClassForUIImageNibPlaceholder;
 {
     UINibDecoderValueEntry* value = NULL;
     while (nextGenericValue_ <= lastValue_) {
-        uint32_t indexOfKey = nextGenericValue_->indexOfKey;
+        uint32_t indexOfKey = (uint32_t)nextGenericValue_->indexOfKey;
         if (indexOfKey == archiveData_->keyForInlinedValue || indexOfKey == archiveData_->keyForEmpty) {
             value = nextGenericValue_;
             nextGenericValue_++;

@@ -71,6 +71,8 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
     [_textColor release];
     [_shadowColor release];
     [_highlightedTextColor release];
+    [_attributedText release];
+    
     [super dealloc];
 }
 
@@ -126,7 +128,7 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
             self.textAlignment = [coder decodeBoolForKey:kUITextAlignmentKey];
         }
         if ([coder containsValueForKey:kUIBaselineAdjustmentKey]) {
-            self.baselineAdjustment = [coder decodeIntegerForKey:kUIBaselineAdjustmentKey];
+            self.baselineAdjustment = (UIBaselineAdjustment)[coder decodeIntegerForKey:kUIBaselineAdjustmentKey];
         }
         if ([coder containsValueForKey:kUIAdjustsFontSizeToFitKey]) {
             self.adjustsFontSizeToFitWidth = [coder decodeBoolForKey:kUIAdjustsFontSizeToFitKey];
@@ -220,7 +222,7 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
         if (numberOfLines > 0) {
             maxSize.height = _font.lineHeight * numberOfLines;
         }
-        CGSize size = [_text sizeWithFont: _font constrainedToSize: maxSize lineBreakMode: _lineBreakMode];
+        CGSize size = [_text sizeWithFont: _font constrainedToSize: maxSize lineBreakMode: (NSLineBreakMode)_lineBreakMode];
         return (CGRect){bounds.origin, size};
     }
     return (CGRect){bounds.origin, {0, 0}};
@@ -228,7 +230,7 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
 
 - (void)drawTextInRect:(CGRect)rect
 {
-    [_text drawInRect:rect withFont:_font lineBreakMode:_lineBreakMode alignment:_textAlignment];
+    [_text drawInRect:rect withFont:_font lineBreakMode: (NSLineBreakMode) _lineBreakMode alignment:(NSTextAlignment)_textAlignment];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -244,7 +246,7 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
         if (_numberOfLines > 0) {
             maxSize.height = _font.lineHeight * _numberOfLines;
         }
-        drawRect.size = [_text sizeWithFont:_font constrainedToSize:maxSize lineBreakMode:_lineBreakMode];
+        drawRect.size = [_text sizeWithFont:_font constrainedToSize:maxSize lineBreakMode: (NSLineBreakMode) _lineBreakMode];
 
         // now vertically center it
         drawRect.origin.y = round((bounds.size.height - drawRect.size.height) / 2.f);
@@ -288,7 +290,7 @@ static NSString* const kUIAdjustsFontSizeToFitKey = @"UIAdjustsFontSizeToFit";
 - (CGSize)sizeThatFits:(CGSize)size
 {
     size = CGSizeMake(((_numberOfLines > 0)? CGFLOAT_MAX : size.width), ((_numberOfLines <= 0)? CGFLOAT_MAX : (_font.lineHeight*_numberOfLines)));
-    return [_text sizeWithFont:_font constrainedToSize:size lineBreakMode:_lineBreakMode];
+    return [_text sizeWithFont:_font constrainedToSize:size lineBreakMode: (NSLineBreakMode) _lineBreakMode];
 }
 
 - (void)setHighlighted:(BOOL)highlighted

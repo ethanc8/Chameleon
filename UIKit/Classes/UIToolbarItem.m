@@ -12,7 +12,7 @@
 #import "UIToolbarButton.h"
 #import "UIColor.h"
 #import "UIGraphics.h"
-#import "UIToolbar.h"
+#import "UIToolbarItem.h"
 
 @implementation UIToolbarItem
 @synthesize item, view;

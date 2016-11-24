@@ -123,7 +123,7 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
             }
         }
         if ([coder containsValueForKey:kUISegmentedControlStyleKey]) {
-            self.segmentedControlStyle = [coder decodeIntegerForKey:kUISegmentedControlStyleKey];
+            self.segmentedControlStyle = (UISegmentedControlStyle)[coder decodeIntegerForKey:kUISegmentedControlStyleKey];
         }
         if ([coder containsValueForKey:kUISegmentedControlTintColorKey]) {
             self.tintColor = [coder decodeObjectForKey:kUISegmentedControlTintColorKey];
@@ -281,19 +281,19 @@ static NSString* const kUIMomentaryKey = @"UIMomentary";
         // Strings
         if ([item isKindOfClass:[NSString class]]) {
             NSString *string = (NSString *)item;
-            CGSize textSize = [string sizeWithFont:_font constrainedToSize:CGSizeMake(segmentWidth, size.height) lineBreakMode:UILineBreakModeTailTruncation];
+            CGSize textSize = [string sizeWithFont:_font constrainedToSize:CGSizeMake(segmentWidth, size.height) lineBreakMode: (NSLineBreakMode) UILineBreakModeTailTruncation];
             CGRect textRect = CGRectMake(x, round((size.height - textSize.height) / 2.0f), segmentWidth, size.height);
             textRect = UIEdgeInsetsInsetRect(textRect, _textEdgeInsets);
             
             if (enabled) {
                 [_textShadowColor set];                
-                [string drawInRect:CGRectOffset(textRect, _textShadowOffset.width, _textShadowOffset.height) withFont:_font lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
+                [string drawInRect:CGRectOffset(textRect, _textShadowOffset.width, _textShadowOffset.height) withFont:_font lineBreakMode:(NSLineBreakMode) UILineBreakModeTailTruncation alignment: (NSTextAlignment)UITextAlignmentCenter];
                 [_textColor set];
             } else {
                 [_disabledTextColor set];
             }
             
-            [string drawInRect:textRect withFont:_font lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
+            [string drawInRect:textRect withFont:_font lineBreakMode:(NSLineBreakMode) UILineBreakModeTailTruncation alignment:(NSTextAlignment) UITextAlignmentCenter];
         }
         
         // Images

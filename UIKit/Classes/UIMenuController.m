@@ -44,6 +44,11 @@ NSString *const UIMenuControllerDidShowMenuNotification = @"UIMenuControllerDidS
 NSString *const UIMenuControllerWillHideMenuNotification = @"UIMenuControllerWillHideMenuNotification";
 NSString *const UIMenuControllerDidHideMenuNotification = @"UIMenuControllerDidHideMenuNotification";
 NSString *const UIMenuControllerMenuFrameDidChangeNotification = @"UIMenuControllerMenuFrameDidChangeNotification";
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
 
 @interface UIMenuController () <NSMenuDelegate>
 @end
@@ -64,12 +69,12 @@ NSString *const UIMenuControllerMenuFrameDidChangeNotification = @"UIMenuControl
 
     if (!items) {
         items = [[NSArray alloc] initWithObjects:
-                 [[[UIMenuItem alloc] initWithTitle:@"Cut" action:@selector(cut:)] autorelease],
-                 [[[UIMenuItem alloc] initWithTitle:@"Copy" action:@selector(copy:)] autorelease],
-                 [[[UIMenuItem alloc] initWithTitle:@"Paste" action:@selector(paste:)] autorelease],
-                 [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(delete:)] autorelease],
-                 [[[UIMenuItem alloc] initWithTitle:@"Select" action:@selector(select:)] autorelease],
-                 [[[UIMenuItem alloc] initWithTitle:@"Select All" action:@selector(selectAll:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Cut") action:@selector(cut:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Copy") action:@selector(copy:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Paste") action:@selector(paste:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Delete") action:@selector(delete:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Select") action:@selector(select:)] autorelease],
+                 [[[UIMenuItem alloc] initWithTitle:LocalizationNotNeeded(@"Select All") action:@selector(selectAll:)] autorelease],
                  nil];
     }
 

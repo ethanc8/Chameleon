@@ -37,6 +37,12 @@
 
 static void * const UINavigationItemContext = "UINavigationItemContext";
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 @implementation UINavigationItem
 @synthesize title = _title;
 @synthesize rightBarButtonItem = _rightBarButtonItem;
@@ -163,7 +169,7 @@ static void * const UINavigationItemContext = "UINavigationItemContext";
     if (_backBarButtonItem) {
         return _backBarButtonItem;
     } else {
-        return [[[UIBarButtonItem alloc] initWithTitle:(self.title ?: @"Back") style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+        return [[[UIBarButtonItem alloc] initWithTitle:(self.title ?: LocalizationNotNeeded(@"Back")) style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
     }
 }
 

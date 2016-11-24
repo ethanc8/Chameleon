@@ -114,7 +114,6 @@
 #import "UIScrollWheelGestureRecognizer.h"
 
 // only add if core data is included on 10.6
-#import "NSFetchedResultsController.h"
 #import "NSIndexPath+UITableView.h"
 
 // SystemConfiguration-Helper

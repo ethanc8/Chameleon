@@ -68,6 +68,12 @@ const NSTimeInterval UIMinimumKeepAliveTimeout = 0;
 
 static UIApplication *_theApplication = nil;
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 static CGPoint ScreenLocationFromNSEvent(UIScreen *theScreen, NSEvent *theNSEvent)
 {
     CGPoint screenLocation = NSPointToCGPoint([[theScreen UIKitView] convertPoint:[theNSEvent locationInWindow] fromView:nil]);
@@ -399,9 +405,9 @@ static BOOL TouchIsActive(UITouch *touch)
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
         [alert setShowsSuppressionButton:NO];
-        [alert setMessageText:@"Quitting"];
-        [alert setInformativeText:@"Finishing some tasks..."];
-        [alert addButtonWithTitle:@"Quit Now"];
+        [alert setMessageText:LocalizationNotNeeded(@"Quitting")];
+        [alert setInformativeText:LocalizationNotNeeded(@"Finishing some tasks...")];
+        [alert addButtonWithTitle:LocalizationNotNeeded(@"Quit Now")];
         [alert layout];
 
         // to avoid upsetting the user with an alert that flashes too quickly to read, we'll later artifically ensure that

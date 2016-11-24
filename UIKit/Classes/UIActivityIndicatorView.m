@@ -122,7 +122,7 @@ static UIImage *UIActivityIndicatorViewFrameImage(UIActivityIndicatorViewStyle s
     if (nil != (self = [super initWithCoder:coder])) {
         [self commonInitForUIActivityIndicatorView];
         if ([coder containsValueForKey:kUIActivityIndicatorViewStyleKey]) {
-            self.activityIndicatorViewStyle = [coder decodeIntegerForKey:kUIActivityIndicatorViewStyleKey];
+            self.activityIndicatorViewStyle = (UIActivityIndicatorViewStyle)[coder decodeIntegerForKey:kUIActivityIndicatorViewStyleKey];
         }
         if ([coder containsValueForKey:kUIHidesWhenStoppedKey]) {
             self.hidesWhenStopped = [coder decodeBoolForKey:kUIHidesWhenStoppedKey];

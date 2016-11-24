@@ -32,6 +32,12 @@
 #import "UIImage+UIPrivate.h"
 #import "UIToolbar.h"
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 @implementation UIBarButtonItem 
 @synthesize width = _width;
 @synthesize customView = _customView;
@@ -59,27 +65,27 @@
 		
 		switch (systemItem) {
 			case UIBarButtonSystemItemDone:
-				self.title = @"Done";
+				self.title = LocalizationNotNeeded(@"Done");
 				self.style = UIBarButtonItemStyleDone;
 				break;
 			case UIBarButtonSystemItemSave:
-				self.title = @"Save";
+				self.title = LocalizationNotNeeded(@"Save");
 				self.style = UIBarButtonItemStyleDone;
 				break;
 			case UIBarButtonSystemItemCancel:
-				self.title = @"Cancel";
+				self.title = LocalizationNotNeeded(@"Cancel");
 				self.style = UIBarButtonItemStylePlain;
 				break;
 			case UIBarButtonSystemItemEdit:
-				self.title = @"Edit";
+				self.title = LocalizationNotNeeded(@"Edit");
 				self.style = UIBarButtonItemStylePlain;
 				break;
 			case UIBarButtonSystemItemUndo:
-				self.title = @"Undo";
+				self.title = LocalizationNotNeeded(@"Undo");
 				self.style = UIBarButtonItemStylePlain;
 				break;
 			case UIBarButtonSystemItemRedo:
-				self.title = @"Redo";
+				self.title = LocalizationNotNeeded(@"Redo");
 				self.style = UIBarButtonItemStylePlain;
 				break;
 			case UIBarButtonSystemItemAdd:

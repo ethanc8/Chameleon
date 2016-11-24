@@ -154,8 +154,8 @@ static IMP defaultImplementationOfDisplayLayer;
     _gestureRecognizers = [[NSMutableSet alloc] init];
     
     _layer = [[[object_getClass(self) layerClass] alloc] init];
-    _layer.delegate = self;
-    _layer.layoutManager = [UIViewLayoutManager layoutManager];
+    _layer.delegate = (id<CALayerDelegate>)self;
+    _layer.layoutManager = (id<CALayoutManager>)[UIViewLayoutManager layoutManager];
     
     self.contentMode = UIViewContentModeScaleToFill;
     self.contentScaleFactor = 0;
@@ -212,7 +212,7 @@ static IMP defaultImplementationOfDisplayLayer;
             self.clipsToBounds = [coder decodeBoolForKey:kUIClipsToBoundsKey];
         }
         if ([coder containsValueForKey:kUIContentModeKey]) {
-            self.contentMode = [coder decodeIntegerForKey:kUIContentModeKey];
+            self.contentMode = (UIViewContentMode)[coder decodeIntegerForKey:kUIContentModeKey];
         }
         if ([coder containsValueForKey:kUIContentStretchKey]) {
             self.contentStretch = [coder decodeCGRectForKey:kUIContentStretchKey];
@@ -255,6 +255,7 @@ static IMP defaultImplementationOfDisplayLayer;
     [_layer release];
     [_backgroundColor release];
     [_gestureRecognizers release];
+    [_toolTip release];
     
     [super dealloc];
 }
@@ -397,7 +398,7 @@ static IMP defaultImplementationOfDisplayLayer;
 - (void)insertSubview:(UIView *)subview atIndex:(NSInteger)index
 {
     [self addSubview:subview];
-    [_layer insertSublayer:subview.layer atIndex:index];
+    [_layer insertSublayer:subview.layer atIndex:(unsigned int)index];
 }
 
 - (void)insertSubview:(UIView *)subview belowSubview:(UIView *)below

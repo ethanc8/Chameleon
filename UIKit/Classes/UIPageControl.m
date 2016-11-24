@@ -41,6 +41,13 @@
 @synthesize currentPageIndicatorTintColor = _currentPageIndicatorTintColor;
 @synthesize pageIndicatorTintColor = _pageIndicatorTintColor;
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
+
 - (void)commonInit
 {
     self.autoresizingMask = UIViewAutoresizingNone;
@@ -52,6 +59,14 @@
         [self commonInit];
     }
     return self;
+}
+
+-(void)dealloc
+{
+    [_currentPageIndicatorTintColor release];
+    [_pageIndicatorTintColor release];
+    
+    [super dealloc];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -88,7 +103,7 @@
 
 
 - (void)drawRect:(CGRect)frame {
-    int drawSize = kDotWidth*self.numberOfPages/2;
+    int drawSize = (int) (kDotWidth*self.numberOfPages/2);
     
     UIColor *inactiveColor = self.pageIndicatorTintColor? : [UIColor colorWithRed:135/255.f green:135/255.f blue:135/255.f alpha:0.7];
     
@@ -99,9 +114,9 @@
             [inactiveColor set];
         }
         
-        [@"•" drawAtPoint:CGPointMake(frame.size.width/2 - drawSize + i*kDotWidth, frame.origin.y) forWidth:frame.size.width
+        [LocalizationNotNeeded(@"•") drawAtPoint:CGPointMake(frame.size.width/2 - drawSize + i*kDotWidth, frame.origin.y) forWidth:frame.size.width
                  withFont:[UIFont boldSystemFontOfSize:12] minFontSize:12 actualFontSize:NULL
-            lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+            lineBreakMode:(NSLineBreakMode) UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
     }
 }
 

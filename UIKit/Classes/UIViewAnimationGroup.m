@@ -143,7 +143,7 @@ static CAMediaTimingFunction *CAMediaTimingFunctionFromUIViewAnimationCurve(UIVi
     animation.repeatCount = _animationRepeatCount;
     animation.autoreverses = _animationRepeatAutoreverses;
     animation.fillMode = kCAFillModeBackwards;
-    animation.delegate = self;
+    animation.delegate = (id<CAAnimationDelegate>)self;
     animation.removedOnCompletion = YES;
     _waitingAnimations++;
     return animation;

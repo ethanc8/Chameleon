@@ -165,7 +165,7 @@ inline static NSNumber* _keyForState(NSInteger state)
             [self _updateContent];
         }
         if ([coder containsValueForKey:kUIButtonTypeKey]) {
-            _buttonFlags.buttonType = [coder decodeIntegerForKey:kUIButtonTypeKey];
+            _buttonFlags.buttonType = (UIButtonType)[coder decodeIntegerForKey:kUIButtonTypeKey];
         }
         if ([coder containsValueForKey:kUIFontKey]) {
             self.titleLabel.font = [coder decodeObjectForKey:kUIFontKey];

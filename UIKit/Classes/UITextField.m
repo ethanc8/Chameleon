@@ -140,7 +140,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
             self.placeholder = [coder decodeObjectForKey:kUIPlaceholderKey];
         }
         if ([coder containsValueForKey:kUITextAlignmentKey]) {
-            self.textAlignment = [coder decodeIntegerForKey:kUITextAlignmentKey];
+            self.textAlignment = (UITextAlignment)[coder decodeIntegerForKey:kUITextAlignmentKey];
         }
         if ([coder containsValueForKey:kUITextKey]) {
             self.text = [coder decodeObjectForKey:kUITextKey];
@@ -152,7 +152,7 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
             self.disabledBackground = [coder decodeObjectForKey:kUITextFieldDisabledBackgroundKey];
         }
         if ([coder containsValueForKey:kUIBorderStyleKey]) {
-            self.borderStyle = [coder decodeIntegerForKey:kUIBorderStyleKey];
+            self.borderStyle = (UITextBorderStyle)[coder decodeIntegerForKey:kUIBorderStyleKey];
         }
         if ([coder containsValueForKey:kUIClearsOnBeginEditingKey]) {
             self.clearsOnBeginEditing = [coder decodeBoolForKey:kUIClearsOnBeginEditingKey];
@@ -164,10 +164,10 @@ static NSString* const kUISecureTextEntryKey = @"UISecureTextEntry";
             self.font = [coder decodeObjectForKey:kUIFontKey];
         }
         if ([coder containsValueForKey:kUIClearButtonModeKey]) {
-            self.clearButtonMode = [coder decodeIntegerForKey:kUIClearButtonModeKey];
+            self.clearButtonMode = (UITextFieldViewMode)[coder decodeIntegerForKey:kUIClearButtonModeKey];
         }
         if ([coder containsValueForKey:kUIAutocorrectionTypeKey]) {
-            self.autocorrectionType = [coder decodeIntegerForKey:kUIAutocorrectionTypeKey];
+            self.autocorrectionType = (UITextAutocorrectionType)[coder decodeIntegerForKey:kUIAutocorrectionTypeKey];
         }
         if ([coder containsValueForKey:kUIClearButtonOffsetKey]) {
             /* XXX: Implement Me */

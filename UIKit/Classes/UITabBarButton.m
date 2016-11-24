@@ -39,6 +39,12 @@
 
 CGSize _CGSizeAspectFitToSize(const CGSize original, const CGSize constraint);
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 @implementation UITabBarButton
 
 - (id)initWithTabBarItem:(UITabBarItem *)item
@@ -138,7 +144,7 @@ CGSize _CGSizeAspectFitToSize(const CGSize original, const CGSize constraint);
         title = item.title;
     }
 
-    [self setTitle:title forState:UIControlStateNormal];
+    [self setTitle:LocalizationNotNeeded(title) forState:UIControlStateNormal];
 
     UIImage *selectedImage = [self _selectedTabBarImageFromImage:image];
     UIImage *unselectedImage = [self _unselectedTabBarImageFromImage:image];

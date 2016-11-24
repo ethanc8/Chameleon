@@ -34,6 +34,7 @@
 #import "UIApplication+UIPrivate.h"
 #import "UIBarButtonItem.h"
 #import "UIBarButtonItem+UIPrivate.h"
+#import "UIToolbarItem.h"
 #import <AppKit/NSMenu.h>
 #import <AppKit/NSMenuItem.h>
 #import <AppKit/NSEvent.h>

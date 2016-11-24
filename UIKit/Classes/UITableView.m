@@ -58,6 +58,12 @@ static NSString* const kUISeparatorColorKey = @"UISeparatorColor";
 static NSString* const kUISeparatorStyleKey = @"UISeparatorStyle";
 static NSString* const kUIStyleKey = @"UIStyle";
 
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 @interface UITableView ()
 - (void)_setNeedsReload;
 - (NSIndexPath *)_selectRowAtIndexPath:(NSIndexPath *)indexPath exclusively:(BOOL)exclusively sendDelegateMessages:(BOOL)sendDelegateMessage animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition;
@@ -135,7 +141,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
 {
     if (nil != (self = [super initWithCoder:coder])) {
         if ([coder containsValueForKey:kUIStyleKey]) {
-            _style = [coder decodeIntegerForKey:kUIStyleKey];
+            _style = (UITableViewStyle)[coder decodeIntegerForKey:kUIStyleKey];
         } else {
             _style = UITableViewStylePlain;
         }
@@ -156,7 +162,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
             self.separatorColor = [coder decodeObjectForKey:kUISeparatorColorKey];
         }
         if ([coder containsValueForKey:kUISeparatorStyleKey]) {
-            self.separatorStyle = [coder decodeIntegerForKey:kUISeparatorStyleKey];
+            self.separatorStyle = (UITableViewCellSeparatorStyle)[coder decodeIntegerForKey:kUISeparatorStyleKey];
         } else {
             // This means that the separator style has been set to None
             self.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -1056,7 +1062,7 @@ static NSString* const kUIStyleKey = @"UIStyle";
         
         cell.highlighted = YES;
         
-        NSMenuItem *theItem = [[NSMenuItem alloc] initWithTitle:menuItemTitle action:NULL keyEquivalent:@""];
+        NSMenuItem *theItem = [[NSMenuItem alloc] initWithTitle:LocalizationNotNeeded(menuItemTitle) action:NULL keyEquivalent:@""];
         
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         [menu setAutoenablesItems:NO];

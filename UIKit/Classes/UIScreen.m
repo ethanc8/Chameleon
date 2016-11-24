@@ -78,8 +78,8 @@ NSMutableArray *_allScreens = nil;
 {
     if ((self = [super init])) {
         _layer = [[CALayer layer] retain];
-        _layer.delegate = self;		// required to get the magic of the UIViewLayoutManager...
-        _layer.layoutManager = [UIViewLayoutManager layoutManager];
+        _layer.delegate = (id<CALayerDelegate>)self;		// required to get the magic of the UIViewLayoutManager...
+        _layer.layoutManager = (id<CALayoutManager>)[UIViewLayoutManager layoutManager];
         
         _grabber = [[UIImageView alloc] initWithImage:[UIImage _windowResizeGrabberImage]];
         _grabber.layer.zPosition = 10000;

@@ -148,7 +148,7 @@
         [(UITabBarButton *)_view _updateImageAndTitleFromTabBarItem:self];
     else if ([_view isKindOfClass:[UIControl class]])
         [(UIButton *)_view setTitle:title forState:UIControlStateNormal];
-    else if ([_view respondsToSelector:@selector(setTitle::)])
+    else if ([_view respondsToSelector:@selector(setTitle:)])
         [_view performSelector:@selector(setTitle:) withObject:title];
 }
 @end

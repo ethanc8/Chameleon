@@ -69,6 +69,8 @@
     [_webView setUIDelegate:nil];
     [_webViewAdapter release];
     [_webView release];
+    [_request release];
+        
     [super dealloc];
 }
 

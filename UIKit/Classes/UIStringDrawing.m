@@ -100,7 +100,13 @@ static CFArrayRef CreateCTLinesForAttributedString(NSAttributedString *attribute
                     CFAttributedStringRef ellipsisString = CFAttributedStringCreate(NULL, CFSTR("…"), (CFDictionaryRef) attributes);
                     CTLineRef ellipsisLine = CTLineCreateWithAttributedString(ellipsisString);
                     CTLineRef tempLine = CTTypesetterCreateLine(typesetter, CFRangeMake(start, usedCharacters));
-                    line = CTLineCreateTruncatedLine(tempLine, constrainedToSize.width, truncType, ellipsisLine);
+                    
+                    if (CTLineGetBoundsWithOptions(tempLine, 0).size.width  > CTLineGetBoundsWithOptions(ellipsisLine, 0).size.width ) {
+                        line = CTLineCreateTruncatedLine(tempLine, constrainedToSize.width, truncType, ellipsisLine);
+                    } else {
+                        line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, usedCharacters));
+                    }
+                    
                     CFRelease(tempLine);
                     CFRelease(ellipsisLine);
                     CFRelease(ellipsisString);
@@ -257,12 +263,12 @@ static CFArrayRef CreateCTLinesForString(NSString *string, CGSize constrainedToS
 
 - (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font
 {
-    return [self drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:UITextAlignmentLeft];
+    return [self drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment: (NSTextAlignment) UITextAlignmentLeft];
 }
 
 - (CGSize)drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode
 {
-    return [self drawInRect:rect withFont:font lineBreakMode:lineBreakMode alignment:UITextAlignmentLeft];
+    return [self drawInRect:rect withFont:font lineBreakMode:lineBreakMode alignment: (NSTextAlignment) UITextAlignmentLeft];
 }
 
 @end

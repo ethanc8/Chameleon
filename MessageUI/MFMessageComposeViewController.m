@@ -47,4 +47,10 @@
   return NO; // most likely we can't send messages on a mac ;)
 }
 
+- (void)dealloc {
+    [_recipients release];
+    [_body release];
+    
+    [super dealloc];
+}
 @end

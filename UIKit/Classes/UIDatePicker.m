@@ -58,7 +58,7 @@ static NSString* const kUICountDownDuration = @"UICountDownDuration";
 {
     if (nil != (self = [super initWithCoder:coder])) {
         if ([coder containsValueForKey:kUIDatePickerMode]) {
-            self.datePickerMode = [coder decodeIntegerForKey:kUIDatePickerMode];
+            self.datePickerMode = (UIDatePickerMode)[coder decodeIntegerForKey:kUIDatePickerMode];
         } 
         if ([coder containsValueForKey:KUICalendar]) {
             self.calendar = [coder decodeObjectForKey:KUICalendar];

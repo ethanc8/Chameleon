@@ -51,7 +51,7 @@
     [self setWantsLayer:YES];
     
     CALayer *myLayer = [self layer];
-    myLayer.delegate = self;
+    myLayer.delegate = (id<CALayerDelegate>)self;
     
     CALayer *screenLayer = [_screen _layer];
     screenLayer.frame = myLayer.bounds;

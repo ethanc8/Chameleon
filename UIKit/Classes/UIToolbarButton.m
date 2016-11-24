@@ -41,6 +41,13 @@
 // If you specify both an image and a title, these buttons stack them vertically which is unlike default UIButton behavior
 // This is all a pain in the ass and wrong, but good enough for now, I guess
 
+
+__attribute__((annotate("returns_localized_nsstring")))
+static inline NSString *LocalizationNotNeeded(NSString *s) {
+    return s;
+}
+
+
 static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
 
 @implementation UIToolbarButton
@@ -143,7 +150,7 @@ static UIEdgeInsets UIToolbarButtonInset = {0,4,0,4};
         }
         
         [self setImage:image forState:UIControlStateNormal];
-        [self setTitle:title forState:UIControlStateNormal];
+        [self setTitle:LocalizationNotNeeded(title) forState:UIControlStateNormal];
         [self addTarget:item.target action:item.action forControlEvents:UIControlEventTouchUpInside];
         
         // resize the view to fit according to the rules, which appear to be that if the width is set directly in the item, use that

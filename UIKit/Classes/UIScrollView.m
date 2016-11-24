@@ -184,7 +184,7 @@ static NSString* const kUIScrollIndicatorInsetsKey = @"UIScrollIndicatorInsets";
             self.delaysContentTouches = [coder decodeBoolForKey:kUIDelaysContentTouchesKey];
         }
         if ([coder containsValueForKey:kUIIndicatorStyleKey]) {
-            self.indicatorStyle = [coder decodeIntegerForKey:kUIIndicatorStyleKey];
+            self.indicatorStyle = (UIScrollViewIndicatorStyle)[coder decodeIntegerForKey:kUIIndicatorStyleKey];
         }
         if ([coder containsValueForKey:kUIMaximumZoomScaleKey]) {
             self.maximumZoomScale = [coder decodeFloatForKey:kUIMaximumZoomScaleKey];

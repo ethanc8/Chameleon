@@ -153,19 +153,19 @@ static void UIAppearanceSetterOverride_##TYPE(id self, SEL cmd, TYPE property, .
         va_list args; va_start(args, property); \
         NSInteger axisValues[numberOfAxisValues]; \
         if (numberOfAxisValues == 0) { \
-            imp(self, cmd, property); \
+            ((void(*)(id, SEL, TYPE))imp)(self, cmd, property); \
         } else if (numberOfAxisValues == 1) { \
             axisValues[0]=va_arg(args, NSInteger); \
-            imp(self, cmd, property, axisValues[0]); \
+            ((void(*)(id, SEL, TYPE, NSInteger))imp)(self, cmd, property, axisValues[0]); \
         } else if (numberOfAxisValues == 2) { \
             axisValues[0]=va_arg(args, NSInteger); axisValues[1]=va_arg(args, NSInteger); \
-            imp(self, cmd, property, axisValues[0], axisValues[1]); \
+            ((void(*)(id, SEL, TYPE, NSInteger, NSInteger))imp)(self, cmd, property, axisValues[0], axisValues[1]); \
         } else if (numberOfAxisValues == 3) { \
             axisValues[0]=va_arg(args, NSInteger); axisValues[1]=va_arg(args, NSInteger); axisValues[2]=va_arg(args, NSInteger); \
-            imp(self, cmd, property, axisValues[0], axisValues[1], axisValues[2]); \
+            ((void(*)(id, SEL, TYPE, NSInteger, NSInteger, NSInteger))imp)(self, cmd, property, axisValues[0], axisValues[1], axisValues[2]); \
         } else if (numberOfAxisValues == 4) { \
             axisValues[0]=va_arg(args, NSInteger); axisValues[1]=va_arg(args, NSInteger); axisValues[2]=va_arg(args, NSInteger); axisValues[3]=va_arg(args, NSInteger); \
-            imp(self, cmd, property, axisValues[0], axisValues[1], axisValues[2], axisValues[3]); \
+            ((void(*)(id, SEL, TYPE, NSInteger, NSInteger, NSInteger, NSInteger))imp)(self, cmd, property, axisValues[0], axisValues[1], axisValues[2], axisValues[3]); \
         } else { \
             @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"argument count mismatch" userInfo:nil]; \
         } \

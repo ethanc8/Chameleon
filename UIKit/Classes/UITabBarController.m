@@ -51,6 +51,8 @@
 {
     [_tabBar release];
     [_viewControllerByTabBarItem release];
+    [_viewControllers release];
+    
     [super dealloc];
 }
 
