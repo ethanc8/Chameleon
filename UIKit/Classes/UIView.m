@@ -252,10 +252,15 @@ static IMP defaultImplementationOfDisplayLayer;
     _layer.delegate = nil;
     [_layer removeFromSuperlayer];
     [_subviews release];
+    _subviews = nil;
     [_layer release];
+    _layer = nil;
     [_backgroundColor release];
+    _backgroundColor = nil;
     [_gestureRecognizers release];
+    _gestureRecognizers = nil;
     [_toolTip release];
+    _toolTip = nil;
     
     [super dealloc];
 }
@@ -434,7 +439,7 @@ static IMP defaultImplementationOfDisplayLayer;
         
         [[UIApplication sharedApplication] _removeViewFromTouches:self];
         
-        UIWindow *oldWindow = self.window;
+        UIWindow *oldWindow = [self.window retain];
         
         [_superview willRemoveSubview:self];
         if (oldWindow) {
@@ -451,6 +456,9 @@ static IMP defaultImplementationOfDisplayLayer;
         if (oldWindow) {
             [self _didMoveFromWindow:oldWindow toWindow:nil];
         }
+        
+        [oldWindow release];
+        
         [self didMoveToSuperview];
         [[NSNotificationCenter defaultCenter] postNotificationName:UIViewDidMoveToSuperviewNotification object:self];
         
