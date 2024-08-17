@@ -36,9 +36,14 @@
 #import <AppKit/NSGraphicsContext.h>
 #import <AppKit/NSColor.h>
 #import <AppKit/NSBezierPath.h>
+#import <AppKit/NSAttributedString.h>
 
 static const CGFloat LargeNumberForText = 1.0e7; // Any larger dimensions and the text could become blurry.
 
+#if GNUSTEP
+@protocol NSLayoutManagerDelegate
+@end
+#endif
 
 @interface UICustomNSTextView () <NSLayoutManagerDelegate>
 @end
@@ -344,12 +349,14 @@ static const CGFloat LargeNumberForText = 1.0e7; // Any larger dimensions and th
 
 - (void)drawRect:(NSRect)rect
 {
+    #if !GNUSTEP
     // This disables font smoothing. This is necessary because in this implementation, the NSTextView is always drawn with a transparent background
     // and layered on top of other views. It therefore cannot properly do subpixel rendering and the smoothing ends up looking like crap. Turning
     // the smoothing off is not as nice as properly smoothed text, of course, but at least its sorta readable. Yet another case of crap layer
     // support making things difficult. Amazingly, iOS fonts look fine when rendered without subpixel smoothing. Why?!
     CGContextRef c = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetShouldSmoothFonts(c, NO);
+    #endif
     
     [super drawRect:rect];
     [self drawFakeSpellingUnderlinesInRect:rect];

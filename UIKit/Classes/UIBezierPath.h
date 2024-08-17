@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 enum {
     UIRectCornerTopLeft     = 1 << 0,

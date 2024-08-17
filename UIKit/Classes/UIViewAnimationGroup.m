@@ -31,6 +31,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIColor.h"
 
+#if GNUSTEP
+@protocol CAAnimationDelegate
+@end
+#endif
+
 static CAMediaTimingFunction *CAMediaTimingFunctionFromUIViewAnimationCurve(UIViewAnimationCurve curve)
 {
     switch (curve) {

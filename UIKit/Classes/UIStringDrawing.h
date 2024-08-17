@@ -29,6 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 typedef enum {
     UILineBreakModeWordWrap = 0,

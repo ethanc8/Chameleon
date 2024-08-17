@@ -28,7 +28,9 @@
  */
 
 #import "UIDevice.h"
+#if !GNUSTEP
 #import <SystemConfiguration/SystemConfiguration.h>
+#endif
 
 NSString *const UIDeviceOrientationDidChangeNotification = @"UIDeviceOrientationDidChangeNotification";
 
@@ -55,7 +57,13 @@ static UIDevice *theDevice;
 
 - (NSString *)name
 {
+    #if GNUSTEP
+    char hostname[255];
+    gethostname(hostname, 255);
+    return [NSString stringWithUTF8String: hostname];
+    #else
     return [(__bridge NSString *)SCDynamicStoreCopyComputerName(NULL,NULL) autorelease];
+    #endif
 }
 
 - (UIDeviceOrientation)orientation

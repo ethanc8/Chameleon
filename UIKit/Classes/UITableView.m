@@ -1074,7 +1074,9 @@ static inline NSString *LocalizationNotNeeded(NSString *s) {
         CGPoint screenPoint = [self.window.screen convertPoint:NSPointToCGPoint(mouseLocation) fromScreen:nil];
         
         // modally present a menu with the single delete option on it, if it was selected, then do the delete, otherwise do nothing
-        const BOOL didSelectItem = [menu popUpMenuPositioningItem:nil atLocation:NSPointFromCGPoint(screenPoint) inView:[self.window.screen UIKitView]];
+        // FIXME-GNUstep
+        const BOOL didSelectItem = NO;
+        [menu popUpMenuPositioningItem:nil atLocation:NSPointFromCGPoint(screenPoint) inView:[self.window.screen UIKitView]];
         
         [menu release];
         [theItem release];

@@ -248,7 +248,9 @@
     }
 
     // this goes modal... meh.
-    BOOL itemSelected = [_menu popUpMenuPositioningItem:nil atLocation:NSPointFromCGPoint([aPoint CGPointValue]) inView:[self.window.screen UIKitView]];
+    // FIXME: On GNUstep popUpMenuPositioningItem:atLocation:inView doesn't return a bool, so we need to find another way to get whether an item is selected.
+    BOOL itemSelected = NO;
+    [_menu popUpMenuPositioningItem:nil atLocation:NSPointFromCGPoint([aPoint CGPointValue]) inView:[self.window.screen UIKitView]];
 
     // because of the modal nature of NSMenu, if there's a touch active (like, being held down) when a menu is triggered, the modal NSMenu
     // takes over the event stream and so a mouseUp is never delivered to the UIKitView. This means it never gets to the app and it leaves

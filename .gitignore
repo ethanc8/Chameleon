@@ -7,3 +7,8 @@ xcuserdata
 *.xcuserstate
 *.xcsettings
 *.orig
+
+**/*.cache
+**/compile_commands.json
+**/.vscode
+**/obj

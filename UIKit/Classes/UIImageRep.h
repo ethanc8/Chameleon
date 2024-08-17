@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface UIImageRep : NSObject {
     CGFloat _scale;

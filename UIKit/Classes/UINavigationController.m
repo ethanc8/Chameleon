@@ -229,7 +229,10 @@ static const CGFloat TabBarHeight = 35;
 #else
     newContainerView.backgroundColor = fromViewController.view.backgroundColor?fromViewController.view.backgroundColor: [UIColor lightGrayColor];
 #endif
+    // CAAppKitBridge
+    #if !GNUSTEP
     newContainerView.layer.anchorPoint = CGPointZero;
+    #endif
     newContainerView.frame = a;
     newContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [newContainerView addSubview:toViewController.view];

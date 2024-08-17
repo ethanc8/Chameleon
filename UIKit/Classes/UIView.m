@@ -78,6 +78,13 @@
 #import <QuartzCore/CALayer.h>
 #include <tgmath.h>
 
+#if GNUSTEP
+@protocol CALayerDelegate
+@end
+@protocol CALayoutManager
+@end
+#endif
+
 NSString *const UIViewFrameDidChangeNotification = @"UIViewFrameDidChangeNotification";
 NSString *const UIViewBoundsDidChangeNotification = @"UIViewBoundsDidChangeNotification";
 NSString *const UIViewDidMoveToSuperviewNotification = @"UIViewDidMoveToSuperviewNotification";
@@ -939,14 +946,22 @@ static IMP defaultImplementationOfDisplayLayer;
 
 - (void)setContentStretch:(CGRect)rect
 {
+    // FIXME-GNUstep
+    #if !GNUSTEP
     if (!CGRectEqualToRect(rect,_layer.contentsCenter)) {
         _layer.contentsCenter = rect;
     }
+    #endif
 }
 
 - (CGRect)contentStretch
 {
+    // FIXME-GNUstep
+    #if !GNUSTEP
     return _layer.contentsCenter;
+    #else
+    return NSMakeRect(0, 0, 0, 0);
+    #endif
 }
 
 - (void)setContentScaleFactor:(CGFloat)scale

@@ -86,6 +86,7 @@ static CGPoint ScreenLocationFromNSEvent(UIScreen *theScreen, NSEvent *theNSEven
 
 static CGPoint ScrollDeltaFromNSEvent(NSEvent *theNSEvent)
 {
+    #if !GNUSTEP
     double dx, dy;
 
     CGEventRef cgEvent = [theNSEvent CGEvent];
@@ -103,6 +104,9 @@ static CGPoint ScrollDeltaFromNSEvent(NSEvent *theNSEvent)
     }
     
     return CGPointMake(-dx, -dy);
+    #else
+    return CGPointMake(0, 0);
+    #endif
 }
 
 static BOOL TouchIsActiveGesture(UITouch *touch)
@@ -155,8 +159,10 @@ static BOOL TouchIsActive(UITouch *touch)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationWillResignActive:) name:NSApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidBecomeActive:) name:NSApplicationDidBecomeActiveNotification object:nil];
         
+        #if !GNUSTEP
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_applicationWillResignActive:) name:NSWorkspaceScreensDidSleepNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_applicationDidBecomeActive:) name:NSWorkspaceScreensDidWakeNotification object:nil];
+        #endif
 
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_computerWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_computerDidWakeUp:) name:NSWorkspaceDidWakeNotification object:nil];
@@ -715,11 +721,13 @@ static BOOL TouchIsActive(UITouch *touch)
                 [touch _updateGesture:_UITouchGesturePan screenLocation:screenLocation delta:ScrollDeltaFromNSEvent(theNSEvent) rotation:0 magnification:0 timestamp:timestamp];
                 [self sendEvent:_currentEvent];
                 break;
-                
+            
+            #if !GNUSTEP
             case NSEventTypeMagnify:
                 [touch _updateGesture:_UITouchGesturePinch screenLocation:screenLocation delta:CGPointZero rotation:0 magnification:[theNSEvent magnification] timestamp:timestamp];
                 [self sendEvent:_currentEvent];
                 break;
+            #endif
                 
             case NSEventTypeRotate:
                 [touch _updateGesture:_UITouchGestureRotation screenLocation:screenLocation delta:CGPointZero rotation:[theNSEvent rotation] magnification:0 timestamp:timestamp];

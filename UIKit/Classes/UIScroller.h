@@ -29,6 +29,7 @@
 
 #import "UIView.h"
 #import "UIScrollView.h"
+#import "UIBase.h"
 
 @class UIImageView, UIScroller;
 

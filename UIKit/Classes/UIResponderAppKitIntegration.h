@@ -28,6 +28,7 @@
  */
 
 #import "UIResponder.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @class UIKey;
 

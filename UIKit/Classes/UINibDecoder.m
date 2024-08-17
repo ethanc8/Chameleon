@@ -4,6 +4,7 @@
 #import "UIRuntimeOutletConnection.h"
 #import "UIRuntimeEventConnection.h"
 #import "UINibLoading.h"
+#import "_UIByteOrder.h"
 
 
 static NSString* const kUINibAccessibilityConfigurationsKey = @"UINibAccessibilityConfigurationsKey";

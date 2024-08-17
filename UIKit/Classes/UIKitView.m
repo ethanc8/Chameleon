@@ -37,6 +37,10 @@
 #import "UIPopoverController.h"
 #import <QuartzCore/QuartzCore.h>
 
+#if GNUSTEP
+@protocol CALayerDelegate
+@end
+#endif
 
 @implementation UIKitView 
 @synthesize UIScreen=_screen;
@@ -46,8 +50,10 @@
     return (id)[NSNull null];
 }
 
+// FIXME: Requires CAAppKitBridge
 - (void)setScreenLayer
 {
+    #if !GNUSTEP
     [self setWantsLayer:YES];
     
     CALayer *myLayer = [self layer];
@@ -70,6 +76,7 @@
         //10.8
         [myLayer addSublayer:screenLayer];
     }
+    #endif
 }
 
 - (id)initWithFrame:(NSRect)frame

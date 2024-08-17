@@ -30,6 +30,7 @@
 #import "UIView.h"
 #import "UIDataDetectors.h"
 
+#if !GNUSTEP
 #import <WebKit/WebPolicyDelegate.h>
 #import <WebKit/WebFrameLoadDelegate.h>
 #import <WebKit/WebUIDelegate.h>
@@ -95,3 +96,4 @@ typedef NSUInteger UIWebViewNavigationType;
 @property (nonatomic) UIDataDetectorTypes dataDetectorTypes;
 
 @end
+#endif

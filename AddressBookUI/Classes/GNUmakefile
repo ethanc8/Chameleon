@@ -1,0 +1,11 @@
+include $(GNUSTEP_MAKEFILES)/common.make
+
+LIBRARY_NAME = libChameleonAddressBookUI
+libChameleonAddressBookUI_OBJC_FILES = ABNewPersonViewController.m ABPeoplePickerNavigationController.m ABPersonViewController.m ABUnknownPersonViewController.m
+libChameleonAddressBookUI_HEADER_FILES = ABNewPersonViewController.h ABPeoplePickerNavigationController.h ABPersonViewController.h ABUnknownPersonViewController.h AddressBookUI.h
+libChameleonAddressBookUI_HEADER_FILES_INSTALL_DIR = Chameleon/AddressBookUI
+libChameleonAddressBookUI_NEEDS_GUI = yes
+libChameleonAddressBookUI_INCLUDE_DIRS += -I$(GNUSTEP_HEADERS)/Chameleon
+libChameleonAddressBookUI_LIBRARIES_DEPEND_UPON += -lChameleonUIKit
+
+include $(GNUSTEP_MAKEFILES)/library.make

@@ -209,7 +209,7 @@ static NSArray *UIAppearanceHierarchyForClass(Class klass)
         [propertiesToSet removeObjectsForKeys:[originalProperties allObjects]];
         
         // now apply everything that's left
-        [propertiesToSet enumerateKeysAndObjectsUsingBlock:^(UIAppearanceProperty *property, NSValue *value, BOOL *stop) {
+        [propertiesToSet enumerateKeysAndObjectsUsingBlock:(GSKeysAndObjectsEnumeratorBlock)^(UIAppearanceProperty *property, NSValue *value, BOOL *stop) {
             [property invokeSetterUsingTarget:self withValue:value];
         }];
         

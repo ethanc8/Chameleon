@@ -2,6 +2,7 @@
 #import "UIProxyObject.h"
 #import "UIImageNibPlaceholder.h"
 #import "UIGeometry.h"
+#import "_UIByteOrder.h"
 
 typedef struct {
     NSUInteger indexOfClass;

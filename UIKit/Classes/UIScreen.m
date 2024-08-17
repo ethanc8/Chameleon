@@ -41,6 +41,13 @@
 #import "UIKitView.h"
 #import "UIView+UIPrivate.h"
 
+#if GNUSTEP
+@protocol CALayerDelegate
+@end
+@protocol CALayoutManager
+@end
+#endif
+
 NSString *const UIScreenDidConnectNotification = @"UIScreenDidConnectNotification";
 NSString *const UIScreenDidDisconnectNotification = @"UIScreenDidDisconnectNotification";
 NSString *const UIScreenModeDidChangeNotification = @"UIScreenModeDidChangeNotification";

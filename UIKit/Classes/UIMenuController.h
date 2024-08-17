@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 extern NSString *const UIMenuControllerWillShowMenuNotification;
 extern NSString *const UIMenuControllerDidShowMenuNotification;

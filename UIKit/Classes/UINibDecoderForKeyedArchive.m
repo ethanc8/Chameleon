@@ -6,6 +6,10 @@
 static NSString* const kIBFilesOwnerKey = @"IBFilesOwner";
 static NSString* const kIBFirstResponderKey = @"IBFirstResponder";
 
+#if GNUSTEP
+@protocol NSKeyedUnarchiverDelegate
+@end
+#endif
 
 @interface UIKeyedArchiveNibInflationHelper : NSObject <NSKeyedUnarchiverDelegate> {
 @private

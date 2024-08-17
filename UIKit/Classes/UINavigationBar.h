@@ -27,7 +27,11 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if GNUSTEP
+#import <CoreGraphics/CoreGraphics.h>
+#else
 #import <Quartz/Quartz.h>
+#endif
 #import "UIToolbar.h"
 #import "UIView.h"
 

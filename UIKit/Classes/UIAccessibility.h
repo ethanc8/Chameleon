@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 typedef uint64_t UIAccessibilityTraits;
 

@@ -64,7 +64,11 @@ static NSPasteboardItem *PasteBoardItemWithDictionary(NSDictionary *item)
             // seemed to be the quickest way to get the job done at the time. Copying raw GIF NSData to the
             // pasteboard on iOS and tagging it as kUTTypeGIF seems to work just fine in the few places that
             // accept animated GIFs that I've tested so far on iOS so...... yeah.
+            #if GNUSTEP
+            // FIXME-GNUstep: Figure out how to determine if it's a GIF, and if this workaround is necessary
+            #else
             if (UTTypeEqual((CFStringRef)type, kUTTypeGIF)) {
+            
                 NSFileWrapper *fileWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:object];
                 [fileWrapper setPreferredFilename:@"image.gif"];
                 NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
@@ -73,6 +77,7 @@ static NSPasteboardItem *PasteBoardItemWithDictionary(NSDictionary *item)
                 [attachment release];
                 [fileWrapper release];
             }
+            #endif
             [pasteboardItem setData:object forType:type];
         } else if ([object isKindOfClass:[NSURL class]]) {
             [pasteboardItem setString:[object absoluteString] forType:type];
@@ -257,7 +262,12 @@ static NSPasteboardItem *PasteBoardItemWithDictionary(NSDictionary *item)
         for (NSString *type in [item types]) {
             id object = nil;
 
+            #if GNUSTEP
+            // FIXME-GNUstep
+            if(0) {
+            #else
             if (UTTypeConformsTo((CFStringRef)type, kUTTypeURL)) {
+            #endif
                 object = [NSURL URLWithString:[item stringForType:type]];
             } else {
                 object = [item propertyListForType:type] ?: [item dataForType:type];

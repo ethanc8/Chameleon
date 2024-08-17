@@ -54,6 +54,7 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
         BOOL dpiInfoPresent = NO;
         CGFloat dotsPerInchXAt1x = INFINITY;
         CGFloat dotsPerInchYAt1x = INFINITY;
+        #if !GNUSTEP
         for (NSInteger i = 0, iMax = CGImageSourceGetCount(source); i < iMax; i++) {
             NSDictionary* properties = (NSDictionary*)CGImageSourceCopyPropertiesAtIndex(source, i, NULL);
             if (!properties) {
@@ -72,8 +73,10 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
             dotsPerInchYAt1x = MIN(dotsPerInchY, dotsPerInchYAt1x);
             dpiInfoPresent = YES;
         }
+        #endif
         
         if (dpiInfoPresent) {
+            #if !GNUSTEP
             for (NSInteger i = 0, iMax = CGImageSourceGetCount(source); i < iMax; i++) {
                 NSDictionary* properties = (NSDictionary*)CGImageSourceCopyPropertiesAtIndex(source, i, NULL);
                 if (!properties) {
@@ -92,6 +95,7 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
                     }
                 }
             }
+            #endif
         } else {
             UIImageRep* rep = [[UIImageRep alloc] initWithCGImageSource:source imageIndex:0 scale:1.0];
             if (rep) {
@@ -220,9 +224,12 @@ static CGImageSourceRef CreateCGImageSourceWithFile(NSString *imagePath)
         CGImageAlphaInfo info = CGImageGetAlphaInfo(_image);
         opaque = (info == kCGImageAlphaNone) || (info == kCGImageAlphaNoneSkipLast) || (info == kCGImageAlphaNoneSkipFirst);
     } else if (_imageSource) {
+        // FIXME-GNUstep
+        #if !GNUSTEP
         CFDictionaryRef info = CGImageSourceCopyPropertiesAtIndex(_imageSource, _imageSourceIndex, NULL);
         opaque = CFDictionaryGetValue(info, kCGImagePropertyHasAlpha) != kCFBooleanTrue;
         CFRelease(info);
+        #endif
     }
     
     return opaque;

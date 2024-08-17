@@ -30,6 +30,8 @@
 #import "UIWebView.h"
 #import "UIViewAdapter.h"
 
+#if !GNUSTEP
+
 #import <WebKit/WebKit.h>
 
 @implementation UIWebView
@@ -262,3 +264,4 @@
 }
 
 @end
+#endif // !GNUSTEP

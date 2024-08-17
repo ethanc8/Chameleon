@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "UIBase.h"
 
 @interface UIAction : NSObject {
     __unsafe_unretained id _target;

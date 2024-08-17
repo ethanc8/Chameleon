@@ -116,7 +116,10 @@ static CGFloat DistanceBetweenTwoPoints(CGPoint A, CGPoint B)
         _arrowView = [(UIImageView *)[UIImageView alloc] initWithFrame:CGRectZero];
         
         _contentContainerView = [[UIView alloc] init];
+        // CAAppKitBridge
+        #if !GNUSTEP
         _contentContainerView.layer.cornerRadius = 3;
+        #endif
         _contentContainerView.clipsToBounds = YES;
 
         [self addSubview:_backgroundView];

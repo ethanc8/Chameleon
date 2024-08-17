@@ -28,6 +28,7 @@
  */
 
 #import "UIView.h"
+#import "UIBase.h"
 
 typedef enum {
     UITransitionNone = 0,		// no animation is done

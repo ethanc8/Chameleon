@@ -159,7 +159,10 @@
 
         [clipView setFrame:desiredFrame];
         [self updateScrollViewContentSize];
+        // CAAppKitBridge
+        #if !GNUSTEP
         clipView.layer.geometryFlipped = YES;
+        #endif
     } else {
         [self removeNSView];
     }
