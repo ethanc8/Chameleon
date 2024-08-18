@@ -12,3 +12,4 @@ xcuserdata
 **/compile_commands.json
 **/.vscode
 **/obj
+**/*.app
